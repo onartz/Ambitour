@@ -175,7 +175,7 @@ namespace Ambitour
      
 
         /// <summary>
-        /// Lecture de carte
+        /// Lecture de carte de type miFare
         /// </summary>
         /// <returns></returns>
         private bool ReadCardMifare()
