@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Ambitour.Log" Collapsed="true">
+    <Position X="5.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>ClassesUtilitaires\Log.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.UtilFichiers" Collapsed="true">
+    <Position X="0.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAgAAAAAAAAgAA=</HashCode>
+      <FileName>ClassesUtilitaires\UtilFichiers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.UtilXML" Collapsed="true">
+    <Position X="4" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ClassesUtilitaires\UtilXML.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.BD" Collapsed="true">
+    <Position X="2.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>CoucheMetier\AccesDonnees\BD.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.Pilotage">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AJQBAAQgAKAAMAHAAAQAEAARAARAAAQAIAgQVAAAAEE=</HashCode>
+      <FileName>CoucheMetier\LogiqueMetier\Pilotage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.Carte" Collapsed="true">
+    <Position X="4" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAgAAAAIMEAAAKBAAACABIAAAASAAAAgAAAA=</HashCode>
+      <FileName>CoucheMetier\ObjetsMetier\Carte.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.DocumentationHTML" Collapsed="true">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAMAAA=</HashCode>
+      <FileName>CoucheMetier\ObjetsMetier\DocumentationHTML.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.DossierDeFabrication" Collapsed="true">
+    <Position X="2.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAgCEAAIAAAAAAAgAAEAgAAAAAA=</HashCode>
+      <FileName>CoucheMetier\ObjetsMetier\DossierDeFabrication.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.LecteurBadge">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AiIAAkAAADAQoAGAIGIBAAAmFUgokEElISIAAMAQAIU=</HashCode>
+      <FileName>CoucheMetier\ObjetsMetier\Lecteur.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.Num1050" Collapsed="true">
+    <Position X="7.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAQGMAy2AIICEhAgSKECAACQQGxgYCBEACIIQACgBoA=</HashCode>
+      <FileName>CoucheMetier\ObjetsMetier\Num1050.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.ProgrammePiece" Collapsed="true">
+    <Position X="0.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAACAAAAAACAAAAMAAAACIAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>CoucheMetier\ObjetsMetier\ProgrammePiece.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.Utilisateur" Collapsed="true">
+    <Position X="2.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAEAAAAAEAAAIBAAACAQIAACACAQAgABkAA=</HashCode>
+      <FileName>CoucheMetier\ObjetsMetier\Utilisateur.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.CustomEventArgs" Collapsed="true">
+    <Position X="9.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACA=</HashCode>
+      <FileName>CoucheMetier\Types\Types.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.ProcessEventArgs" Collapsed="true">
+    <Position X="11" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAgAAAAIAAAAIAAQACA=</HashCode>
+      <FileName>CoucheMetier\Types\Types.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.SessionInfos" Collapsed="true">
+    <Position X="5.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CoucheMetier\Types\Types.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.CurrentState" Collapsed="true">
+    <Position X="7.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>CoucheMetier\Types\Types.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.DataSetAmbitour" Collapsed="true">
+    <Position X="11" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAowAAAAJRBAAAQAAAAAgDQBgAAAAAAAGABBA=</HashCode>
+      <FileName>DataSetAmbitour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.frm3D" Collapsed="true">
+    <Position X="4" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACEAAAAAAACAAAACABIAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>GUI\frm3D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.frmAboutBox" Collapsed="true">
+    <Position X="5.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kIAAAAgAACAgCAUAAACAAAADAAAAEIAAAAAAAAAAAAA=</HashCode>
+      <FileName>GUI\frmAboutBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.frmCN" Collapsed="true">
+    <Position X="7.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAAAACASgAAFDAAASAEAQCAMAAAAAAAAAAAAAQAAE=</HashCode>
+      <FileName>GUI\frmCN.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.frmDocumentation" Collapsed="true">
+    <Position X="9.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AiAAIgAAACAAAAEAAQCAAAAKAABAgAAAAGAAAAAAAAE=</HashCode>
+      <FileName>GUI\frmDocumentation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.frmExecution" Collapsed="true">
+    <Position X="11" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAACAgAAAAAACCAAACBAAAACAAIAAQAAAgAAE=</HashCode>
+      <FileName>GUI\frmExecution.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.frmMonitoring" Collapsed="true">
+    <Position X="0.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACQAAAAAASAAABDAAASAAABCIAg4AAAEEHAAAABAAAA=</HashCode>
+      <FileName>GUI\frmMonitoring.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.frmPreparation" Collapsed="true">
+    <Position X="2.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgwAAAAAECAwKAACAACgAGIaBAgCACgEFBAQAxBEAAE=</HashCode>
+      <FileName>GUI\frmPreparation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.frmPrincipal" Collapsed="true">
+    <Position X="4" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAABQBjCAIEADAghCAAAgCAAgAAIABAAABAwAAEAA=</HashCode>
+      <FileName>GUI\frmPrincipal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.frmSecurite" Collapsed="true">
+    <Position X="5.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAACAAAAAAAAACAQAABAAAE=</HashCode>
+      <FileName>GUI\frmSecurite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.frmSelUtilisateur" Collapsed="true">
+    <Position X="7.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAMAAGCABABAABCAAAACAIAAAAAAACAAAABgAAA=</HashCode>
+      <FileName>GUI\frmSelUtilisateur.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.frmStart" Collapsed="true">
+    <Position X="9.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIAAAAAAICAAlIEABgSACIACAAABAAAAAGAAAAAAAIg=</HashCode>
+      <FileName>GUI\frmStart.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.frmUtilisateur" Collapsed="true">
+    <Position X="11" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAACACAAAAAAAACAAACCAAAACAAAACAAAAAAAAA=</HashCode>
+      <FileName>GUI\frmUtilisateur.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.Viewer3D" Collapsed="true">
+    <Position X="5.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GUI\Viewer3D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.CoucheMetier.GlobalSettings" Collapsed="true">
+    <Position X="0.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAQAAAAAAEAAAAIAAAAKABAAAAAAAADBQBCAA=</HashCode>
+      <FileName>CoucheMetier\GlobalSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.DataSetAmbitourTableAdapters.ACTIVITEBROCHETableAdapter" Collapsed="true">
+    <Position X="0.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataSetAmbitour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.DataSetAmbitourTableAdapters.TableAdapterManager" Collapsed="true">
+    <Position X="9.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAACAAAAFABAEBAAABMAAiAAACgAAAAAQAAAAABAQ=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.GUI.GraphicSettings" Collapsed="true">
+    <Position X="2.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAACAAAAAAAAoEAAAAIAAAAAABAABAAQAAAAABCAA=</HashCode>
+      <FileName>GUI\GraphicSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.Properties.Resources" Collapsed="true">
+    <Position X="4" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAABEABAAQAAAIAAAAAAAAAAAJA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ambitour.Properties.Settings" Collapsed="true">
+    <Position X="7.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAEAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

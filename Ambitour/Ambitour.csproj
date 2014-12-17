@@ -1,0 +1,374 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F790BE19-4903-49C3-9E03-B56AE27951AA}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ambitour</RootNamespace>
+    <AssemblyName>Ambitour</AssemblyName>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <ManifestCertificateThumbprint>4260CF427BB9CE5871194C6908E619D02741131A</ManifestCertificateThumbprint>
+    <ManifestKeyFile>Ambitour.pfx</ManifestKeyFile>
+    <GenerateManifests>true</GenerateManifests>
+    <SignManifests>true</SignManifests>
+    <StartupObject>Ambitour.Pilotage</StartupObject>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <PublishUrl>C:\Temp\ambitour\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>2</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>2</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Ambitour.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SpringProxAPI, Version=1.0.3523.25243, Culture=neutral" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClassesUtilitaires\Fichiers.cs" />
+    <Compile Include="CoucheMetier\GlobalSettings.cs" />
+    <Compile Include="CoucheMetier\LogiqueMetier\Pilotage.cs" />
+    <Compile Include="CoucheMetier\ObjetsMetier\Carte.cs" />
+    <Compile Include="CoucheMetier\AccesDonnees\BD.cs" />
+    <Compile Include="ClassesUtilitaires\Log.cs" />
+    <Compile Include="CoucheMetier\ObjetsMetier\EmplacementDossier.cs" />
+    <Compile Include="CoucheMetier\ServicesExternes\ServiceUHP.cs" />
+    <Compile Include="DataSetAmbitour.cs">
+      <DependentUpon>DataSetAmbitour.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DataSetAmbitour.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetAmbitour.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmAboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmAboutBox1.Designer.cs">
+      <DependentUpon>frmAboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CoucheMetier\ObjetsMetier\DocumentationHTML.cs" />
+    <Compile Include="CoucheMetier\ObjetsMetier\Lecteur.cs" />
+    <Compile Include="CoucheMetier\ObjetsMetier\Num1050.cs" />
+    <Compile Include="CoucheMetier\ObjetsMetier\ProgrammePiece.cs" />
+    <Compile Include="CoucheMetier\ObjetsMetier\DossierDeFabrication.cs" />
+    <Compile Include="CoucheMetier\Types\Types.cs" />
+    <Compile Include="GUI\GraphicSettings.cs" />
+    <Compile Include="GUI\Viewer3D.cs" />
+    <Compile Include="GUI\frm3D.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frm3D.Designer.cs">
+      <DependentUpon>frm3D.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmDocumentation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmDocumentation.Designer.cs">
+      <DependentUpon>frmDocumentation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmExecution.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmExecution.Designer.cs">
+      <DependentUpon>frmExecution.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmMonitoring.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmMonitoring.Designer.cs">
+      <DependentUpon>frmMonitoring.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmPreparation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmPreparation.Designer.cs">
+      <DependentUpon>frmPreparation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmPrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmPrincipal.Designer.cs">
+      <DependentUpon>frmPrincipal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmSecurite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmSecurite.Designer.cs">
+      <DependentUpon>frmSecurite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmSelUtilisateur.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmSelUtilisateur.Designer.cs">
+      <DependentUpon>frmSelUtilisateur.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmUtilisateur.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmUtilisateur.Designer.cs">
+      <DependentUpon>frmUtilisateur.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CoucheMetier\GlobalSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>GlobalSettings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="CoucheMetier\ObjetsMetier\Utilisateur.cs" />
+    <Compile Include="GUI\GraphicSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>GraphicSettings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="GUI\frmAboutBox1.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmAboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frm3D.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frm3D.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmDocumentation.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmDocumentation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmExecution.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmExecution.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmMonitoring.resx">
+      <DependentUpon>frmMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmPreparation.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmPreparation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmPrincipal.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmSecurite.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmSecurite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmSelUtilisateur.resx">
+      <DependentUpon>frmSelUtilisateur.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmUtilisateur.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmUtilisateur.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmCN.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmCN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmStart.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmStart.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Ambitour.pfx" />
+    <None Include="Ambitour_TemporaryKey.pfx" />
+    <None Include="app.config" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="CoucheMetier\GlobalSettings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>GlobalSettings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ClassesUtilitaires\UtilFichiers.cs" />
+    <Compile Include="ClassesUtilitaires\UtilXML.cs" />
+    <Compile Include="GUI\frmCN.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmCN.Designer.cs">
+      <DependentUpon>frmCN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmStart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmStart.Designer.cs">
+      <DependentUpon>frmStart.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="ActiveDs">
+      <Guid>{97D25DB0-0363-11CF-ABC4-02608C9E7553}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="ADSSECURITYLib">
+      <Guid>{2120299D-C50D-11D2-BC7E-00C04FD430AF}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="AxVIA3DXMLPluginLib">
+      <Guid>{01C4CD20-E19F-4813-B48C-E3879F1F813B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="VIA3DXMLPluginLib">
+      <Guid>{01C4CD20-E19F-4813-B48C-E3879F1F813B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DataSetAmbitour.xsc">
+      <DependentUpon>DataSetAmbitour.xsd</DependentUpon>
+    </None>
+    <None Include="DataSetAmbitour.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetAmbitour.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSetAmbitour.xss">
+      <DependentUpon>DataSetAmbitour.xsd</DependentUpon>
+    </None>
+    <None Include="GUI\GraphicSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>GraphicSettings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Resources\Fiche SSTE TBI540.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Sql.Server.Express.1.0">
+      <Visible>False</Visible>
+      <ProductName>SQL Server 2005 Express Edition</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\3DXML.JPG" />
+    <Content Include="Resources\doc_dossier.jpg" />
+    <Content Include="Resources\fichier.gif" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Resources\logo-620x620-Ivory-2.gif" />
+    <None Include="Resources\logo-620x620-Ivory.gif" />
+    <None Include="Resources\logo4.gif" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

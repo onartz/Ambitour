@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Ambitour.Parametres" GeneratedClassName="GraphicSettings">
+  <Profiles />
+  <Settings>
+    <Setting Name="BgColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Ivory</Value>
+    </Setting>
+    <Setting Name="FormBorderStyle" Type="System.Windows.Forms.FormBorderStyle" Scope="User">
+      <Value Profile="(Default)">FixedToolWindow</Value>
+    </Setting>
+    <Setting Name="LeftPanelSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">790, 617</Value>
+    </Setting>
+    <Setting Name="RightPanelSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">223, 617</Value>
+    </Setting>
+    <Setting Name="RightPanelPoint" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)">790, 90</Value>
+    </Setting>
+    <Setting Name="LeftPanelPoint" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)">0, 90</Value>
+    </Setting>
+    <Setting Name="TopPanelSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">1013, 90</Value>
+    </Setting>
+    <Setting Name="TopPanelPoint" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)">0, 49</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
