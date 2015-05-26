@@ -32,7 +32,8 @@ namespace Ambitour
             if (pPrenom.Length == 0)
                 searcher.Filter = ("(&(sn=" + pNom + "))");
             else
-                searcher.Filter = ("(&(sn=" + pNom + ")(givenName=" + pPrenom + ")(employeeType=" + pEmployeeType + "))");
+                //searcher.Filter = ("(&(sn=" + pNom + ")(givenName=" + pPrenom + ")(employeeType=" + pEmployeeType + "))");
+                searcher.Filter = ("(&(sn=" + pNom + ")(givenName=" + pPrenom + "))");
 
             SearchResultCollection results = searcher.FindAll();
             foreach (SearchResult s in results)
@@ -42,6 +43,7 @@ namespace Ambitour
                 nom = de.Properties["sn"].Value.ToString();
                 prenom = de.Properties["givenName"].Value.ToString();
                 login = de.Properties["sAMAccountName"].Value.ToString();
+                string ss = de.Properties["employeeType"].Value.ToString();
                 switch (de.Properties["businessCategory"].Value.ToString())
                 {
                     case "ET":
