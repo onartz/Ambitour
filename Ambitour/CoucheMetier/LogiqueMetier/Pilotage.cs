@@ -5,6 +5,9 @@ using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Data.SqlClient;
+
 namespace Ambitour
 {
     /// <summary>
@@ -15,7 +18,8 @@ namespace Ambitour
 
         [STAThread]
         static void Main()
-        {           
+        {
+            Trace.WriteLine("Ambitour started");
             INSTANCE.Start();
         }
 
@@ -144,6 +148,8 @@ namespace Ambitour
         /// </summary>
         public event EventHandler<CustomEventArgs> StatusLecteurChanged;
         public event EventHandler<CustomEventArgs> StatusCNChanged;
+        public event EventHandler<CustomEventArgs> CNCommunicationFailed;
+       
 
         //Evénement levé aux différentes étapes de préparation
         public event EventHandler<ProcessEventArgs> StatusPreparationChanged;
@@ -169,6 +175,14 @@ namespace Ambitour
             if (handler != null)
                 handler(this, e);
         }
+
+
+        protected virtual void OnCNCommunicationFailed(CustomEventArgs e)
+        {
+            EventHandler<CustomEventArgs> handler = CNCommunicationFailed;
+            if (handler != null)
+                handler(this, e);
+        }
        
         #endregion
 
@@ -178,32 +192,91 @@ namespace Ambitour
         /// </summary>
         public void Start()
         {
-            Log.Write(System.DateTime.Now + " : Démarrage Ambitour");
+            //Log.Write(System.DateTime.Now + " : Démarrage Ambitour");
+            Trace.TraceInformation(System.DateTime.Now + " : Démarrage Ambitour");
+            
+            //Test de la connexion à la BD
+            System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(Ambitour.Properties.Settings.Default.AIPLConnectionString);
+
+            try
+            {
+                con.Open();
+            }
+            catch (System.Data.SqlClient.SqlException e)
+            {
+                Trace.TraceError(System.DateTime.Now  + "Erreur lors de la connexion à la BD");
+                Trace.TraceError("Server : " + e.Server);
+                Trace.TraceError("Message : " + e.Message);
+                //MessageBox.Show(System.DateTime.Now + "Erreur lors de la connexion à la BD.");
+                DialogResult result1 = MessageBox.Show(System.DateTime.Now + "Erreur lors de la connexion à la BD.",
+                     "Database error",
+                     MessageBoxButtons.OK);    
+            }
+         
+            //Test du lecteur de carte
+            bool res = lecteurBadge.Open();
+            if (!lecteurBadge.Open())
+            {
+                DialogResult result1 = MessageBox.Show(System.DateTime.Now + "Le lecteur de badge ne fonctionne pas. Vérifier et relancer l'application",
+ "CardReader Error",
+ MessageBoxButtons.OK);
+                return;
+            };
+            
+            //enregistrement du début de session
             try
             {
                 BD.RESOURCEEVENT.Enregistrer("Démarrage Ambitour");
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
-               DialogResult r = MessageBox.Show("Pb Acces BD", "Exception");
-                return;
+                //Pas grave
             }
 
-            //Démarrage du lecteur de badge
-            lecteurBadge.Start();
+            //Test de lecture du dossier Ambitour distant
+            if (!Directory.Exists(CoucheMetier.GlobalSettings.Default.strQueuePath))
+            {
+                Trace.TraceError(System.DateTime.Now + "Dossier Ambitour distant non accessible (" + CoucheMetier.GlobalSettings.Default.strQueuePath + ").");
+                DialogResult result1 = MessageBox.Show(System.DateTime.Now + "Dossier Ambitour distant non accessible",
+                    "FileSystem Error",
+                    MessageBoxButtons.OK);
+            }
+
+    
             //Abonnement aux évènements de la classe LecteurBadge
             lecteurBadge.CarteLue += new EventHandler<CustomEventArgs>(LecteurBadge_CarteLue);
             lecteurBadge.StatusChanged += new EventHandler<CustomEventArgs>(LecteurBadge_statusChanged);
 
-            //Démarrage du cycle de la NUM
-            Num1050.INSTANCE.start();
+          
             //Abonnement aux évènements de la classe NUM1050
             Num1050.INSTANCE.StatusChanged += new EventHandler<Num1050.CNEventArgs>(INSTANCE_NotifierEtat);
+            Num1050.INSTANCE.CommunicationFailed += new EventHandler<Num1050.CNEventArgs>(INSTANCE_CommunicationFailed);
+
+            //Démarrage du cycle de la NUM
+            try
+            {
+                Num1050.INSTANCE.start();
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
            
             //Création du Form frmStart
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmStart());         
+        }
+
+        void INSTANCE_CommunicationFailed(object sender, Num1050.CNEventArgs e)
+        {
+            Trace.TraceError(DateTime.Now + " Erreur de communication avec la NUM.");
+            DialogResult result1 = MessageBox.Show(System.DateTime.Now + "Erreur de communication avec la NUM.",
+                     "CN Communication Error",
+                     MessageBoxButtons.OK);
+            Stop();
+            
+            //throw new NotImplementedException();
         }
 
         /// <summary>
@@ -526,6 +599,15 @@ namespace Ambitour
         /// <param name="e"></param>
         static void INSTANCE_NotifierEtat(object sender, Num1050.CNEventArgs e)
         {
+            if (!(e.Etat.IsConnected))
+            {
+                Trace.TraceError(System.DateTime.Now + "Erreur lors de la connexion à la CN");
+                //MessageBox.Show(System.DateTime.Now + "Erreur lors de la connexion à la BD.");
+                DialogResult result1 = MessageBox.Show(System.DateTime.Now + "Erreur lors de la connexion à la CN.",
+                     "CN Communication error",
+                     MessageBoxButtons.OK);   
+            }
+
             if (e.Etat.FdBrocheTourne)
                 BD.RESOURCEEVENT.Enregistrer("Arrêt broche");
             if (e.Etat.FmBrocheTourne)

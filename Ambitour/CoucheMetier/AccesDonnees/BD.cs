@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Data.SqlClient;
 
 namespace Ambitour
 {
@@ -88,9 +89,9 @@ namespace Ambitour
                     ta.Insert(description, System.DateTime.Now, TBI540_ID);      
                     ta.Dispose();
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
-                    Log.Write(ex.Message);
+                    throw ex;
                    
                 }
             }
@@ -103,12 +104,16 @@ namespace Ambitour
                 try
                 {
                     DataSetAmbitourTableAdapters.ResourceEventTableAdapter ta = new DataSetAmbitourTableAdapters.ResourceEventTableAdapter();
-                    return ta.getLastStopBroche().Value;
+                    if(ta.getLastStopBroche() != null)
+                        return ta.getLastStopBroche().Value;
+                    else
+                        return new DateTime();
      
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
                     return new DateTime();
+                    
                 }
                     
             }

@@ -102,10 +102,12 @@ namespace Ambitour
             tmrBasetime.Elapsed += new ElapsedEventHandler(tmrBasetime_Elapsed);
 
             workerEvent = new ManualResetEvent(false);
+           
             workerThread = new Thread(new ThreadStart(workerLoop));
             workerThread.Start();
-
+         
             workerStart(WORK_OPEN_READER);
+           
         }
 
         /// <summary>
@@ -130,6 +132,20 @@ namespace Ambitour
                 Thread.Sleep(20);
 
             CloseReader();
+        }
+
+        public bool Open()
+        {
+            /* In case of a communcation error, we must close it before */
+
+            SPROX.ReaderClose();
+            SPROX.ControlLed(1, 0, 0);
+            short rc = 0;
+            /* Try to open the reader */
+            rc = SPROX.ReaderOpen("");
+            return rc == SPROX.MI_OK;
+           
+            
         }
         #endregion
 
@@ -360,6 +376,7 @@ namespace Ambitour
                 return true;
 
             /* In case of a communcation error, we must close it before */
+          
            SPROX.ReaderClose();
 
             /* Try to open the reader */
@@ -550,6 +567,7 @@ namespace Ambitour
                 {
                     case WORK_OPEN_READER:
                         rc = OpenReaderTask();
+  
                         break;
                     case WORK_FIND_CARD:
                         rc = FindCardTask();

@@ -178,6 +178,11 @@ namespace Ambitour
         /// </summary>
         public event EventHandler<CNEventArgs> StatusChanged;
 
+        /// <summary>
+        /// Evenement déclenché lorsque la boucle de communication s'arrete
+        /// </summary>
+        public event EventHandler<CNEventArgs> CommunicationFailed;
+
         // Wrap event invocations inside a protected virtual method
         // to allow derived classes to override the event invocation behavior
         protected virtual void OnNotifierEtat(CNEventArgs e)
@@ -192,6 +197,18 @@ namespace Ambitour
            {  
                 handler(this, e);
             }
+        }
+
+        
+        protected virtual void onNotifierCommunicationFailed(CNEventArgs e)
+        {
+            EventHandler<CNEventArgs> handler = CommunicationFailed;
+            // Event will be null if there are no subscribers
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+
         }
 
         #endregion
@@ -218,23 +235,58 @@ namespace Ambitour
             //Pour les tests
             //if(!ModeTestSansCN)
             //{
-                try
-                {                  
-                    intRet = SetPLCTool(CONFIG);
-                    if (intRet != RETOK) throw new Exception("Initialisation driver impossible");
-                    Thread.Sleep(1000);
+
+            
+          /*  try
+            {
+                intRet = SetPLCTool(CONFIG);
+            }
+            catch (DllNotFoundException ex)
+            {
+                return;
+                //throw ex;
+                //return;
+            }*/
+           
+
+            intRet = SetPLCTool(CONFIG);
+
+            if (intRet != RETOK)
+            {
+                status.IsConnected = false;
+                status.Message = "Failed to init CN";
+                onNotifierCommunicationFailed(new CNEventArgs(status));
+                //OnNotifierEtat(new CNEventArgs(status));
+                return;
+            }
+
+            if ((intRet = Get_Port(ref numPortBgWorker)) != RETOK)
+            {
+                status.IsConnected = false;
+                status.Message = "Failed to connect to CN";
+                onNotifierCommunicationFailed(new CNEventArgs(status));
+                return;
+            }
+
+
+
+                //try
+                //{                  
+                //    intRet = SetPLCTool(CONFIG);
+                //    if (intRet != RETOK) throw new Exception("Initialisation driver impossible");
+                //    Thread.Sleep(1000);
                    
-                    intRet = Get_Port(ref numPortBgWorker);
-                    if (intRet != RETOK) throw new Exception("Communication impossible.");
-                    else OnNotifierEtat(new CNEventArgs(status));
-                }
-                catch (Exception ex)
-                {
-                    status.IsConnected = false;
-                    status.Message = ex.Message;
-                    OnNotifierEtat(new CNEventArgs(status));
-                    return;
-                }
+                //    intRet = Get_Port(ref numPortBgWorker);
+                //    if (intRet != RETOK) throw new Exception("Communication impossible.");
+                //    else OnNotifierEtat(new CNEventArgs(status));
+                //}
+                //catch (Exception ex)
+                //{
+                //    status.IsConnected = false;
+                //    status.Message = ex.Message;
+                //    OnNotifierEtat(new CNEventArgs(status));
+                //    return;
+                //}
             //}
             //else
             //{
@@ -615,7 +667,14 @@ namespace Ambitour
         {
             workerAllowed = true;
             workerRunning = false;
-            workerThread = new Thread(new ThreadStart(workerLoop));
+            try
+            {
+                workerThread = new Thread(new ThreadStart(workerLoop));
+            }
+            catch (DllNotFoundException ex)
+            {
+                return;
+            }
             workerThread.Start();
         }
 
