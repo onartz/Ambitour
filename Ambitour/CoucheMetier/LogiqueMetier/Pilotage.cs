@@ -578,22 +578,10 @@ namespace Ambitour
                     break;
                    
                 case "UL":
-<<<<<<< HEAD
-                    List<Utilisateur> listeUtilisateurs = new List<Utilisateur>();
-                    try
-                    {
-                        listeUtilisateurs = ServiceUHP.GetUtilisateursAD(lCarte.Nom, lCarte.Prenom, lCarte.Role);
-                    }
-                    catch (NullReferenceException)
-                    {
-                        r = MessageBox.Show("L'un des attributs necessaire à la recheche n'est pas/plus disponible dans l'AD.", "Exception");
-                        return ;
-                    }
 
-=======
                    
                     List<Utilisateur> listeUtilisateurs = ServiceUHP.GetUtilisateursAD(lCarte.Nom, lCarte.Prenom, lCarte.Role);
->>>>>>> develop
+
                     switch (listeUtilisateurs.Count)
                     {
                         case 0:

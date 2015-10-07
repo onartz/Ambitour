@@ -34,62 +34,15 @@ namespace Ambitour
                 searcher.Filter = ("(&(sn=" + pNom + "))");
             else
                 //searcher.Filter = ("(&(sn=" + pNom + ")(givenName=" + pPrenom + ")(employeeType=" + pEmployeeType + "))");
-<<<<<<< HEAD
-                searcher.Filter = ("(&(sn=" + pNom + ")(givenName=" + pPrenom + "))");      
-=======
+
                 searcher.Filter = ("(&(sn=" + pNom + ")(givenName=" + pPrenom + "))");
->>>>>>> develop
+
 
             SearchResultCollection results = searcher.FindAll();
             foreach (SearchResult s in results)
             {
                 DirectoryEntry de = new DirectoryEntry(s.Path);
-<<<<<<< HEAD
-                try
-                {
-                    nom = de.Properties["sn"].Value.ToString();
-                    prenom = de.Properties["givenName"].Value.ToString();
-                    login = de.Properties["sAMAccountName"].Value.ToString();
 
-                    if (de.Properties["businessCategory"].Value == null)
-                    {
-                        role = "FB";
-                    }
-                    else
-                    {
-                        switch (de.Properties["businessCategory"].Value.ToString())
-                        {
-                            case "ET":
-                                role = "Etudiant";
-                                break;
-                            case "FB":
-                                role = "Personnel";
-                                break;
-                            case "FE":
-                                role = "Personnel";
-                                break;
-                            case "VE":
-                                role = "Personnel";
-                                break;
-                            case "HE":
-                                role = "Personnel";
-                                break;
-                            default:
-                                role = "Unknown";
-                                break;
-                        }
-
-                    }
-                }
-                catch (NullReferenceException e)
-                {
-                    throw e;
-
-                }
-               
-                //string ss = de.Properties["employeeType"].Value.ToString();
-                /*switch (de.Properties["businessCategory"].Value.ToString())
-=======
                 if (de.Properties["sn"].Value == null)
                     break;
                 nom = de.Properties["sn"].Value.ToString();
@@ -104,7 +57,7 @@ namespace Ambitour
                     break;
                 businessCategory = de.Properties["businessCategory"].Value.ToString();
                 switch (businessCategory)
->>>>>>> develop
+
                 {
                     case "ET":
                         role = "Etudiant";
@@ -124,7 +77,7 @@ namespace Ambitour
                     default:
                         role = "Unknown";
                         break;
-                }*/
+                }
 
                 Utilisateur u = new Utilisateur(nom, prenom, login, role);
                 listeUtilisateurs.Add(u);
