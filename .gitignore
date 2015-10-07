@@ -20,6 +20,7 @@ build/
  
 # MSTest test Results
 [Tt]est[Rr]esult*/
+TestAD
 [Bb]uild[Ll]og.*
  
 *_i.c
