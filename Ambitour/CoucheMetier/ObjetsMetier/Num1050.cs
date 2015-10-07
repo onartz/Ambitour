@@ -183,6 +183,24 @@ namespace Ambitour
         /// </summary>
         public event EventHandler<CNEventArgs> CommunicationFailed;
 
+        /// <summary>
+        /// Evenement déclenché pour logger des trucs
+        /// </summary>
+        public event EventHandler<CNEventArgs> LogEvent;
+
+        protected virtual void OnNotifierLogEvent(CNEventArgs e){
+              // Make a temporary copy of the event to avoid possibility of
+            // a race condition if the last subscriber unsubscribes
+            // immediately after the null check and before the event is raised.
+            EventHandler<CNEventArgs> handler = this.LogEvent;
+
+            // Event will be null if there are no subscribers
+            if (handler != null)
+           {  
+                handler(this, e);
+            }
+        }
+
         // Wrap event invocations inside a protected virtual method
         // to allow derived classes to override the event invocation behavior
         protected virtual void OnNotifierEtat(CNEventArgs e)
@@ -231,69 +249,47 @@ namespace Ambitour
             UInt16 lModeCourant=0;
             UInt16 lI503 = 0;
             bool bitBrocheTourne = false;
-           
-            //Pour les tests
-            //if(!ModeTestSansCN)
-            //{
-
-            
-          /*  try
-            {
-                intRet = SetPLCTool(CONFIG);
-            }
-            catch (DllNotFoundException ex)
-            {
-                return;
-                //throw ex;
-                //return;
-            }*/
-           
 
             intRet = SetPLCTool(CONFIG);
 
             if (intRet != RETOK)
             {
+                log.Message = "Init Num Failed with code : " + intRet; 
+                OnNotifierLogEvent(new CNEventArgs(log));
                 status.IsConnected = false;
-                status.Message = "Failed to init CN";
+                status.Message = "Init Num Failed with code : " + intRet; 
+                onNotifierCommunicationFailed(new CNEventArgs(status));
+                //OnNotifierEtat(new CNEventArgs(status));
+                return;
+            }
+            Thread.Sleep(1000);
+
+            log.Message = "Init Num OK";
+            OnNotifierLogEvent(new CNEventArgs(log));
+            
+
+            intRet = Get_Port(ref numPortBgWorker);
+            if (intRet != RETOK)
+            {
+                log.Message = "Get_Port failed with code : " + intRet;
+                OnNotifierLogEvent(new CNEventArgs(log));
+                status.IsConnected = false;
+                status.Message = "Failed to get communication port : " + numPortBgWorker + " : " +  intRet;
                 onNotifierCommunicationFailed(new CNEventArgs(status));
                 //OnNotifierEtat(new CNEventArgs(status));
                 return;
             }
 
-            if ((intRet = Get_Port(ref numPortBgWorker)) != RETOK)
-            {
-                status.IsConnected = false;
-                status.Message = "Failed to connect to CN";
-                onNotifierCommunicationFailed(new CNEventArgs(status));
-                return;
-            }
+            log.Message = "Num connectée sur le port : " + numPortBgWorker;
+            OnNotifierLogEvent(new CNEventArgs(log));
+            
+            status.IsConnected = true;
+            status.Message = "Connectée";
+            OnNotifierEtat(new CNEventArgs(status));
 
 
 
-                //try
-                //{                  
-                //    intRet = SetPLCTool(CONFIG);
-                //    if (intRet != RETOK) throw new Exception("Initialisation driver impossible");
-                //    Thread.Sleep(1000);
-                   
-                //    intRet = Get_Port(ref numPortBgWorker);
-                //    if (intRet != RETOK) throw new Exception("Communication impossible.");
-                //    else OnNotifierEtat(new CNEventArgs(status));
-                //}
-                //catch (Exception ex)
-                //{
-                //    status.IsConnected = false;
-                //    status.Message = ex.Message;
-                //    OnNotifierEtat(new CNEventArgs(status));
-                //    return;
-                //}
-            //}
-            //else
-            //{
-            //    status.Message = "Mode test sans CN";
-            //    status.IsConnected = true;
-            //    OnNotifierEtat(new CNEventArgs(status));
-            //}
+
             //Cycle
             while (workerAllowed)
             {     
@@ -358,6 +354,14 @@ namespace Ambitour
         private InfosCN status = new InfosCN();
         public InfosCN Status
         { get { return status; }}
+
+        /// <summary>
+        /// Classe des informations à afficher dans les formulaires
+        /// </summary>
+        private InfosCN log = new InfosCN();
+        public InfosCN Log
+        { get { return status; } }
+
 
    
         #endregion
@@ -689,9 +693,10 @@ namespace Ambitour
             while ((workerRunning) && (retry-- > 0))
                 Thread.Sleep(20);
             //Libération du port
-            short lIntRet=Free_Port(numPortBgWorker);
+            short lIntRet = 0;
+           // if (CoucheMetier.GlobalSettings.Default.PresenceCN == true)
+             lIntRet = Free_Port(numPortBgWorker);
         }
-
         /// <summary>
         /// Préchauffage de la broche
         /// </summary>

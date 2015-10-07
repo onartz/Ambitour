@@ -19,7 +19,7 @@ namespace Ambitour
         [STAThread]
         static void Main()
         {
-            Trace.WriteLine("Ambitour started");
+            Trace.TraceInformation(DateTime.Now + " : Ambiflux started.");
             INSTANCE.Start();
         }
 
@@ -144,11 +144,12 @@ namespace Ambitour
 
         #region Evènements
         /// <summary>
-        /// Evénements en provenance du lecteur et de la CN à router vers GUI
+        /// Evénements en provenance du lecteur et de la CN
         /// </summary>
         public event EventHandler<CustomEventArgs> StatusLecteurChanged;
-        public event EventHandler<CustomEventArgs> StatusCNChanged;
-        public event EventHandler<CustomEventArgs> CNCommunicationFailed;
+        public event EventHandler<Num1050.CNEventArgs> StatusCNChanged;
+        public event EventHandler<Num1050.CNEventArgs> CNCommunicationFailed;
+        public event EventHandler<Num1050.CNEventArgs> CNLogChanged;
        
 
         //Evénement levé aux différentes étapes de préparation
@@ -162,9 +163,9 @@ namespace Ambitour
             if (handler != null)             
                 handler(this, e);
         }
-        protected virtual void OnStatusCNChanged(CustomEventArgs e)
+        protected virtual void OnStatusCNChanged(Num1050.CNEventArgs e)
         {
-            EventHandler<CustomEventArgs> handler = StatusCNChanged;
+            EventHandler<Num1050.CNEventArgs> handler = StatusCNChanged;
             if (handler != null)
                 handler(this, e);
         }
@@ -177,12 +178,21 @@ namespace Ambitour
         }
 
 
-        protected virtual void OnCNCommunicationFailed(CustomEventArgs e)
+        protected virtual void OnCNCommunicationFailed(Num1050.CNEventArgs e)
         {
-            EventHandler<CustomEventArgs> handler = CNCommunicationFailed;
+            EventHandler<Num1050.CNEventArgs> handler = CNCommunicationFailed;
             if (handler != null)
                 handler(this, e);
         }
+
+        protected virtual void OnCNLogChanged(Num1050.CNEventArgs e)
+        {
+            EventHandler<Num1050.CNEventArgs> handler = CNLogChanged;
+            if (handler != null)
+                handler(this, e);
+
+        }
+
        
         #endregion
 
@@ -193,13 +203,13 @@ namespace Ambitour
         public void Start()
         {
             //Log.Write(System.DateTime.Now + " : Démarrage Ambitour");
-            Trace.TraceInformation(System.DateTime.Now + " : Démarrage Ambitour");
+            //Trace.TraceInformation(System.DateTime.Now + " : Démarrage Ambitour");
             
             //Test de la connexion à la BD
-            System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(Ambitour.Properties.Settings.Default.AIPLConnectionString);
 
             try
             {
+                System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(Ambitour.Properties.Settings.Default.AIPLConnectionString);
                 con.Open();
             }
             catch (System.Data.SqlClient.SqlException e)
@@ -217,11 +227,14 @@ namespace Ambitour
             bool res = lecteurBadge.Open();
             if (!lecteurBadge.Open())
             {
+                Trace.TraceError(DateTime.Now + "Erreur lecteur badge.");
                 DialogResult result1 = MessageBox.Show(System.DateTime.Now + "Le lecteur de badge ne fonctionne pas. Vérifier et relancer l'application",
  "CardReader Error",
  MessageBoxButtons.OK);
                 return;
             };
+
+            Trace.TraceInformation(DateTime.Now + " : Lecteur badge ok.");
             
             //enregistrement du début de session
             try
@@ -230,17 +243,21 @@ namespace Ambitour
             }
             catch (SqlException ex)
             {
+                Trace.TraceInformation(DateTime.Now + " : Erreur écriture dans la base.");
                 //Pas grave
             }
 
+            Trace.TraceInformation(DateTime.Now + " : Tentative de lecture du dossier distant...");
             //Test de lecture du dossier Ambitour distant
             if (!Directory.Exists(CoucheMetier.GlobalSettings.Default.strQueuePath))
             {
-                Trace.TraceError(System.DateTime.Now + "Dossier Ambitour distant non accessible (" + CoucheMetier.GlobalSettings.Default.strQueuePath + ").");
+                Trace.TraceError(System.DateTime.Now + "Failed (" + CoucheMetier.GlobalSettings.Default.strQueuePath + ").");
                 DialogResult result1 = MessageBox.Show(System.DateTime.Now + "Dossier Ambitour distant non accessible",
                     "FileSystem Error",
                     MessageBoxButtons.OK);
             }
+
+            Trace.TraceInformation(DateTime.Now + " OK.");
 
     
             //Abonnement aux évènements de la classe LecteurBadge
@@ -251,6 +268,7 @@ namespace Ambitour
             //Abonnement aux évènements de la classe NUM1050
             Num1050.INSTANCE.StatusChanged += new EventHandler<Num1050.CNEventArgs>(INSTANCE_NotifierEtat);
             Num1050.INSTANCE.CommunicationFailed += new EventHandler<Num1050.CNEventArgs>(INSTANCE_CommunicationFailed);
+            Num1050.INSTANCE.LogEvent += new EventHandler<Num1050.CNEventArgs>(INSTANCE_LogEvent);
 
             //Démarrage du cycle de la NUM
             try
@@ -261,6 +279,9 @@ namespace Ambitour
             {
                 return;
             }
+
+            //Démarrage du lecteur de cartes
+            lecteurBadge.Start();
            
             //Création du Form frmStart
             Application.EnableVisualStyles();
@@ -268,10 +289,19 @@ namespace Ambitour
             Application.Run(new frmStart());         
         }
 
+        //Handler de l'évènement LogEvent de la CN
+        void INSTANCE_LogEvent(object sender, Num1050.CNEventArgs e)
+        {
+            Trace.TraceInformation(DateTime.Now + " : LogEvent : " + e.Etat.Message);
+           /* DialogResult result1 = MessageBox.Show(System.DateTime.Now + " : " + e.Etat.Message,
+                    "CN Log",
+                    MessageBoxButtons.OK);*/
+        }
+
         void INSTANCE_CommunicationFailed(object sender, Num1050.CNEventArgs e)
         {
-            Trace.TraceError(DateTime.Now + " Erreur de communication avec la NUM.");
-            DialogResult result1 = MessageBox.Show(System.DateTime.Now + "Erreur de communication avec la NUM.",
+            Trace.TraceError(DateTime.Now + " : CommunicationFailed : " + e.Etat.Message);
+            DialogResult result1 = MessageBox.Show(System.DateTime.Now + " : " + e.Etat.Message,
                      "CN Communication Error",
                      MessageBoxButtons.OK);
             Stop();
@@ -293,6 +323,8 @@ namespace Ambitour
             Num1050.INSTANCE.stop();
             //Désabonnement
             Num1050.INSTANCE.StatusChanged -= new EventHandler<Num1050.CNEventArgs>(INSTANCE_NotifierEtat);
+            Num1050.INSTANCE.CommunicationFailed -= new EventHandler<Num1050.CNEventArgs>(this.INSTANCE_CommunicationFailed);
+            Num1050.INSTANCE.LogEvent -= new EventHandler<Num1050.CNEventArgs>(this.INSTANCE_LogEvent);
             //Enregistrement stop en BD
             BD.RESOURCEEVENT.Enregistrer("Arrêt Ambitour");
             Application.Exit();
@@ -504,6 +536,7 @@ namespace Ambitour
         /// <param name="e"></param>
         static void LecteurBadge_statusChanged(object sender, CustomEventArgs e)
         {
+            Trace.TraceInformation(DateTime.Now + " : " + e.Message);
             INSTANCE.OnStatusLecteurChanged(new CustomEventArgs(e.Message));
         }
 
@@ -514,6 +547,7 @@ namespace Ambitour
         /// <param name="e"></param>
         static void LecteurBadge_CarteLue(object sender, CustomEventArgs e)
         {
+            Trace.TraceInformation(DateTime.Now + " : Carte lue : " + e.Message);
             DialogResult r;
             Carte lCarte = new Carte(e.Message.ToString()); 
                     
@@ -542,7 +576,9 @@ namespace Ambitour
                    INSTANCE.mode = "DEMO";
                    
                     break;
+                   
                 case "UL":
+                   
                     List<Utilisateur> listeUtilisateurs = ServiceUHP.GetUtilisateursAD(lCarte.Nom, lCarte.Prenom, lCarte.Role);
                     switch (listeUtilisateurs.Count)
                     {
@@ -574,8 +610,11 @@ namespace Ambitour
                     r = MessageBox.Show("La carte est muette", "Exception");
                     return;
             }
-                
+            Trace.TraceInformation(DateTime.Now + " : Récupération des dossiers");   
             List<DossierDeFabrication> lListeDossiers = Pilotage.INSTANCE.FileAttenteCFAO.GetDossiersByUser(lutilisateur);
+            if (lListeDossiers == null){
+                Trace.TraceInformation(DateTime.Now + " : pas de dossier pour l'utilisateur");
+            }
             //On regarde s'il existe un seul dossier contenant un seul fichier pour initailiser
             if (lListeDossiers.Count == 1)
             {

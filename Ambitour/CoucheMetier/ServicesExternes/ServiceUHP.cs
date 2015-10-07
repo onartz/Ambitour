@@ -22,10 +22,11 @@ namespace Ambitour
         /// <returns>Liste des utilisateurs répondant aux critères</returns>
         public static List<Utilisateur> GetUtilisateursAD(string pNom, string pPrenom, string pEmployeeType)
         {
-            string nom;
-            string prenom;
-            string login;
-            string role;
+            string nom = "";
+            string prenom = "";
+            string login = "";
+            string role = "";
+            string businessCategory = "";
             List<Utilisateur> listeUtilisateurs = new List<Utilisateur>();
             DirectoryEntry ldap = new DirectoryEntry(CoucheMetier.GlobalSettings.Default.strADPath, CoucheMetier.GlobalSettings.Default.strLogin, CoucheMetier.GlobalSettings.Default.strPasswd);
             DirectorySearcher searcher = new DirectorySearcher(ldap);
@@ -39,12 +40,20 @@ namespace Ambitour
             foreach (SearchResult s in results)
             {
                 DirectoryEntry de = new DirectoryEntry(s.Path);
-
+                if (de.Properties["sn"].Value == null)
+                    break;
                 nom = de.Properties["sn"].Value.ToString();
+                if (de.Properties["givenName"].Value == null)
+                    break;
                 prenom = de.Properties["givenName"].Value.ToString();
+                if (de.Properties["sAMAccountName"].Value == null)
+                    break;
                 login = de.Properties["sAMAccountName"].Value.ToString();
-                string ss = de.Properties["employeeType"].Value.ToString();
-                switch (de.Properties["businessCategory"].Value.ToString())
+
+                if (de.Properties["businessCategory"].Value == null)
+                    break;
+                businessCategory = de.Properties["businessCategory"].Value.ToString();
+                switch (businessCategory)
                 {
                     case "ET":
                         role = "Etudiant";
