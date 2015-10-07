@@ -6,7 +6,7 @@
       <Value Profile="(Default)">c:\ambitour\dossiers</Value>
     </Setting>
     <Setting Name="strQueuePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\\aip-etudiant\Ambitour</Value>
+      <Value Profile="(Default)">\\etuls.stockage.univ-lorraine.fr\etu_commun\aipl\Partages\Ambitour</Value>
     </Setting>
     <Setting Name="strDefaultArchiveQueueName" Type="System.String" Scope="User">
       <Value Profile="(Default)">Archives</Value>

@@ -23,6 +23,11 @@ namespace Ambitour
         /// </summary>
         public event EventHandler<CustomEventArgs> StatusChanged;
 
+        /// <summary>
+        /// Déclaration de l'évènement statusChanged
+        /// </summary>
+        public event EventHandler<CustomEventArgs> LogChanged;
+
         #endregion
 
         #region Constantes
@@ -102,10 +107,12 @@ namespace Ambitour
             tmrBasetime.Elapsed += new ElapsedEventHandler(tmrBasetime_Elapsed);
 
             workerEvent = new ManualResetEvent(false);
+           
             workerThread = new Thread(new ThreadStart(workerLoop));
             workerThread.Start();
-
+         
             workerStart(WORK_OPEN_READER);
+           
         }
 
         /// <summary>
@@ -114,6 +121,7 @@ namespace Ambitour
         public void Stop()
         {
             EventHandler<CustomEventArgs> handler = StatusChanged;
+            EventHandler<CustomEventArgs> handlerLog = LogChanged;
 
             // Event will be null if there are no subscribers
             if (handler != null)
@@ -121,15 +129,36 @@ namespace Ambitour
                 handler(null, new CustomEventArgs("Arrêt..."));
             }
 
+            // Event will be null if there are no subscribers
+            if (handlerLog != null)
+            {
+                handlerLog(null, new CustomEventArgs("Arrêt..."));
+            }
+
             int retry = 50;
 
             workerAllowed = false;
-            workerEvent.Set();
+            if(workerEvent != null)
+                workerEvent.Set();
 
             while ((workerRunning) && (retry-- > 0))
                 Thread.Sleep(20);
 
             CloseReader();
+        }
+
+        public bool Open()
+        {
+            /* In case of a communcation error, we must close it before */
+
+            SPROX.ReaderClose();
+            SPROX.ControlLed(1, 0, 0);
+            short rc = 0;
+            /* Try to open the reader */
+            rc = SPROX.ReaderOpen("");
+            return rc == SPROX.MI_OK;
+           
+            
         }
         #endregion
 
@@ -360,6 +389,7 @@ namespace Ambitour
                 return true;
 
             /* In case of a communcation error, we must close it before */
+          
            SPROX.ReaderClose();
 
             /* Try to open the reader */
@@ -550,6 +580,7 @@ namespace Ambitour
                 {
                     case WORK_OPEN_READER:
                         rc = OpenReaderTask();
+  
                         break;
                     case WORK_FIND_CARD:
                         rc = FindCardTask();
@@ -578,13 +609,14 @@ namespace Ambitour
         private void workerDone(int task, bool rc)
         {
             EventHandler<CustomEventArgs> eventStatusChanged = StatusChanged;
+
             
             switch (task)
             {
                 case WORK_OPEN_READER:
                     if (rc)
                     {
-                        //Console.WriteLine("Reader activated");
+                       
                         isActif = true;
                         EventHandler<CustomEventArgs> handler = StatusChanged;
                         // Event will be null if there are no subscribers

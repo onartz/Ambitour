@@ -47,10 +47,16 @@ namespace Ambitour
         private void Start_Load(object sender, EventArgs e)
         {
             Pilotage.INSTANCE.StatusLecteurChanged += new EventHandler<CustomEventArgs>(INSTANCE_EventLecteur);
-            Pilotage.INSTANCE.StatusCNChanged += new EventHandler<CustomEventArgs>(INSTANCE_EventNUM);
+            Pilotage.INSTANCE.StatusCNChanged += new EventHandler<Num1050.CNEventArgs>(INSTANCE_EventNUM);
+            Pilotage.INSTANCE.CNLogChanged += new EventHandler<Num1050.CNEventArgs>(INSTANCE_CNLogChanged);
         }
 
-        void INSTANCE_EventNUM(object sender, CustomEventArgs e)
+        void INSTANCE_CNLogChanged(object sender, Num1050.CNEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        void INSTANCE_EventNUM(object sender, Num1050.CNEventArgs e)
         {
             throw new NotImplementedException();
         }

@@ -34,12 +34,17 @@ namespace Ambitour
                 searcher.Filter = ("(&(sn=" + pNom + "))");
             else
                 //searcher.Filter = ("(&(sn=" + pNom + ")(givenName=" + pPrenom + ")(employeeType=" + pEmployeeType + "))");
+<<<<<<< HEAD
                 searcher.Filter = ("(&(sn=" + pNom + ")(givenName=" + pPrenom + "))");      
+=======
+                searcher.Filter = ("(&(sn=" + pNom + ")(givenName=" + pPrenom + "))");
+>>>>>>> develop
 
             SearchResultCollection results = searcher.FindAll();
             foreach (SearchResult s in results)
             {
                 DirectoryEntry de = new DirectoryEntry(s.Path);
+<<<<<<< HEAD
                 try
                 {
                     nom = de.Properties["sn"].Value.ToString();
@@ -84,6 +89,22 @@ namespace Ambitour
                
                 //string ss = de.Properties["employeeType"].Value.ToString();
                 /*switch (de.Properties["businessCategory"].Value.ToString())
+=======
+                if (de.Properties["sn"].Value == null)
+                    break;
+                nom = de.Properties["sn"].Value.ToString();
+                if (de.Properties["givenName"].Value == null)
+                    break;
+                prenom = de.Properties["givenName"].Value.ToString();
+                if (de.Properties["sAMAccountName"].Value == null)
+                    break;
+                login = de.Properties["sAMAccountName"].Value.ToString();
+
+                if (de.Properties["businessCategory"].Value == null)
+                    break;
+                businessCategory = de.Properties["businessCategory"].Value.ToString();
+                switch (businessCategory)
+>>>>>>> develop
                 {
                     case "ET":
                         role = "Etudiant";

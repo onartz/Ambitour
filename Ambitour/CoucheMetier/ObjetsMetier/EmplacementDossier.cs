@@ -85,10 +85,23 @@ namespace Ambitour
             DirectoryInfo[] tab=di.GetDirectories(pName);
             if (tab.Length == 0)
                 throw (new Exception("Aucun dossier trouvé"));
-            return new DossierDeFabrication(tab[0]);
-            
-         
+            return new DossierDeFabrication(tab[0]); 
         }
+
+        //public static bool Exists(string pName)
+        //{
+        //    try
+        //    {
+        //        DirectoryInfo di = new DirectoryInfo(chemin);
+        //    }
+        //    catch (DirectoryNotFoundException ex)
+        //    {
+        //        return false;
+        //    }
+        //    return true;
+
+        //}
+
 
         #endregion
 
