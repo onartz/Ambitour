@@ -103,13 +103,8 @@ namespace Ambitour
                             ProcessStartInfo startInfo = new ProcessStartInfo("IExplore.exe");
                             
                             startInfo.WindowStyle = ProcessWindowStyle.Minimized;
-
                             Process.Start(startInfo);
-
                             startInfo.Arguments = listeDocumentationHTML[e.Node.Index].FichierIndex;
-
-                            
-
                             Process.Start(startInfo);
 
                             //System.Diagnostics.Process.Start("IExplore.exe", listeDocumentationHTML[e.Node.Index].FichierIndex);
