@@ -287,9 +287,6 @@ namespace Ambitour
             status.Message = "Connectée";
             OnNotifierEtat(new CNEventArgs(status));
 
-
-
-
             //Cycle
             while (workerAllowed)
             {     
