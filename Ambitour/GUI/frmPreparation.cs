@@ -239,7 +239,7 @@ namespace Ambitour
                         lblProgramme.Text = lProgrammeCourant.InfosFichier.Name;
                         SessionInfos.Utilisateur.SetDossierCourant(lDossierCourant);
                         SessionInfos.Utilisateur.SetProgrammeCourant(lProgrammeCourant);
-                        Pilotage.INSTANCE.PreparerCN();
+                        //Pilotage.INSTANCE.PreparerCN();
                     }
                 }
                 else
@@ -251,7 +251,7 @@ namespace Ambitour
                     lblProgramme.Text = lProgrammeCourant.InfosFichier.Name;
                     SessionInfos.Utilisateur.SetDossierCourant(lDossierCourant);
                     SessionInfos.Utilisateur.SetProgrammeCourant(lProgrammeCourant);
-                    Pilotage.INSTANCE.PreparerCN();
+                    //Pilotage.INSTANCE.PreparerCN();
                 }
             }
         }
@@ -315,7 +315,7 @@ namespace Ambitour
                             lblProgramme.Text = SessionInfos.Utilisateur.ProgrammeCourant.InfosFichier.Name;
                             //on peut lancer la préparation
                             //grpChoix.Enabled = false;
-                            Pilotage.INSTANCE.PreparerCN();
+                           // Pilotage.INSTANCE.PreparerCN();
                             break;
                     }
                     break;

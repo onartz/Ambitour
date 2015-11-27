@@ -271,14 +271,14 @@ namespace Ambitour
             Num1050.INSTANCE.LogEvent += new EventHandler<Num1050.CNEventArgs>(INSTANCE_LogEvent);
 
             //Démarrage du cycle de la NUM
-            try
-            {
-                Num1050.INSTANCE.start();
-            }
-            catch (Exception ex)
-            {
-                return;
-            }
+            //try
+            //{
+            //    Num1050.INSTANCE.start();
+            //}
+            //catch (Exception ex)
+            //{
+            //    return;
+            //}
 
             //Démarrage du lecteur de cartes
             lecteurBadge.Start();
@@ -325,7 +325,7 @@ namespace Ambitour
             Num1050.INSTANCE.StatusChanged -= new EventHandler<Num1050.CNEventArgs>(INSTANCE_NotifierEtat);
             Num1050.INSTANCE.CommunicationFailed -= new EventHandler<Num1050.CNEventArgs>(this.INSTANCE_CommunicationFailed);
             Num1050.INSTANCE.LogEvent -= new EventHandler<Num1050.CNEventArgs>(this.INSTANCE_LogEvent);
-            //Enregistrement stop en BD
+            ////Enregistrement stop en BD
             BD.RESOURCEEVENT.Enregistrer("Arrêt Ambitour");
             Application.Exit();
         }
@@ -420,6 +420,8 @@ namespace Ambitour
                 pWorker.ReportProgress(0, state);
                 return;
             }
+
+           // return;
 
 
             //Etape 2 : Téléchargement du pgm pièce dans la CN
