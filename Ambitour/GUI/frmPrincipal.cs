@@ -83,7 +83,14 @@ namespace Ambitour
             frmMonitoring.Location = GUI.GraphicSettings.Default.LeftPanelPoint;
 
             monitoringToolStripMenuItem.Visible = (SessionInfos.Utilisateur.Role == "Personnel");
-            
+
+            frmOFs frmOfs = new frmOFs();
+            frmOfs.MdiParent = this;
+            frmOfs.BackColor = GUI.GraphicSettings.Default.BgColor;
+            frmOfs.FormBorderStyle = GUI.GraphicSettings.Default.FormBorderStyle;
+            frmOfs.Size = GUI.GraphicSettings.Default.LeftPanelSize;
+            frmOfs.Location = GUI.GraphicSettings.Default.LeftPanelPoint;
+
         }
 
         /// <summary>
@@ -214,6 +221,24 @@ namespace Ambitour
         {
             frmAboutBox frmAbout = new frmAboutBox();
             frmAbout.Show();
+        }
+
+        private void menuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void OFsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Form f in this.MdiChildren)
+            {
+                if (f.Name == "frmOFs")
+                {
+                    f.Show();
+                    f.BringToFront();
+                    break;
+                }
+            }
         }
 
      

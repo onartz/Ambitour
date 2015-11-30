@@ -83,10 +83,13 @@
     <Compile Include="ClassesUtilitaires\Fichiers.cs" />
     <Compile Include="CoucheMetier\GlobalSettings.cs" />
     <Compile Include="CoucheMetier\LogiqueMetier\Pilotage.cs" />
+    <Compile Include="CoucheMetier\LogiqueMetier\RequestBrokerAg.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\Carte.cs" />
     <Compile Include="CoucheMetier\AccesDonnees\BD.cs" />
     <Compile Include="ClassesUtilitaires\Log.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\EmplacementDossier.cs" />
+    <Compile Include="CoucheMetier\LogiqueMetier\OFAgent.cs" />
+    <Compile Include="CoucheMetier\ObjetsMetier\OF.cs" />
     <Compile Include="CoucheMetier\ServicesExternes\ServiceUHP.cs" />
     <Compile Include="DataSetAmbitour.cs">
       <DependentUpon>DataSetAmbitour.xsd</DependentUpon>
@@ -109,6 +112,12 @@
     <Compile Include="CoucheMetier\ObjetsMetier\ProgrammePiece.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\DossierDeFabrication.cs" />
     <Compile Include="CoucheMetier\Types\Types.cs" />
+    <Compile Include="GUI\frmOFs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmOFs.Designer.cs">
+      <DependentUpon>frmOFs.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\GraphicSettings.cs" />
     <Compile Include="GUI\Viewer3D.cs" />
     <Compile Include="GUI\frm3D.cs">
@@ -195,6 +204,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmMonitoring.resx">
       <DependentUpon>frmMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmOFs.resx">
+      <DependentUpon>frmOFs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmPreparation.resx">
       <SubType>Designer</SubType>
