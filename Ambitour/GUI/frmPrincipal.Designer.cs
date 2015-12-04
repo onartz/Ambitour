@@ -36,6 +36,7 @@
             this.exécecutionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.monitoringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OFsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sommaireToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.indexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,7 +44,7 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.àproposdeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.OFsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.requêtesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,9 +56,10 @@
             this.sécuritéToolStripMenuItem,
             this.exécecutionToolStripMenuItem,
             this.monitoringToolStripMenuItem,
-            this.quitterToolStripMenuItem,
             this.OFsToolStripMenuItem,
-            this.aideToolStripMenuItem});
+            this.aideToolStripMenuItem,
+            this.quitterToolStripMenuItem,
+            this.requêtesToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -112,6 +114,13 @@
             this.quitterToolStripMenuItem.Text = "Quitter";
             this.quitterToolStripMenuItem.Click += new System.EventHandler(this.quitterToolStripMenuItem_Click);
             // 
+            // OFsToolStripMenuItem
+            // 
+            this.OFsToolStripMenuItem.Name = "OFsToolStripMenuItem";
+            this.OFsToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.OFsToolStripMenuItem.Text = "OFs";
+            this.OFsToolStripMenuItem.Click += new System.EventHandler(this.OFsToolStripMenuItem_Click);
+            // 
             // aideToolStripMenuItem
             // 
             this.aideToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -155,12 +164,12 @@
             this.àproposdeToolStripMenuItem.Text = "À &propos de...";
             this.àproposdeToolStripMenuItem.Click += new System.EventHandler(this.àproposdeToolStripMenuItem_Click);
             // 
-            // OFsToolStripMenuItem
+            // requêtesToolStripMenuItem
             // 
-            this.OFsToolStripMenuItem.Name = "OFsToolStripMenuItem";
-            this.OFsToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
-            this.OFsToolStripMenuItem.Text = "OFs";
-            this.OFsToolStripMenuItem.Click += new System.EventHandler(this.OFsToolStripMenuItem_Click);
+            this.requêtesToolStripMenuItem.Name = "requêtesToolStripMenuItem";
+            this.requêtesToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
+            this.requêtesToolStripMenuItem.Text = "Requêtes";
+            this.requêtesToolStripMenuItem.Click += new System.EventHandler(this.requêtesToolStripMenuItem_Click);
             // 
             // frmPrincipal
             // 
@@ -203,6 +212,7 @@
         private System.Windows.Forms.ToolStripMenuItem àproposdeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem monitoringToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OFsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem requêtesToolStripMenuItem;
     }
 }
 

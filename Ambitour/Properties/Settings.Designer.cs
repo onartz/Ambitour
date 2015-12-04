@@ -33,5 +33,16 @@ namespace Ambitour.Properties {
                 return ((string)(this["AIPLConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=100.74.39.204;Initial Catalog=AIPL;Persist Security Info=True;User ID" +
+            "=ambiflux;Password=ambiflux")]
+        public string AIPLConnectionString1 {
+            get {
+                return ((string)(this["AIPLConnectionString1"]));
+            }
+        }
     }
 }

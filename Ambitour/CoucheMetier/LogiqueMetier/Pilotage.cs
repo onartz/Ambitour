@@ -7,6 +7,7 @@ using System.Threading;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Data.SqlClient;
+using Ambitour.CoucheMetier.LogiqueMetier;
 
 namespace Ambitour
 {
@@ -19,6 +20,7 @@ namespace Ambitour
         [STAThread]
         static void Main()
         {
+
             Trace.TraceInformation(DateTime.Now + " : Ambiflux started.");
             INSTANCE.Start();
         }
@@ -30,6 +32,9 @@ namespace Ambitour
         /// backgroundWorker utilisé pour exécuter les tâches asynchrones
         /// </summary>
         private BackgroundWorker backgroundWorker1;
+        
+ 
+        
         private static Pilotage instance;
         private LecteurBadge lecteurBadge = new LecteurBadge();
 
@@ -204,7 +209,7 @@ namespace Ambitour
         {
             //Log.Write(System.DateTime.Now + " : Démarrage Ambitour");
             //Trace.TraceInformation(System.DateTime.Now + " : Démarrage Ambitour");
-            
+           
             //Test de la connexion à la BD
 
             try
@@ -337,8 +342,9 @@ namespace Ambitour
         public void FermerSession()
         {
             //Annulation du backgroundWorker
-            backgroundWorker1.CancelAsync();  
-        
+            backgroundWorker1.CancelAsync();
+           
+          
             switch (mode)
             {
                 case "DEMO":

@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Collections;
 using System.Threading;
 using System.IO;
+using Ambitour.GUI;
 
 namespace Ambitour
 {
@@ -90,6 +91,13 @@ namespace Ambitour
             frmOfs.FormBorderStyle = GUI.GraphicSettings.Default.FormBorderStyle;
             frmOfs.Size = GUI.GraphicSettings.Default.LeftPanelSize;
             frmOfs.Location = GUI.GraphicSettings.Default.LeftPanelPoint;
+
+            frmRequests frmRequests = new frmRequests();
+            frmRequests.MdiParent = this;
+            frmRequests.BackColor = GUI.GraphicSettings.Default.BgColor;
+            frmRequests.FormBorderStyle = GUI.GraphicSettings.Default.FormBorderStyle;
+            frmRequests.Size = GUI.GraphicSettings.Default.LeftPanelSize;
+            frmRequests.Location = GUI.GraphicSettings.Default.LeftPanelPoint;
 
         }
 
@@ -233,6 +241,19 @@ namespace Ambitour
             foreach (Form f in this.MdiChildren)
             {
                 if (f.Name == "frmOFs")
+                {
+                    f.Show();
+                    f.BringToFront();
+                    break;
+                }
+            }
+        }
+
+        private void requêtesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Form f in this.MdiChildren)
+            {
+                if (f.Name == "frmRequests")
                 {
                     f.Show();
                     f.BringToFront();

@@ -21,7 +21,8 @@
     <GenerateManifests>true</GenerateManifests>
     <SignManifests>true</SignManifests>
     <StartupObject>Ambitour.Pilotage</StartupObject>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
     <PublishUrl>C:\Temp\ambitour\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -71,6 +72,8 @@
     <Reference Include="SpringProxAPI, Version=1.0.3523.25243, Culture=neutral" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
@@ -87,10 +90,21 @@
     <Compile Include="CoucheMetier\ObjetsMetier\Carte.cs" />
     <Compile Include="CoucheMetier\AccesDonnees\BD.cs" />
     <Compile Include="ClassesUtilitaires\Log.cs" />
+    <Compile Include="CoucheMetier\ObjetsMetier\ContentManager.cs" />
+    <Compile Include="CoucheMetier\ObjetsMetier\CustomEventArgs.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\EmplacementDossier.cs" />
     <Compile Include="CoucheMetier\LogiqueMetier\OFAgent.cs" />
+    <Compile Include="CoucheMetier\ObjetsMetier\Handle.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\OF.cs" />
     <Compile Include="CoucheMetier\ServicesExternes\ServiceUHP.cs" />
+    <Compile Include="DataClasses.cs">
+      <DependentUpon>DataClasses.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="DataClasses.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataClasses.dbml</DependentUpon>
+    </Compile>
     <Compile Include="DataSetAmbitour.cs">
       <DependentUpon>DataSetAmbitour.xsd</DependentUpon>
       <SubType>Component</SubType>
@@ -117,6 +131,24 @@
     </Compile>
     <Compile Include="GUI\frmOFs.Designer.cs">
       <DependentUpon>frmOFs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmRequests.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmRequests.Designer.cs">
+      <DependentUpon>frmRequests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmWorkorder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmWorkorder.Designer.cs">
+      <DependentUpon>frmWorkorder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmWorkorderDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmWorkorderDetails.Designer.cs">
+      <DependentUpon>frmWorkorderDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\GraphicSettings.cs" />
     <Compile Include="GUI\Viewer3D.cs" />
@@ -186,6 +218,9 @@
       <DependentUpon>GraphicSettings.settings</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="DataClasses.dbml.layout">
+      <DependentUpon>DataClasses.dbml</DependentUpon>
+    </None>
     <EmbeddedResource Include="GUI\frmAboutBox1.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmAboutBox.cs</DependentUpon>
@@ -216,6 +251,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>frmPrincipal.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmRequests.resx">
+      <DependentUpon>frmRequests.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmSecurite.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmSecurite.cs</DependentUpon>
@@ -226,6 +264,12 @@
     <EmbeddedResource Include="GUI\frmUtilisateur.resx">
       <SubType>Designer</SubType>
       <DependentUpon>frmUtilisateur.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmWorkorder.resx">
+      <DependentUpon>frmWorkorder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmWorkorderDetails.resx">
+      <DependentUpon>frmWorkorderDetails.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -248,7 +292,13 @@
     <None Include="Ambitour.pfx" />
     <None Include="Ambitour_TemporaryKey.pfx" />
     <None Include="app.config" />
+    <None Include="DataClasses.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>DataClasses.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\app.manifest" />
+    <None Include="Properties\DataSources\DataClassesDataContext.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -374,6 +424,9 @@
     <None Include="Resources\logo-620x620-Ivory-2.gif" />
     <None Include="Resources\logo-620x620-Ivory.gif" />
     <None Include="Resources\logo4.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

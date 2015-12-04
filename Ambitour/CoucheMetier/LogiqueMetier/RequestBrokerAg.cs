@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.IO;
+using  Ambitour.CoucheMetier.ObjetsMetier;
+
 
 namespace Ambitour.CoucheMetier.LogiqueMetier
 {
@@ -12,66 +14,83 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
     class RequestBrokerAg
     {
         Thread mainLoop;
-        bool stop;
-        bool busy;
-       
-        
-        string requestQueue;
-        public event EventHandler MessageReceived;
+        bool stop = false;
+        bool busy = false;
 
-       // Dictionary<string, string> dic;
+        const string requestQueue = @"c:\Ambitour\Queue\inputQueue";
+        string outputQueue = @"c:\Ambitour\Queue\outputQueue";
+        string archiveQueue = @"c:\Ambitour\Queue\inputQueue\Archives";
 
-        Queue<string> queue;
+        public event EventHandler<RequestEventArgs> MessageReceived;
+        Dictionary<string, Object> requests;
 
-        ////Maintain a current list of requests
-        //List<string> requests;
+        public Dictionary<string, Object> Requests
+        {
+            get { return requests; }
+            set { requests = value; }
+        }
+        //Queue<string> queue;
 
-        //public List<string> Requests
-        //{
-        //    get { return requests; }
-        //    set { requests = value; }
-        //}
-
+        public void RemoveFromQueue(string s)
+        {
+            if(requests.ContainsKey(s))
+                requests.Remove(s);
+        }
 
         public RequestBrokerAg()
         {
+            requests = new Dictionary<string, Object>();
+            
             if (!Directory.Exists(requestQueue))
             {
-                return;
+                throw new DirectoryNotFoundException();
             }
-            //dic = new Dictionary<string, string>();
-            queue = new Queue<string>(Directory.GetFiles(requestQueue));
-            //requests = new List<string>();
+            //queue = new Queue<string>(Directory.GetFiles(requestQueue));
             mainLoop = new Thread(new ThreadStart(loop));
             mainLoop.Start();
         }
 
+
         void loop()
         {
             busy = true;
-            while (!stop)
+            while (stop == false)
             {
                 string[] fileEntries = Directory.GetFiles(requestQueue);
                // requests.Clear();
                 foreach (string fileName in fileEntries)
                 {
-                    lock (queue)
+                   //if(requests.ContainsKey(Path.GetFileNameWithoutExtension(fileName))){
+                   //    requests.Remove(Path.GetFileNameWithoutExtension(fileName));
+                   //}
+                    //Not in the queue
+                    if (!requests.ContainsKey(Path.GetFileNameWithoutExtension(fileName)))
                     {
-                        //In not in the queue
-                        if (!queue.Contains(fileName))
+                        try
                         {
-                            //StreamReader sr =
-                            // new StreamReader(fileName);
-                            //string content = sr.ReadToEnd();
-                            queue.Enqueue(fileName);
-                            //requests.Add(content);
+                            StreamReader sr =
+                                 new StreamReader(fileName);
+                            string str = sr.ReadToEnd();
+                            Object content = ContentManager.ExtractContent(str);
+                            KeyValuePair<string, Object> kvp = new KeyValuePair<string, Object>(Path.GetFileNameWithoutExtension(fileName), content);
+                            requests.Add(Path.GetFileNameWithoutExtension(fileName), content);
+                            sr.Close();
+                            OnNewMessageReceived(new RequestEventArgs(kvp));
+                            ArchiveFile(fileName);
 
-                            //sr.Close();
-
-                            MessageReceived(this, new EventArgs());
-                            ProcessFile(fileName);
+                           
                         }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
+
+                        //Handle h = new Handle(content);
+
+                      
+
                     }
+                   
                 }
                 Thread.Sleep(1000);
             }
@@ -84,8 +103,31 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
             stop = true;
         }
 
-        private void ProcessFile(string fileName)
+        private void ArchiveFile(string fileName)
         {
+            if(File.Exists(Path.Combine(archiveQueue, Path.GetFileName(fileName)))){
+                File.Delete(Path.Combine(archiveQueue, Path.GetFileName(fileName)));
+            }
+                File.Move(fileName, Path.Combine(archiveQueue, Path.GetFileName(fileName)));
+
+        }
+
+        protected virtual void OnNewMessageReceived(RequestEventArgs e)
+        {
+            // Make a temporary copy of the event to avoid possibility of
+            // a race condition if the last subscriber unsubscribes
+            // immediately after the null check and before the event is raised.
+            EventHandler<RequestEventArgs> handler = MessageReceived;
+
+            // Event will be null if there are no subscribers
+            if (handler != null)
+            {
+                // Format the string to send inside the CustomEventArgs parameter
+                //e.Message += String.Format(" at {0}", DateTime.Now.ToString());
+               
+                // Use the () operator to raise the event.
+                handler(this, e);
+            }
         }
 
         
