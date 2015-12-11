@@ -29,65 +29,74 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnOK = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.splitContainer = new System.Windows.Forms.SplitContainer();
-            this.btnComplete = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
-            this.splitContainer.Panel1.SuspendLayout();
-            this.splitContainer.Panel2.SuspendLayout();
-            this.splitContainer.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // listView1
+            // richTextBox1
             // 
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listView1.FullRowSelect = true;
-            this.listView1.GridLines = true;
-            this.listView1.Location = new System.Drawing.Point(0, 0);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(783, 261);
-            this.listView1.TabIndex = 1;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
-            this.listView1.DoubleClick += new System.EventHandler(this.listView1_DoubleClick);
+            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(777, 432);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.Text = "";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.splitContainer1);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(783, 597);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Opération de manutention";
+
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(3, 25);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.richTextBox1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.btnOK);
+            this.splitContainer1.Size = new System.Drawing.Size(777, 569);
+            this.splitContainer1.SplitterDistance = 432;
+            this.splitContainer1.TabIndex = 1;
+            // 
+            // btnOK
+            // 
+            this.btnOK.Location = new System.Drawing.Point(308, 31);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(127, 39);
+            this.btnOK.TabIndex = 0;
+            this.btnOK.Text = "Done";
+            this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // notifyIcon1
             // 
             this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.notifyIcon1.BalloonTipText = "dfgdfgdfgdfg";
-            this.notifyIcon1.BalloonTipTitle = "dfgdfgdfgdfgdf";
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
-            // 
-            // splitContainer
-            // 
-            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer.Name = "splitContainer";
-            this.splitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer.Panel1
-            // 
-            this.splitContainer.Panel1.Controls.Add(this.listView1);
-            // 
-            // splitContainer.Panel2
-            // 
-            this.splitContainer.Panel2.Controls.Add(this.btnComplete);
-            this.splitContainer.Size = new System.Drawing.Size(783, 597);
-            this.splitContainer.SplitterDistance = 261;
-            this.splitContainer.TabIndex = 2;
-            // 
-            // btnComplete
-            // 
-            this.btnComplete.Location = new System.Drawing.Point(63, 84);
-            this.btnComplete.Name = "btnComplete";
-            this.btnComplete.Size = new System.Drawing.Size(132, 44);
-            this.btnComplete.TabIndex = 0;
-            this.btnComplete.Text = "OK";
-            this.btnComplete.UseVisualStyleBackColor = true;
-            this.btnComplete.Click += new System.EventHandler(this.btnComplete_Click);
             // 
             // frmRequests
             // 
@@ -96,25 +105,28 @@
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(783, 597);
             this.ControlBox = false;
-            this.Controls.Add(this.splitContainer);
+            this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Location = new System.Drawing.Point(0, 85);
             this.Name = "frmRequests";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Load += new System.EventHandler(this.frmRequests_Load);
-            this.splitContainer.Panel1.ResumeLayout(false);
-            this.splitContainer.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
-            this.splitContainer.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
-        private System.Windows.Forms.SplitContainer splitContainer;
-        private System.Windows.Forms.Button btnComplete;
+
     }
 }

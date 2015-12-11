@@ -32,5 +32,14 @@
     <Setting Name="strPasswd" Type="System.String" Scope="User">
       <Value Profile="(Default)">Gzero01!</Value>
     </Setting>
+    <Setting Name="incomingRequestDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\ambitour\incomingRequest</Value>
+    </Setting>
+    <Setting Name="outgoingRequestDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\ambitour\outgoingRequest</Value>
+    </Setting>
+    <Setting Name="tempRequestDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\ambitour\tempRequest</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

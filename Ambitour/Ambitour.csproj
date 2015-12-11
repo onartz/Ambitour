@@ -87,6 +87,7 @@
     <Compile Include="CoucheMetier\GlobalSettings.cs" />
     <Compile Include="CoucheMetier\LogiqueMetier\Pilotage.cs" />
     <Compile Include="CoucheMetier\LogiqueMetier\RequestBrokerAg.cs" />
+    <Compile Include="CoucheMetier\ObjetsMetier\ACLMessage.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\Carte.cs" />
     <Compile Include="CoucheMetier\AccesDonnees\BD.cs" />
     <Compile Include="ClassesUtilitaires\Log.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="CoucheMetier\LogiqueMetier\OFAgent.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\Handle.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\OF.cs" />
+    <Compile Include="CoucheMetier\ObjetsMetier\Response.cs" />
     <Compile Include="CoucheMetier\ServicesExternes\ServiceUHP.cs" />
     <Compile Include="DataClasses.cs">
       <DependentUpon>DataClasses.dbml</DependentUpon>

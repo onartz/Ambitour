@@ -35,7 +35,6 @@
             this.sécuritéToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exécecutionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.monitoringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.quitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OFsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sommaireToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,8 +42,9 @@
             this.rechercherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.àproposdeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.quitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.requêtesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,11 +55,11 @@
             this.documentationToolStripMenuItem,
             this.sécuritéToolStripMenuItem,
             this.exécecutionToolStripMenuItem,
-            this.monitoringToolStripMenuItem,
             this.OFsToolStripMenuItem,
+            this.requêtesToolStripMenuItem,
+            this.monitoringToolStripMenuItem,
             this.aideToolStripMenuItem,
-            this.quitterToolStripMenuItem,
-            this.requêtesToolStripMenuItem});
+            this.quitterToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -106,13 +106,6 @@
             this.monitoringToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
             this.monitoringToolStripMenuItem.Text = "Monitoring";
             this.monitoringToolStripMenuItem.Click += new System.EventHandler(this.monitoringToolStripMenuItem_Click);
-            // 
-            // quitterToolStripMenuItem
-            // 
-            this.quitterToolStripMenuItem.Name = "quitterToolStripMenuItem";
-            this.quitterToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
-            this.quitterToolStripMenuItem.Text = "Quitter";
-            this.quitterToolStripMenuItem.Click += new System.EventHandler(this.quitterToolStripMenuItem_Click);
             // 
             // OFsToolStripMenuItem
             // 
@@ -163,6 +156,13 @@
             this.àproposdeToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.àproposdeToolStripMenuItem.Text = "À &propos de...";
             this.àproposdeToolStripMenuItem.Click += new System.EventHandler(this.àproposdeToolStripMenuItem_Click);
+            // 
+            // quitterToolStripMenuItem
+            // 
+            this.quitterToolStripMenuItem.Name = "quitterToolStripMenuItem";
+            this.quitterToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.quitterToolStripMenuItem.Text = "Quitter";
+            this.quitterToolStripMenuItem.Click += new System.EventHandler(this.quitterToolStripMenuItem_Click);
             // 
             // requêtesToolStripMenuItem
             // 

@@ -139,5 +139,41 @@ namespace Ambitour.CoucheMetier {
                 this["strPasswd"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\incomingRequest")]
+        public string incomingRequestDirectory {
+            get {
+                return ((string)(this["incomingRequestDirectory"]));
+            }
+            set {
+                this["incomingRequestDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\outgoingRequest")]
+        public string outgoingRequestDirectory {
+            get {
+                return ((string)(this["outgoingRequestDirectory"]));
+            }
+            set {
+                this["outgoingRequestDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\tempRequest")]
+        public string tempRequestDirectory {
+            get {
+                return ((string)(this["tempRequestDirectory"]));
+            }
+            set {
+                this["tempRequestDirectory"] = value;
+            }
+        }
     }
 }

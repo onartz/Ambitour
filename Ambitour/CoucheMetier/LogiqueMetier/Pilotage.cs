@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Data.SqlClient;
 using Ambitour.CoucheMetier.LogiqueMetier;
+using Ambitour.CoucheMetier;
 
 namespace Ambitour
 {
@@ -16,12 +17,24 @@ namespace Ambitour
     /// </summary>
     public class Pilotage
     {
-
         [STAThread]
         static void Main()
         {
-
             Trace.TraceInformation(DateTime.Now + " : Ambiflux started.");
+            try
+            {
+                if (!(Directory.Exists(GlobalSettings.Default.tempRequestDirectory)))
+                    Directory.CreateDirectory(GlobalSettings.Default.tempRequestDirectory);
+                if (!(Directory.Exists(GlobalSettings.Default.incomingRequestDirectory)))
+                    Directory.CreateDirectory(GlobalSettings.Default.incomingRequestDirectory);
+                if (!(Directory.Exists(GlobalSettings.Default.outgoingRequestDirectory)))
+                    Directory.CreateDirectory(GlobalSettings.Default.outgoingRequestDirectory);
+            }
+            catch (IOException ex)
+            {
+                Trace.TraceInformation(DateTime.Now + " : " + ex.Message);
+                throw ex;
+            }
             INSTANCE.Start();
         }
 
@@ -618,7 +631,10 @@ namespace Ambitour
                     break;
                 default:
                     r = MessageBox.Show("La carte est muette", "Exception");
-                    return;
+                    lutilisateur = new Utilisateur("test","test","test","Etudiant");;
+                    INSTANCE.mode = "CFAO";
+                    break;
+                    //return;
             }
             Trace.TraceInformation(DateTime.Now + " : Récupération des dossiers");   
             List<DossierDeFabrication> lListeDossiers = Pilotage.INSTANCE.FileAttenteCFAO.GetDossiersByUser(lutilisateur);

@@ -6,6 +6,7 @@ using System.Xml;
 
 namespace Ambitour.CoucheMetier.ObjetsMetier
 {
+    [Serializable]
     public class Handle
     {
         private string sender;
