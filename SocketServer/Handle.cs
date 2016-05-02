@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace Ambitour.CoucheMetier.ObjetsMetier
+namespace SocketServer
 {
-    [Serializable]
     public class Handle : Content
     {
         private string sender;

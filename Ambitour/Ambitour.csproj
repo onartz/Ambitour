@@ -86,16 +86,18 @@
     <Compile Include="ClassesUtilitaires\Fichiers.cs" />
     <Compile Include="CoucheMetier\GlobalSettings.cs" />
     <Compile Include="CoucheMetier\LogiqueMetier\Pilotage.cs" />
+    <Compile Include="CoucheMetier\LogiqueMetier\ProxySocket.cs" />
     <Compile Include="CoucheMetier\LogiqueMetier\RequestBrokerAg.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\ACLMessage.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\Carte.cs" />
     <Compile Include="CoucheMetier\AccesDonnees\BD.cs" />
     <Compile Include="ClassesUtilitaires\Log.cs" />
+    <Compile Include="CoucheMetier\ObjetsMetier\Content.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\ContentManager.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\CustomEventArgs.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\EmplacementDossier.cs" />
-    <Compile Include="CoucheMetier\LogiqueMetier\OFAgent.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\Handle.cs" />
+    <Compile Include="CoucheMetier\ObjetsMetier\Inventory.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\OF.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\Response.cs" />
     <Compile Include="CoucheMetier\ServicesExternes\ServiceUHP.cs" />
@@ -115,6 +117,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSetAmbitour.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\frmOF.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\frmOF.designer.cs">
+      <DependentUpon>frmOF.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\frmAboutBox.cs">
       <SubType>Form</SubType>
@@ -223,8 +231,10 @@
     <None Include="DataClasses.dbml.layout">
       <DependentUpon>DataClasses.dbml</DependentUpon>
     </None>
-    <EmbeddedResource Include="GUI\frmAboutBox1.resx">
-      <SubType>Designer</SubType>
+    <EmbeddedResource Include="GUI\frmOF.resx">
+      <DependentUpon>frmOF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\frmAboutBox.resx">
       <DependentUpon>frmAboutBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frm3D.resx">

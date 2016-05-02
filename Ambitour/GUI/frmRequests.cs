@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Xml.Serialization;
+using System.Xml;
 
 
 namespace Ambitour.GUI
@@ -68,7 +69,7 @@ namespace Ambitour.GUI
         /// <param name="e"></param>
         private void frmRequests_Load(object sender, EventArgs e)
         {
-            test();
+           // test();
             // A simple blocking producer with no cancellation.
             Task.Factory.StartNew(() =>
             {
@@ -118,6 +119,20 @@ namespace Ambitour.GUI
             {
                 this.groupBox1.Visible = true;
                 richTextBox1.Text = currentMessage.Sender;
+                StringBuilder sb = new StringBuilder();
+                
+                Content content = currentMessage.Content;
+                if (content.GetType() == typeof(Handle))
+                {
+                    Handle h = (Handle)content;
+                    sb.Append(Environment.NewLine + "Contenu à transférer");
+                    sb.Append(Environment.NewLine + "Product : " + h.ProductId);
+                    sb.Append(Environment.NewLine + "Quantity : " + h.Quantity);
+                    sb.Append(Environment.NewLine + "Lot : " + h.ProductLotId);
+                    sb.Append(Environment.NewLine + "Prendre de : " + h.Sender);
+                    sb.Append(Environment.NewLine + "Ranger dans : " + h.Receiver);
+                }
+                richTextBox1.Text = sb.ToString();
             }
             else
                 this.groupBox1.Visible = false;
@@ -140,26 +155,46 @@ namespace Ambitour.GUI
         /// <param name="e"></param>
         private void btnOK_Click(object sender, EventArgs e)
         {
-              if (currentMessage != null)
+            if (currentMessage != null)
             {
-                ACLMessage reply = currentMessage.CreateReply();
-                TextWriter tw = new StreamWriter(GlobalSettings.Default.tempRequestDirectory + "\\" + Guid.NewGuid() + ".xml");
-                SerializerObj.Serialize(tw, reply);
-                tw.Close();
+                //ACLMessage reply = currentMessage.CreateReply();
+                //TextWriter tw = new StreamWriter(GlobalSettings.Default.tempRequestDirectory + "\\" + Guid.NewGuid() + ".xml");
+                //SerializerObj.Serialize(tw, reply);
+                //tw.Close();
+                  String dest = currentMessage.Sender;
+                //string dest = s + "@" + GlobalSettings.Default.jadeServerAddress + ":1099/JADE";
+               // string request = String.Format("(REQUEST\r\n :receiver  (set ( agent-identifier :name {0} ) )\r\n :content  \"((action (agent-identifier :name {0}) (UpdateQuantity\r\n :command Remove :qty {1})))\"\r\n  :language  fipa-sl  :ontology  ambiflux-logistic )", dest, numericUpDown1.Value.ToString());
+                //String result = ProxySocket.SocketSendReceive(
+                StringBuilder sb = new StringBuilder();
+                sb.Append("(INFORM");
+                sb.AppendLine(" :receiver  (set ( agent-identifier :name ");
+                sb.Append(currentMessage.Receiver);
+                sb.Append("  :addresses (sequence http://10.10.68.92:7778/acc )) )");
+                sb.AppendLine(" :content  \"((done (action (agent-identifier :name ");
+                sb.Append(currentMessage.Sender);
+                sb.Append(") (Handle :content (ProductLot :confirmed false :delivered true :lotId \\\"");
+                sb.Append(((Handle)currentMessage.Content).ProductLotId);
+                sb.Append("\\\" :productId ");
+                sb.Append(((Handle)currentMessage.Content).ProductId);
+                sb.Append(":quantity ");
+                sb.Append(((Handle)currentMessage.Content).Quantity);
+                sb.AppendFormat(") :recipient (Participant :adress (agent-identifier :name {0}", ((Handle)currentMessage.Content).Receiver);
+                sb.AppendFormat(") :location (Location :id {0} :name ", 23, "TBI-540");
+                sb.AppendFormat(")) :sender (Participant :adress (agent-identifier :name {0}) :location (Location :id 23 :name TBI-540))))))\" ", ((Handle)currentMessage.Content).Sender);
+                sb.AppendFormat(" :language  fipa-sl  :ontology  ambiflux-logistic  :conversation-id  {0}", currentMessage.ConversationId);
+                sb.Append(" )");
+
+                richTextBox1.Text = sb.ToString();
+
+
+
+               // string request = "DONE \r\n";
+                  String result = ProxySocket.SocketSendReceive("10.10.68.92", 6789, sb.ToString());
+
             }
             displayNext();
         }
 
-        private void test()
-        {
-            ACLMessage msg = new ACLMessage();
-            msg.Sender = "PATROLBOT";
-            msg.Receiver = "TBI540";
-            ACLMessage response = msg.CreateReply();
-            TextWriter tw = new StreamWriter(GlobalSettings.Default.tempRequestDirectory + @"\" +Guid.NewGuid() + ".xml");
-            SerializerObj.Serialize(tw, response);
-            tw.Close();
-
-        }
+       
     } 
 }

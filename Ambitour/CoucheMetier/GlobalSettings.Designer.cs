@@ -175,5 +175,65 @@ namespace Ambitour.CoucheMetier {
                 this["tempRequestDirectory"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\incomingOF")]
+        public string incomingOFDirectory {
+            get {
+                return ((string)(this["incomingOFDirectory"]));
+            }
+            set {
+                this["incomingOFDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\incomingOF\\archives")]
+        public string archivesOFDirectory {
+            get {
+                return ((string)(this["archivesOFDirectory"]));
+            }
+            set {
+                this["archivesOFDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\incomingOF\\temp")]
+        public string tempOFDirectory {
+            get {
+                return ((string)(this["tempOFDirectory"]));
+            }
+            set {
+                this["tempOFDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\outgoingOF")]
+        public string outgoingOFDirectory {
+            get {
+                return ((string)(this["outgoingOFDirectory"]));
+            }
+            set {
+                this["outgoingOFDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100.65.63.55")]
+        public string jadeServerAddress {
+            get {
+                return ((string)(this["jadeServerAddress"]));
+            }
+            set {
+                this["jadeServerAddress"] = value;
+            }
+        }
     }
 }

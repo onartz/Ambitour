@@ -41,5 +41,20 @@
     <Setting Name="tempRequestDirectory" Type="System.String" Scope="User">
       <Value Profile="(Default)">c:\ambitour\tempRequest</Value>
     </Setting>
+    <Setting Name="incomingOFDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\ambitour\incomingOF</Value>
+    </Setting>
+    <Setting Name="archivesOFDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\ambitour\incomingOF\archives</Value>
+    </Setting>
+    <Setting Name="tempOFDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\ambitour\incomingOF\temp</Value>
+    </Setting>
+    <Setting Name="outgoingOFDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\ambitour\outgoingOF</Value>
+    </Setting>
+    <Setting Name="jadeServerAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">100.65.63.55</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

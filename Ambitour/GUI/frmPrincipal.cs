@@ -85,12 +85,12 @@ namespace Ambitour
 
             monitoringToolStripMenuItem.Visible = (SessionInfos.Utilisateur.Role == "Personnel");
 
-            frmOFs frmOfs = new frmOFs();
-            frmOfs.MdiParent = this;
-            frmOfs.BackColor = GUI.GraphicSettings.Default.BgColor;
-            frmOfs.FormBorderStyle = GUI.GraphicSettings.Default.FormBorderStyle;
-            frmOfs.Size = GUI.GraphicSettings.Default.LeftPanelSize;
-            frmOfs.Location = GUI.GraphicSettings.Default.LeftPanelPoint;
+            frmOF frmOf = new frmOF();
+            frmOf.MdiParent = this;
+            frmOf.BackColor = GUI.GraphicSettings.Default.BgColor;
+            frmOf.FormBorderStyle = GUI.GraphicSettings.Default.FormBorderStyle;
+            frmOf.Size = GUI.GraphicSettings.Default.LeftPanelSize;
+            frmOf.Location = GUI.GraphicSettings.Default.LeftPanelPoint;
 
             frmRequests frmRequests = new frmRequests();
             frmRequests.MdiParent = this;
@@ -240,7 +240,7 @@ namespace Ambitour
         {
             foreach (Form f in this.MdiChildren)
             {
-                if (f.Name == "frmOFs")
+                if (f.GetType() == typeof(frmOF))
                 {
                     f.Show();
                     f.BringToFront();

@@ -1,60 +1,162 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace Ambitour.CoucheMetier.ObjetsMetier
 {
-    class OF
+    [Serializable]
+    public class OF
     {
-        public enum status_type{New, Started, Closed, Cancel};
+        Guid id;
+        int qty;
+        DateTime dateDue;
+        int scrappedQty;
+        string scrapReason;
+        int realizedQty;
 
-        private int productId;
-
+        public Guid Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
         public int ProductId
         {
             get { return productId; }
             set { productId = value; }
         }
-
-        private int quantity;
-
-        public int Quantity
+        public int Qty
         {
-            get { return quantity; }
-            set { quantity = value; }
+            get { return qty; }
+            set { qty = value; }
         }
 
-        private int resourceId;
-
-        public int ResourceId
+        public DateTime DateDue
         {
-            get { return resourceId; }
-            set { resourceId = value; }
+            get { return dateDue; }
+            set { dateDue = value; }
         }
-        private string id;
+        DateTime dateStarted;
 
-        public string Id
+        public DateTime DateStarted
         {
-            get { return id; }
-            set { id = value; }
+            get { return dateStarted; }
+            set { dateStarted = value; }
         }
+        DateTime dateEnded;
 
-        private status_type status;
-
-        public status_type Status
+        public DateTime DateEnded
         {
-            get { return status; }
-            set { status = value; }
+            get { return dateEnded; }
+            set { dateEnded = value; }
         }
+        int productId;
 
-      
-        public OF(string id, int productId, int quantity, int resourceId)
+        public int RealizedQty
         {
-            this.productId = productId;
-            this.id = id;
-            this.quantity = quantity;
-            this.resourceId = resourceId;
+            get { return realizedQty; }
+            set { realizedQty = value; }
         }
 
+        public int ScrappedQty
+        {
+            get { return scrappedQty; }
+            set { scrappedQty = value; }
+        }
+
+        public string ScrapReason
+        {
+            get { return scrapReason; }
+            set { scrapReason = value; }
+        }
+
+
+
+        public void Start()
+        {
+            dateStarted = System.DateTime.Now;
+        }
+
+        public void Stop()
+        {
+            dateEnded = System.DateTime.Now;
+        }
+
+        public bool isStarted()
+        {
+            return dateStarted != null;
+        }
+
+        public bool isEnded()
+        {
+            return dateEnded != null;
+        }
+
+        public OF()
+        {
+            id = Guid.NewGuid();
+            productId = -1;
+            qty = 0;
+            scrappedQty = 0;
+            scrapReason = "";
+        }
+
+        public static OF Generate()
+        {
+            OF of = new OF();
+            of.productId = 1;
+            of.qty = 5;
+            return of;
+        }
+
+        public static void Save(OF of, string path)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(OF));
+
+            TextWriter tw = new StreamWriter(Path.Combine(path, of.Id.ToString()));
+            serializer.Serialize(tw, of);
+            tw.Close();
+        }
+
+        public static OF Load(string path)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(OF));
+            TextReader tr = new StreamReader(path);
+            OF of = (OF)serializer.Deserialize(tr);
+            tr.Close();
+            return of;
+        }
+
+        public static List<OF> GetFromDir(string path)
+        {
+            List<OF> ofs = new List<OF>();
+            string[] filePaths = Directory.GetFiles(path);
+            foreach (string s in filePaths)
+            {
+                try
+                {
+                    OF of = Load(s);
+                    ofs.Add(of);
+                    FileInfo fi = new FileInfo(s);
+                    string fileName = fi.Name;
+                    string directory = fi.DirectoryName;
+                    string newFilePath = Path.Combine(directory, @"Archives", fileName);
+                    if (File.Exists(newFilePath))
+                    {
+                        File.Delete(newFilePath);
+                    }
+
+                    File.Move(s, newFilePath);
+                }
+                catch (IOException ex)
+                {
+                    throw ex;
+                }
+
+            }
+            return ofs;
+        }
     }
 }
