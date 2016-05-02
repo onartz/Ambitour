@@ -16,13 +16,20 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Xml;
 
-
 namespace Ambitour.GUI
 {
     public partial class frmRequests : Form
     {
         //A concurrent FIFO Queue to store incoming requests
-        ConcurrentQueue<ACLMessage> queue = new ConcurrentQueue<ACLMessage>();
+        //ConcurrentQueue<ACLMessage> queue = new ConcurrentQueue<ACLMessage>();
+        IncomingMessageHandler imHandler;
+      
+
+        //public ConcurrentQueue<ACLMessage> Queue
+        //{
+        //    get { return queue; }
+        //    set { queue = value; }
+        //}
         //A timer to pool new incoming files (requests)
         protected System.Windows.Forms.Timer timer;
         //The current message to be processed
@@ -47,8 +54,15 @@ namespace Ambitour.GUI
             currentMessage = null;
             groupBox1.Visible = false;
             inputFiles = new string[] { };
-           
-
+        }
+        /// <summary>
+        /// Another Constructor with message handler
+        /// </summary>
+        /// <param name="imHandler"></param>
+        public frmRequests(ref IncomingMessageHandler imHandler) : this()
+        {
+            this.imHandler = imHandler;
+            
         }
 
         /// <summary>
@@ -58,7 +72,7 @@ namespace Ambitour.GUI
         /// <param name="e"></param>
         void timer_Tick(object sender, EventArgs e)
         {
-            if (currentMessage == null && !queue.IsEmpty)
+            if (currentMessage == null && !imHandler.Queue.IsEmpty)
                 displayNext();
         }
 
@@ -71,54 +85,56 @@ namespace Ambitour.GUI
         {
            // test();
             // A simple blocking producer with no cancellation.
-            Task.Factory.StartNew(() =>
-            {
-                while (!stop)
-                {
-                    getFiles();
-                    Thread.Sleep(2000);
-                }
-            });
+            //Task.Factory.StartNew(() =>
+            //{
+            //    while (!stop)
+            //    {
+            //        getFiles();
+            //        Thread.Sleep(2000);
+            //    }
+            //});
         }
 
         /// <summary>
         /// Enqueue new incoming ACLMessages from files
         /// </summary>
-        private void getFiles()
-        {
-            IEnumerable<string> newFiles = Directory.GetFiles(GlobalSettings.Default.incomingRequestDirectory).Except(inputFiles);
-            foreach (string s in newFiles)
-            {
-                try
-                {
-                    TextReader tr = new StreamReader(s);
-                    ACLMessage msg = (ACLMessage)SerializerObj.Deserialize(tr);
-                    tr.Close();
+        //private void getFiles()
+        //{
+        //    IEnumerable<string> newFiles = Directory.GetFiles(GlobalSettings.Default.incomingRequestDirectory).Except(inputFiles);
+        //    foreach (string s in newFiles)
+        //    {
+        //        try
+        //        {
+        //            TextReader tr = new StreamReader(s);
+        //            ACLMessage msg = (ACLMessage)SerializerObj.Deserialize(tr);
+        //            tr.Close();
 
-                    queue.Enqueue(msg);
+        //            queue.Enqueue(msg);
 
-                    string fileName = Guid.NewGuid().ToString() + ".xml";
-                    if (File.Exists(GlobalSettings.Default.tempRequestDirectory + @"\" + fileName))
-                        File.Delete(GlobalSettings.Default.tempRequestDirectory + @"\" + fileName);
-                    File.Move(s, GlobalSettings.Default.tempRequestDirectory + @"\" + fileName);
-                }
-                catch (InvalidCastException ex)
-                {
-                    throw ex;
-                }
-            }
-            inputFiles = Directory.GetFiles(GlobalSettings.Default.incomingRequestDirectory);
-        }
+        //            string fileName = Guid.NewGuid().ToString() + ".xml";
+        //            if (File.Exists(GlobalSettings.Default.tempRequestDirectory + @"\" + fileName))
+        //                File.Delete(GlobalSettings.Default.tempRequestDirectory + @"\" + fileName);
+        //            File.Move(s, GlobalSettings.Default.tempRequestDirectory + @"\" + fileName);
+        //        }
+        //        catch (InvalidCastException ex)
+        //        {
+        //            throw ex;
+        //        }
+        //    }
+        //    inputFiles = Directory.GetFiles(GlobalSettings.Default.incomingRequestDirectory);
+        //}
 
         /// <summary>
         /// Display next message to be processed by user
         /// </summary>
         private void displayNext()
         {
-            if (queue.TryDequeue(out currentMessage))
+            currentMessage = null;
+            if (imHandler.Queue.TryDequeue(out currentMessage))
             {
+            
                 this.groupBox1.Visible = true;
-                richTextBox1.Text = currentMessage.Sender;
+               // richTextBox1.Text = currentMessage.Sender;
                 StringBuilder sb = new StringBuilder();
                 
                 Content content = currentMessage.Content;
@@ -136,6 +152,45 @@ namespace Ambitour.GUI
             }
             else
                 this.groupBox1.Visible = false;
+        }
+
+
+
+        /// <summary>
+        /// Fill the Form with a message
+        /// </summary>
+        /// <param name="msg"></param>
+        public void Initialize(IncomingMessageHandler imHandler)
+        {
+            this.imHandler = imHandler;
+            //this.queue = queue;
+
+            if (!imHandler.Queue.IsEmpty)
+            {
+                if(currentMessage == null)
+                    displayNext();
+            }
+        }
+
+        /// <summary>
+        /// Fill the Form with a message
+        /// </summary>
+        /// <param name="msg"></param>
+        public void Fill(ACLMessage msg)
+        {
+            StringBuilder sb = new StringBuilder();
+            Content content = msg.Content;
+            if (content.GetType() == typeof(Handle))
+            {
+                Handle h = (Handle)content;
+                sb.Append(Environment.NewLine + "Contenu à transférer");
+                sb.Append(Environment.NewLine + "Product : " + h.ProductId);
+                sb.Append(Environment.NewLine + "Quantity : " + h.Quantity);
+                sb.Append(Environment.NewLine + "Lot : " + h.ProductLotId);
+                sb.Append(Environment.NewLine + "Prendre de : " + h.Sender);
+                sb.Append(Environment.NewLine + "Ranger dans : " + h.Receiver);
+            }
+            richTextBox1.Text = sb.ToString();
         }
 
 
@@ -161,9 +216,9 @@ namespace Ambitour.GUI
                 //TextWriter tw = new StreamWriter(GlobalSettings.Default.tempRequestDirectory + "\\" + Guid.NewGuid() + ".xml");
                 //SerializerObj.Serialize(tw, reply);
                 //tw.Close();
-                  String dest = currentMessage.Sender;
+                String dest = currentMessage.Sender;
                 //string dest = s + "@" + GlobalSettings.Default.jadeServerAddress + ":1099/JADE";
-               // string request = String.Format("(REQUEST\r\n :receiver  (set ( agent-identifier :name {0} ) )\r\n :content  \"((action (agent-identifier :name {0}) (UpdateQuantity\r\n :command Remove :qty {1})))\"\r\n  :language  fipa-sl  :ontology  ambiflux-logistic )", dest, numericUpDown1.Value.ToString());
+                // string request = String.Format("(REQUEST\r\n :receiver  (set ( agent-identifier :name {0} ) )\r\n :content  \"((action (agent-identifier :name {0}) (UpdateQuantity\r\n :command Remove :qty {1})))\"\r\n  :language  fipa-sl  :ontology  ambiflux-logistic )", dest, numericUpDown1.Value.ToString());
                 //String result = ProxySocket.SocketSendReceive(
                 StringBuilder sb = new StringBuilder();
                 sb.Append("(INFORM");
@@ -184,15 +239,17 @@ namespace Ambitour.GUI
                 sb.AppendFormat(" :language  fipa-sl  :ontology  ambiflux-logistic  :conversation-id  {0}", currentMessage.ConversationId);
                 sb.Append(" )");
 
-                richTextBox1.Text = sb.ToString();
+                // richTextBox1.Text = sb.ToString();
 
 
 
-               // string request = "DONE \r\n";
-                  String result = ProxySocket.SocketSendReceive("10.10.68.92", 6789, sb.ToString());
+                // string request = "DONE \r\n";
+                String result = ProxySocket.SocketSendReceive("10.10.68.92", 6789, sb.ToString());
+
 
             }
             displayNext();
+
         }
 
        

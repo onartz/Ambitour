@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="ClassesUtilitaires\Fichiers.cs" />
     <Compile Include="CoucheMetier\GlobalSettings.cs" />
+    <Compile Include="CoucheMetier\LogiqueMetier\IncomingMessageHandler.cs" />
     <Compile Include="CoucheMetier\LogiqueMetier\Pilotage.cs" />
     <Compile Include="CoucheMetier\LogiqueMetier\ProxySocket.cs" />
     <Compile Include="CoucheMetier\LogiqueMetier\RequestBrokerAg.cs" />

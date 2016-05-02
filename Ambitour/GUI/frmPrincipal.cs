@@ -9,11 +9,19 @@ using System.Collections;
 using System.Threading;
 using System.IO;
 using Ambitour.GUI;
+using Ambitour.CoucheMetier;
+using Ambitour.CoucheMetier.ObjetsMetier;
+using Ambitour.CoucheMetier.LogiqueMetier;
+using System.Collections.Concurrent;
 
 namespace Ambitour
 {
     public partial class frmPrincipal : Form
-    {       
+    {
+
+        IncomingMessageHandler imHandler;
+        //A concurrent FIFO Queue to store incoming requests
+        ConcurrentQueue<ACLMessage> queue;
          /// <summary>
          /// Constructeur
          /// </summary>
@@ -29,6 +37,7 @@ namespace Ambitour
         /// <param name="e"></param>
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
+
             ////Création du form Utilisateur (Haut)
             frmUtilisateur frmUtilisateur = new frmUtilisateur();
             frmUtilisateur.MdiParent = this;
@@ -92,13 +101,28 @@ namespace Ambitour
             frmOf.Size = GUI.GraphicSettings.Default.LeftPanelSize;
             frmOf.Location = GUI.GraphicSettings.Default.LeftPanelPoint;
 
-            frmRequests frmRequests = new frmRequests();
+           
+
+            queue = new ConcurrentQueue<ACLMessage>();
+            imHandler = new IncomingMessageHandler(GlobalSettings.Default.incomingRequestDirectory);
+            imHandler.NewMessageReceived += new NewMessageEventHandler(IncomingMessageHandler_NewMessageReceived);
+
+            frmRequests frmRequests = new frmRequests(ref imHandler);
             frmRequests.MdiParent = this;
             frmRequests.BackColor = GUI.GraphicSettings.Default.BgColor;
             frmRequests.FormBorderStyle = GUI.GraphicSettings.Default.FormBorderStyle;
             frmRequests.Size = GUI.GraphicSettings.Default.LeftPanelSize;
             frmRequests.Location = GUI.GraphicSettings.Default.LeftPanelPoint;
 
+            notifyIcon1.Icon = SystemIcons.Application;
+
+
+        }
+
+        void IncomingMessageHandler_NewMessageReceived(object sender, ACLMessageEventArgs e)
+        {
+            ACLMessage msg = (ACLMessage)e.Content;
+            notifyIcon1.ShowBalloonTip(5000, msg.ConversationId, msg.Content.GetType().Name,ToolTipIcon.Info);
         }
 
         /// <summary>
@@ -255,6 +279,38 @@ namespace Ambitour
             {
                 if (f.Name == "frmRequests")
                 {
+                    f.Show();
+                    f.BringToFront();
+                    break;
+                }
+            }
+        }
+
+        private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+        {
+            foreach (Form f in this.MdiChildren)
+            {
+                if (f.GetType() == typeof(frmRequests))
+                {
+                    if (this.ActiveMdiChild != f)
+                    {
+                        // ((frmRequests)f).Initialize();
+                        f.Show();
+                        f.BringToFront();
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
+        {
+            foreach (Form f in this.MdiChildren)
+            {
+                if (f.GetType() == typeof(frmRequests))
+                {
+                    if(this.ActiveMdiChild != f)
+                    // ((frmRequests)f).Initialize();
                     f.Show();
                     f.BringToFront();
                     break;

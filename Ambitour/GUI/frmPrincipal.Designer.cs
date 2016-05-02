@@ -34,8 +34,9 @@
             this.documentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sécuritéToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exécecutionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.monitoringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OFsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.requêtesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.monitoringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sommaireToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.indexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,8 +44,8 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.àproposdeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.requêtesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -100,19 +101,26 @@
             this.exécecutionToolStripMenuItem.Text = "Exécution";
             this.exécecutionToolStripMenuItem.Click += new System.EventHandler(this.exécecutionToolStripMenuItem_Click);
             // 
-            // monitoringToolStripMenuItem
-            // 
-            this.monitoringToolStripMenuItem.Name = "monitoringToolStripMenuItem";
-            this.monitoringToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
-            this.monitoringToolStripMenuItem.Text = "Monitoring";
-            this.monitoringToolStripMenuItem.Click += new System.EventHandler(this.monitoringToolStripMenuItem_Click);
-            // 
             // OFsToolStripMenuItem
             // 
             this.OFsToolStripMenuItem.Name = "OFsToolStripMenuItem";
             this.OFsToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.OFsToolStripMenuItem.Text = "OFs";
             this.OFsToolStripMenuItem.Click += new System.EventHandler(this.OFsToolStripMenuItem_Click);
+            // 
+            // requêtesToolStripMenuItem
+            // 
+            this.requêtesToolStripMenuItem.Name = "requêtesToolStripMenuItem";
+            this.requêtesToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
+            this.requêtesToolStripMenuItem.Text = "Requêtes";
+            this.requêtesToolStripMenuItem.Click += new System.EventHandler(this.requêtesToolStripMenuItem_Click);
+            // 
+            // monitoringToolStripMenuItem
+            // 
+            this.monitoringToolStripMenuItem.Name = "monitoringToolStripMenuItem";
+            this.monitoringToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.monitoringToolStripMenuItem.Text = "Monitoring";
+            this.monitoringToolStripMenuItem.Click += new System.EventHandler(this.monitoringToolStripMenuItem_Click);
             // 
             // aideToolStripMenuItem
             // 
@@ -164,12 +172,15 @@
             this.quitterToolStripMenuItem.Text = "Quitter";
             this.quitterToolStripMenuItem.Click += new System.EventHandler(this.quitterToolStripMenuItem_Click);
             // 
-            // requêtesToolStripMenuItem
+            // notifyIcon1
             // 
-            this.requêtesToolStripMenuItem.Name = "requêtesToolStripMenuItem";
-            this.requêtesToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
-            this.requêtesToolStripMenuItem.Text = "Requêtes";
-            this.requêtesToolStripMenuItem.Click += new System.EventHandler(this.requêtesToolStripMenuItem_Click);
+            this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon1.BalloonTipText = "BalloonTipText";
+            this.notifyIcon1.BalloonTipTitle = "BalloonTypeTitle";
+            this.notifyIcon1.Text = "Text";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.BalloonTipClicked += new System.EventHandler(this.notifyIcon1_BalloonTipClicked);
+            this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
             // 
             // frmPrincipal
             // 
@@ -213,6 +224,7 @@
         private System.Windows.Forms.ToolStripMenuItem monitoringToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OFsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem requêtesToolStripMenuItem;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
     }
 }
 
