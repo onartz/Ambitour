@@ -15,14 +15,14 @@ using System.Xml;
 namespace Ambitour.CoucheMetier.LogiqueMetier
 {
 
-    public delegate void NewMessageEventHandler(object sender, ACLMessageEventArgs e);
+    public delegate void NewMessageEventHandler(object sender, ObjectEventArgs e);
 
     public class IncomingMessageHandler
     {
         //A concurrent FIFO Queue to store incoming requests
-        ConcurrentQueue<ACLMessage> queue;
+        ConcurrentQueue<Object> queue;
 
-        public ConcurrentQueue<ACLMessage> Queue
+        public ConcurrentQueue<Object> Queue
         {
             get { return queue; }
             set { queue = value; }
@@ -39,19 +39,13 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
 
         public event NewMessageEventHandler NewMessageReceived;
 
-        protected virtual void OnChanged(ACLMessageEventArgs e)
+        protected virtual void OnChanged(ObjectEventArgs e)
         {
             if (NewMessageReceived != null)
                 NewMessageReceived(this, e);
         }
 
        
-
-        //public ACLMessage CurrentMessage
-        //{
-        //    get { return currentMessage; }
-        //    set { currentMessage = value; }
-        //}
         string incomingDirectory;
         string tempDirectory;
 
@@ -62,7 +56,7 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
             inputFiles = new string[] { };
 
             SerializerObj = new XmlSerializer(typeof(ACLMessage));
-            queue = new ConcurrentQueue<ACLMessage>();
+            queue = new ConcurrentQueue<Object>();
            
             // A simple blocking producer with no cancellation.
             Task.Factory.StartNew(() =>
@@ -75,17 +69,7 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
             });
         }
 
-        ///// <summary>
-        ///// Every x sec, we are looking for new messages to be displayed
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //void timer_Tick(object sender, EventArgs e)
-        //{
-        //    if (currentMessage == null && !queue.IsEmpty)
-        //        displayNext();
-        //}
-
+      
         /// <summary>
         /// Enqueue new incoming ACLMessages from files
         /// </summary>
@@ -97,11 +81,13 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
                 try
                 {
                     TextReader tr = new StreamReader(s);
-                    ACLMessage msg = (ACLMessage)SerializerObj.Deserialize(tr);
+                    
+                    object msg = SerializerObj.Deserialize(tr);
+  
                     tr.Close();
 
                     queue.Enqueue(msg);
-                    NewMessageReceived(this, new ACLMessageEventArgs(msg));
+                    NewMessageReceived(this, new ObjectEventArgs(msg));
 
                     string fileName = Guid.NewGuid().ToString() + ".xml";
                     if (File.Exists(tempDirectory + @"\" + fileName))

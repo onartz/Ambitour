@@ -19,9 +19,9 @@ namespace Ambitour
     public partial class frmPrincipal : Form
     {
 
-        IncomingMessageHandler imHandler;
+        IncomingMessageHandler imRequestHandler;
         //A concurrent FIFO Queue to store incoming requests
-        ConcurrentQueue<ACLMessage> queue;
+        //ConcurrentQueue<ACLMessage> queue;
          /// <summary>
          /// Constructeur
          /// </summary>
@@ -101,13 +101,14 @@ namespace Ambitour
             frmOf.Size = GUI.GraphicSettings.Default.LeftPanelSize;
             frmOf.Location = GUI.GraphicSettings.Default.LeftPanelPoint;
 
-           
+ 
+            //queue = new ConcurrentQueue<ACLMessage>();
+            imRequestHandler = new IncomingMessageHandler(GlobalSettings.Default.incomingRequestDirectory);
+            imRequestHandler.NewMessageReceived += new NewMessageEventHandler(imRequestHandler_NewMessageReceived);
+          
 
-            queue = new ConcurrentQueue<ACLMessage>();
-            imHandler = new IncomingMessageHandler(GlobalSettings.Default.incomingRequestDirectory);
-            imHandler.NewMessageReceived += new NewMessageEventHandler(IncomingMessageHandler_NewMessageReceived);
 
-            frmRequests frmRequests = new frmRequests(ref imHandler);
+            frmRequests frmRequests = new frmRequests(ref imRequestHandler);
             frmRequests.MdiParent = this;
             frmRequests.BackColor = GUI.GraphicSettings.Default.BgColor;
             frmRequests.FormBorderStyle = GUI.GraphicSettings.Default.FormBorderStyle;
@@ -119,11 +120,15 @@ namespace Ambitour
 
         }
 
-        void IncomingMessageHandler_NewMessageReceived(object sender, ACLMessageEventArgs e)
+        void imRequestHandler_NewMessageReceived(object sender, ObjectEventArgs e)
         {
-            ACLMessage msg = (ACLMessage)e.Content;
-            notifyIcon1.ShowBalloonTip(5000, msg.ConversationId, msg.Content.GetType().Name,ToolTipIcon.Info);
+            //blavla
+
+            ACLMessage msg = (ACLMessage)(e.Content);
+            notifyIcon1.ShowBalloonTip(5000, msg.ConversationId, msg.Content.GetType().Name, ToolTipIcon.Info);
         }
+
+      
 
         /// <summary>
         /// Clic sur préparation

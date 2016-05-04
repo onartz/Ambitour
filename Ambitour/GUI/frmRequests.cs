@@ -23,13 +23,6 @@ namespace Ambitour.GUI
         //A concurrent FIFO Queue to store incoming requests
         //ConcurrentQueue<ACLMessage> queue = new ConcurrentQueue<ACLMessage>();
         IncomingMessageHandler imHandler;
-      
-
-        //public ConcurrentQueue<ACLMessage> Queue
-        //{
-        //    get { return queue; }
-        //    set { queue = value; }
-        //}
         //A timer to pool new incoming files (requests)
         protected System.Windows.Forms.Timer timer;
         //The current message to be processed
@@ -40,6 +33,8 @@ namespace Ambitour.GUI
         string[] inputFiles;
         //Serializer to serialize/deserialize from files
         XmlSerializer SerializerObj = new XmlSerializer(typeof(ACLMessage));
+        //Jade server Address to communicate with
+        string jadeServerAddress = GlobalSettings.Default.jadeServerAddress;
             
         /// <summary>
         /// Constructor
@@ -61,8 +56,7 @@ namespace Ambitour.GUI
         /// <param name="imHandler"></param>
         public frmRequests(ref IncomingMessageHandler imHandler) : this()
         {
-            this.imHandler = imHandler;
-            
+            this.imHandler = imHandler;          
         }
 
         /// <summary>
@@ -76,53 +70,7 @@ namespace Ambitour.GUI
                 displayNext();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void frmRequests_Load(object sender, EventArgs e)
-        {
-           // test();
-            // A simple blocking producer with no cancellation.
-            //Task.Factory.StartNew(() =>
-            //{
-            //    while (!stop)
-            //    {
-            //        getFiles();
-            //        Thread.Sleep(2000);
-            //    }
-            //});
-        }
-
-        /// <summary>
-        /// Enqueue new incoming ACLMessages from files
-        /// </summary>
-        //private void getFiles()
-        //{
-        //    IEnumerable<string> newFiles = Directory.GetFiles(GlobalSettings.Default.incomingRequestDirectory).Except(inputFiles);
-        //    foreach (string s in newFiles)
-        //    {
-        //        try
-        //        {
-        //            TextReader tr = new StreamReader(s);
-        //            ACLMessage msg = (ACLMessage)SerializerObj.Deserialize(tr);
-        //            tr.Close();
-
-        //            queue.Enqueue(msg);
-
-        //            string fileName = Guid.NewGuid().ToString() + ".xml";
-        //            if (File.Exists(GlobalSettings.Default.tempRequestDirectory + @"\" + fileName))
-        //                File.Delete(GlobalSettings.Default.tempRequestDirectory + @"\" + fileName);
-        //            File.Move(s, GlobalSettings.Default.tempRequestDirectory + @"\" + fileName);
-        //        }
-        //        catch (InvalidCastException ex)
-        //        {
-        //            throw ex;
-        //        }
-        //    }
-        //    inputFiles = Directory.GetFiles(GlobalSettings.Default.incomingRequestDirectory);
-        //}
+      
 
         /// <summary>
         /// Display next message to be processed by user
@@ -130,9 +78,11 @@ namespace Ambitour.GUI
         private void displayNext()
         {
             currentMessage = null;
-            if (imHandler.Queue.TryDequeue(out currentMessage))
+            object obj = null;
+            //imHandler.Queue.TryDequeue(out obj);
+            if (imHandler.Queue.TryDequeue(out obj))
             {
-            
+                currentMessage = (ACLMessage)obj;
                 this.groupBox1.Visible = true;
                // richTextBox1.Text = currentMessage.Sender;
                 StringBuilder sb = new StringBuilder();
@@ -163,8 +113,6 @@ namespace Ambitour.GUI
         public void Initialize(IncomingMessageHandler imHandler)
         {
             this.imHandler = imHandler;
-            //this.queue = queue;
-
             if (!imHandler.Queue.IsEmpty)
             {
                 if(currentMessage == null)
@@ -212,19 +160,14 @@ namespace Ambitour.GUI
         {
             if (currentMessage != null)
             {
-                //ACLMessage reply = currentMessage.CreateReply();
-                //TextWriter tw = new StreamWriter(GlobalSettings.Default.tempRequestDirectory + "\\" + Guid.NewGuid() + ".xml");
-                //SerializerObj.Serialize(tw, reply);
-                //tw.Close();
+                
                 String dest = currentMessage.Sender;
-                //string dest = s + "@" + GlobalSettings.Default.jadeServerAddress + ":1099/JADE";
-                // string request = String.Format("(REQUEST\r\n :receiver  (set ( agent-identifier :name {0} ) )\r\n :content  \"((action (agent-identifier :name {0}) (UpdateQuantity\r\n :command Remove :qty {1})))\"\r\n  :language  fipa-sl  :ontology  ambiflux-logistic )", dest, numericUpDown1.Value.ToString());
-                //String result = ProxySocket.SocketSendReceive(
+                
                 StringBuilder sb = new StringBuilder();
                 sb.Append("(INFORM");
                 sb.AppendLine(" :receiver  (set ( agent-identifier :name ");
                 sb.Append(currentMessage.Receiver);
-                sb.Append("  :addresses (sequence http://10.10.68.92:7778/acc )) )");
+                sb.AppendFormat("  :addresses (sequence http://{0}:7778/acc )) )", jadeServerAddress);
                 sb.AppendLine(" :content  \"((done (action (agent-identifier :name ");
                 sb.Append(currentMessage.Sender);
                 sb.Append(") (Handle :content (ProductLot :confirmed false :delivered true :lotId \\\"");
@@ -234,17 +177,12 @@ namespace Ambitour.GUI
                 sb.Append(":quantity ");
                 sb.Append(((Handle)currentMessage.Content).Quantity);
                 sb.AppendFormat(") :recipient (Participant :adress (agent-identifier :name {0}", ((Handle)currentMessage.Content).Receiver);
-                sb.AppendFormat(") :location (Location :id {0} :name ", 23, "TBI-540");
+                sb.AppendFormat(") :location (Location :id {0} :name TBI-540", 23);
                 sb.AppendFormat(")) :sender (Participant :adress (agent-identifier :name {0}) :location (Location :id 23 :name TBI-540))))))\" ", ((Handle)currentMessage.Content).Sender);
                 sb.AppendFormat(" :language  fipa-sl  :ontology  ambiflux-logistic  :conversation-id  {0}", currentMessage.ConversationId);
                 sb.Append(" )");
 
-                // richTextBox1.Text = sb.ToString();
-
-
-
-                // string request = "DONE \r\n";
-                String result = ProxySocket.SocketSendReceive("10.10.68.92", 6789, sb.ToString());
+                String result = ProxySocket.SocketSend(jadeServerAddress, 6789, sb.ToString());
 
 
             }

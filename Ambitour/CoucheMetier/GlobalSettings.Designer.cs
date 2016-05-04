@@ -226,7 +226,7 @@ namespace Ambitour.CoucheMetier {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100.65.63.55")]
+        [global::System.Configuration.DefaultSettingValueAttribute("10.10.68.92")]
         public string jadeServerAddress {
             get {
                 return ((string)(this["jadeServerAddress"]));

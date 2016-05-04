@@ -66,7 +66,7 @@ namespace SocketServer
                     allDone.Reset();
 
                     // Start an asynchronous socket to listen for connections.
-                    Console.WriteLine("Waiting for a connection...");
+                    Console.WriteLine(String.Format("{0} is waiting for a connection on port {1}", ipAddress.ToString(), port));
                     listener.BeginAccept(
                         new AsyncCallback(AcceptCallback),
                         listener);
@@ -125,19 +125,21 @@ namespace SocketServer
                 // Check for end-of-file tag. If it is not there, read 
                 // more data.
                 content = state.sb.ToString();
-                if (content.IndexOf("\r\n\r\n") > -1)
+                
+                if (content.IndexOf("<EOF>") > -1)
                 {
+                    string strMessage = content.Replace("<EOF>", "");
                     // All the data has been read from the 
                     // client. Display it on the console.
-                    Console.WriteLine("Read {0} bytes from socket. \n Data : {1}",
-                        content.Length, content);
+                    Console.WriteLine("Read {0} bytes from socket. \n",
+                        content.Length);
                     //Deserialize message to ACLMessage : if OK, save to queue
                     try{
-                        XmlReader xmlReader = XmlReader.Create(new StringReader(content));
+                        XmlReader xmlReader = XmlReader.Create(new StringReader(strMessage));
                         ACLMessage msg = (ACLMessage)SerializerObj.Deserialize(xmlReader);
                         if (msg != null)
                         {
-                            TextWriter tw = new StreamWriter(@"C:\Ambitour\Queue\inputQueue\" + Guid.NewGuid() + ".xml");
+                            TextWriter tw = new StreamWriter(@"C:\Ambitour\incomingRequest\" + Guid.NewGuid() + ".xml");
                             SerializerObj.Serialize(tw, msg);
                             tw.Close();
                         }
@@ -184,32 +186,32 @@ namespace SocketServer
             }
         }
 
-        /*
-         * A intégrer dans Ambitour
-         */
-        private static void SendToProxy(String data, String dest)
-        {
-            string result = "";
-            try
-            {
-                Console.WriteLine(String.Format("Sending {0}", data));
-                result = SocketSendReceive("10.10.68.92", 6789, data);
-                Console.WriteLine(String.Format("Result {0}", result));
+        ///*
+        // * A intégrer dans Ambitour
+        // */
+        //private static void SendToProxy(String data, String dest)
+        //{
+        //    string result = "";
+        //    try
+        //    {
+        //        Console.WriteLine(String.Format("Sending {0}", data));
+        //        result = SocketSendReceive("10.10.68.92", 6789, data);
+        //        Console.WriteLine(String.Format("Result {0}", result));
                
-                //TODO: à modifier
-                //if (result.Contains("((done"))
-                //{
-                //    txtInventoryLevel.Text = (Int16.Parse(txtInventoryLevel.Text) - numericUpDown1.Value).ToString();
-                //    numericUpDown1.Value = 0;
-                //}
-            }
-            catch (SocketException ex)
-            {
-                //errorList.Add(ex.Message);
-                //updateLogView();
-                return;
-            }
-        }
+        //        //TODO: à modifier
+        //        //if (result.Contains("((done"))
+        //        //{
+        //        //    txtInventoryLevel.Text = (Int16.Parse(txtInventoryLevel.Text) - numericUpDown1.Value).ToString();
+        //        //    numericUpDown1.Value = 0;
+        //        //}
+        //    }
+        //    catch (SocketException ex)
+        //    {
+        //        //errorList.Add(ex.Message);
+        //        //updateLogView();
+        //        return;
+        //    }
+        //}
 
         private static Socket ConnectSocket(string server, int port)
         {
@@ -252,7 +254,7 @@ namespace SocketServer
         // This method sends a request and wait for answer from agent
         private static string SocketSendReceive(string server, int port, string request)
         {
-            Console.WriteLine(String.Format("Sending {0} to {1}:{2}",request, server, port));
+           // Console.WriteLine(String.Format("Sending {0} to {1}:{2}",request, server, port));
            // Console.WriteLine("Entering SocketSendReceive");
             //string address = "TBI540Inv1@192.168.0.21:1099/JADE";
 

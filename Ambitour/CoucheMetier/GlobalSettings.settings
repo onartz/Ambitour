@@ -54,7 +54,7 @@
       <Value Profile="(Default)">c:\ambitour\outgoingOF</Value>
     </Setting>
     <Setting Name="jadeServerAddress" Type="System.String" Scope="User">
-      <Value Profile="(Default)">100.65.63.55</Value>
+      <Value Profile="(Default)">10.10.68.92</Value>
     </Setting>
   </Settings>
 </SettingsFile>

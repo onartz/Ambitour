@@ -224,10 +224,12 @@ namespace Ambitour
             //Trace.TraceInformation(System.DateTime.Now + " : Démarrage Ambitour");
            
             //Test de la connexion à la BD
+            
 
             try
             {
                 System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(Ambitour.Properties.Settings.Default.AIPLConnectionString);
+                
                 con.Open();
             }
             catch (System.Data.SqlClient.SqlException e)

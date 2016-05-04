@@ -86,5 +86,44 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
             return res;
         }
 
+        // This method sends a message
+        public static string SocketSend(string server, int port, string request)
+        {
+
+            Byte[] bytesSent = Encoding.ASCII.GetBytes(request);
+            Byte[] bytesReceived = new Byte[256];
+
+            string res = "";
+
+            // Create a socket connection with the specified server and port.
+            try
+            {
+                Socket s = ConnectSocket(server, port);
+                if (s == null)
+                    return ("Connection failed");
+                // Send request to the server.
+                s.Send(bytesSent, bytesSent.Length, 0);
+
+                // Receive the server home page content.
+                int bytes = 0;
+
+
+                //// The following will block until te page is transmitted.
+                //do
+                //{
+                //    bytes = s.Receive(bytesReceived, bytesReceived.Length, 0);
+                //    res = res + Encoding.ASCII.GetString(bytesReceived, 0, bytes);
+                //}
+                //while (bytes == bytesReceived.Length);
+            }
+            catch (SocketException e)
+            {
+                throw e;
+            }
+
+
+            return res;
+        }
+
     }
 }

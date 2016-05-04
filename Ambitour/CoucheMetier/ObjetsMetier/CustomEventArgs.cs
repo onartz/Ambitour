@@ -37,4 +37,21 @@ namespace Ambitour.CoucheMetier.ObjetsMetier
             content = msg;
         }
     }
+
+    // Define a class to hold custom ACLMessage event
+    public class ObjectEventArgs : EventArgs
+    {
+        private object content;
+
+        public object Content
+        {
+            get { return content; }
+            set { content = value; }
+        }
+
+        public ObjectEventArgs(object msg)
+        {
+            content = msg;
+        }
+    }
 }
