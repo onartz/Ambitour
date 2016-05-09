@@ -98,8 +98,9 @@ namespace SocketServer
             // Create the state object.
             StateObject state = new StateObject();
             state.workSocket = handler;
-            handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-                new AsyncCallback(ReadCallback), state);
+            if(handler.Connected == true)
+                handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
+                    new AsyncCallback(ReadCallback), state);
         }
 
         public static void ReadCallback(IAsyncResult ar)
@@ -114,75 +115,61 @@ namespace SocketServer
             Socket handler = state.workSocket;
 
             // Read data from the client socket. 
-            int bytesRead = handler.EndReceive(ar);
-
-            if (bytesRead > 0)
+            try
             {
-                // There  might be more data, so store the data received so far.
-                state.sb.Append(Encoding.ASCII.GetString(
-                    state.buffer, 0, bytesRead));
+                int bytesRead = handler.EndReceive(ar);
 
-                // Check for end-of-file tag. If it is not there, read 
-                // more data.
-                content = state.sb.ToString();
-                
-                if (content.IndexOf("<EOF>") > -1)
+                if (bytesRead > 0)
                 {
-                    string strMessage = content.Replace("<EOF>", "");
-                    // All the data has been read from the 
-                    // client. Display it on the console.
-                    Console.WriteLine("Read {0} bytes from socket. \n",
-                        content.Length);
-                    //Deserialize message to ACLMessage : if OK, save to queue
-                    try{
-                        XmlReader xmlReader = XmlReader.Create(new StringReader(strMessage));
-                        ACLMessage msg = (ACLMessage)SerializerObj.Deserialize(xmlReader);
-                        if (msg != null)
+                    // There  might be more data, so store the data received so far.
+                    state.sb.Append(Encoding.ASCII.GetString(
+                        state.buffer, 0, bytesRead));
+
+                    // Check for end-of-file tag. If it is not there, read 
+                    // more data.
+                    content = state.sb.ToString();
+
+                    if (content.IndexOf("<EOF>") > -1)
+                    {
+                        string strMessage = content.Replace("<EOF>", "");
+                        // All the data has been read from the 
+                        // client. Display it on the console.
+                        Console.WriteLine("Read {0} bytes from socket. \n",
+                            content.Length);
+                        //Deserialize message to ACLMessage : if OK, save to queue
+                        try
                         {
-                            TextWriter tw = new StreamWriter(@"C:\Ambitour\incomingRequest\" + Guid.NewGuid() + ".xml");
-                            SerializerObj.Serialize(tw, msg);
-                            tw.Close();
+                            XmlReader xmlReader = XmlReader.Create(new StringReader(strMessage));
+                            ACLMessage msg = (ACLMessage)SerializerObj.Deserialize(xmlReader);
+                            if (msg != null)
+                            {
+                                TextWriter tw = new StreamWriter(@"C:\Ambitour\incomingRequest\" + Guid.NewGuid() + ".xml");
+                                SerializerObj.Serialize(tw, msg);
+                                tw.Close();
+                            }
+
                         }
-                        
+                        catch (XmlException ex)
+                        {
+                            throw ex;
+
+                        }
+
+                        // Echo the data back to the client.
+                        Send(handler, content);
+
                     }
-                    catch(XmlException ex){
-                        throw ex;
-                       
+                    else
+                    {
+                        // Not all data received. Get more.
+                        handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
+                        new AsyncCallback(ReadCallback), state);
                     }
-
-                    // Echo the data back to the client.
-                    Send(handler, content);
-
-                    //Send response to Proxy
-                   // String conversationId = xmldoc.DocumentElement.GetAttribute("conversation-id");
-
-                   // string dest = "b@10.10.68.92:1099/JADE";
-                   // String response = String.Format("DONE {0}", conversationId);
-                   // string request = String.Format("(INFORM\r\n :receiver  (set ( agent-identifier :name {0} ) ) :content  \"{1}\"\r\n :language  fipa-sl )", dest, response);
-                   ////string request = String.Format("(REQUEST\r\n :receiver  (set ( agent-identifier :name {0} ) )\r\n :content  \"((action (agent-identifier :name {0}) (UpdateQuantity\r\n :command Remove :qty {1})))\"\r\n  :language  fipa-sl  :ontology  ambiflux-logistic )", dest, numericUpDown1.Value.ToString());
-          
-                    
-                    //String destAID = xmldoc.DocumentElement.GetAttribute("from");
-                    //String destAddress = String.Format("{0}@", destAID);
-                    //SendToProxy(request, dest);
-
-                    /*
-                     * A réinitégrer dans Ambitour
-                     * 
-                    string dest = "invTBI540-1@" + GlobalSettings.Default.jadeServerAddress + ":1099/JADE";
-                    string request = String.Format("(REQUEST\r\n :receiver  (set ( agent-identifier :name {0} ) )\r\n :content  \"((action (agent-identifier :name {0}) (UpdateQuantity\r\n :command Remove :qty {1})))\"\r\n  :language  fipa-sl  :ontology  ambiflux-logistic )", dest, numericUpDown1.Value.ToString());
-                   
-                   
-                    SendToProxy();
-                    */
-
                 }
-                else
-                {
-                    // Not all data received. Get more.
-                    handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
-                    new AsyncCallback(ReadCallback), state);
-                }
+            }
+            catch (SocketException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 

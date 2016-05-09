@@ -60,8 +60,9 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
             try
             {
                 Socket s = ConnectSocket(server, port);
-                if (s == null)
+                if (s == null || !s.Connected)
                     return ("Connection failed");
+              
                 // Send request to the server.
                 s.Send(bytesSent, bytesSent.Length, 0);
 
@@ -79,7 +80,7 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
             }
             catch (SocketException e)
             {
-                throw e;
+                return (e.Message);
             }
 
 
@@ -99,7 +100,7 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
             try
             {
                 Socket s = ConnectSocket(server, port);
-                if (s == null)
+                if (s == null || !s.Connected)
                     return ("Connection failed");
                 // Send request to the server.
                 s.Send(bytesSent, bytesSent.Length, 0);
@@ -107,18 +108,11 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
                 // Receive the server home page content.
                 int bytes = 0;
 
-
-                //// The following will block until te page is transmitted.
-                //do
-                //{
-                //    bytes = s.Receive(bytesReceived, bytesReceived.Length, 0);
-                //    res = res + Encoding.ASCII.GetString(bytesReceived, 0, bytes);
-                //}
-                //while (bytes == bytesReceived.Length);
+    
             }
             catch (SocketException e)
             {
-                throw e;
+                return (e.Message);
             }
 
 
