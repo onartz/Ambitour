@@ -31,7 +31,7 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
                 }
                 catch (SocketException e)
                 {
-                    throw e;
+                    //throw e;
                 }
 
                 if (tempSocket.Connected)
