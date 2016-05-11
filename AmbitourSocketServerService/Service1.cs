@@ -17,6 +17,14 @@ using System.IO;
 
 namespace AmbitourSocketServerService
 {
+    /// <summary>
+    /// Windows service to hold request coming from agents.
+    /// Server is listening on wifi ip address on port 11000
+    /// This service write status in a Windows eventLog MyNewLog
+    /// 
+    /// When a new request arrives, the server responds with the same data and try to deserialize it as a ACLMessage
+    /// and store it as an xml file in the Request Queue on the disk to be processed later by Ambitour
+    /// </summary>
     public partial class Service1 : ServiceBase
     {
         public Service1()
@@ -49,8 +57,6 @@ namespace AmbitourSocketServerService
         protected override void OnStop()
         {
             eventLog1.WriteEntry("Ambitour socket server stopped");
-
-            //Server.StopListening();
         }
 
         public static string data = null;
@@ -71,11 +77,6 @@ namespace AmbitourSocketServerService
             
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
 
-            //TextWriter tw1 = new StreamWriter(@"C:\temp\log.txt");
-            //tw1.WriteLine(String.Format("Startlintening on : {0}", localEndPoint.Address.ToString()));
-            //tw1.Close();
-            
-
             // Create a TCP/IP socket.
             Socket listener = new Socket(AddressFamily.InterNetwork,
                 SocketType.Stream, ProtocolType.Tcp);
@@ -91,7 +92,6 @@ namespace AmbitourSocketServerService
                 // Start listening for connections.
                 while (true)
                 {
-                   // eventLog1.WriteEntry(String.Format("Waiting for a connection on {0}", listener.LocalEndPoint));
                     // Program is suspended while waiting for an incoming connection.
                     Socket handler = listener.Accept();
                     data = null;
@@ -107,11 +107,9 @@ namespace AmbitourSocketServerService
                             break;
                         }
                     }
-
-                    // Show the data on the console.
-                    
+                   
                     data = data.Replace("<EOF>", "");
-                    eventLog1.WriteEntry(String.Format("Text received : {0}", data));
+                   // eventLog1.WriteEntry(String.Format("Text received : {0}", data));
 
                     //Deserialize message to ACLMessage : if OK, save to queue
                     try
