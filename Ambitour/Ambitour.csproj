@@ -98,7 +98,7 @@
     <Compile Include="CoucheMetier\ObjetsMetier\CustomEventArgs.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\EmplacementDossier.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\Handle.cs" />
-    <Compile Include="CoucheMetier\ObjetsMetier\Inventory.cs" />
+    <Compile Include="CoucheMetier\ObjetsMetier\ProductInventory.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\OF.cs" />
     <Compile Include="CoucheMetier\ObjetsMetier\Response.cs" />
     <Compile Include="CoucheMetier\ServicesExternes\ServiceUHP.cs" />
@@ -162,6 +162,12 @@
       <DependentUpon>frmWorkorderDetails.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\GraphicSettings.cs" />
+    <Compile Include="GUI\UC_Inventory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\UC_Inventory.Designer.cs">
+      <DependentUpon>UC_Inventory.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Viewer3D.cs" />
     <Compile Include="GUI\frm3D.cs">
       <SubType>Form</SubType>
@@ -283,6 +289,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\frmWorkorderDetails.resx">
       <DependentUpon>frmWorkorderDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UC_Inventory.resx">
+      <DependentUpon>UC_Inventory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

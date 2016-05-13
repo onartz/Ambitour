@@ -29,6 +29,10 @@ namespace Ambitour
                     Directory.CreateDirectory(GlobalSettings.Default.incomingRequestDirectory);
                 if (!(Directory.Exists(GlobalSettings.Default.outgoingRequestDirectory)))
                     Directory.CreateDirectory(GlobalSettings.Default.outgoingRequestDirectory);
+                //suppression des fichiers résiduels dans la queue de requests au démarrage
+                IEnumerable<string> newFiles = Directory.GetFiles(GlobalSettings.Default.incomingRequestDirectory);
+                foreach (string s in newFiles)
+                    File.Delete(s);
             }
             catch (IOException ex)
             {

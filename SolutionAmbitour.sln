@@ -12,10 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmbitourSocketServerService", "AmbitourSocketServerService\AmbitourSocketServerService.csproj", "{A09ACF35-1B4A-4323-AF08-E7D06EA05C71}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AmbitourSocketServerSetup", "AmbitourSocketServerSetup\AmbitourSocketServerSetup.vdproj", "{58D290F7-58FC-4002-A714-E0B98B7E43C9}"
-EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SolutionAmbitour.vsmdi
@@ -49,22 +45,6 @@ Global
 		{B5ED638C-8508-46CD-8CF8-6626A9F754ED}.Release|Mixed Platforms.Build.0 = Release
 		{B5ED638C-8508-46CD-8CF8-6626A9F754ED}.Release|x86.ActiveCfg = Release
 		{B5ED638C-8508-46CD-8CF8-6626A9F754ED}.Release|x86.Build.0 = Release
-		{A09ACF35-1B4A-4323-AF08-E7D06EA05C71}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{A09ACF35-1B4A-4323-AF08-E7D06EA05C71}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{A09ACF35-1B4A-4323-AF08-E7D06EA05C71}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{A09ACF35-1B4A-4323-AF08-E7D06EA05C71}.Debug|x86.ActiveCfg = Debug|x86
-		{A09ACF35-1B4A-4323-AF08-E7D06EA05C71}.Debug|x86.Build.0 = Debug|x86
-		{A09ACF35-1B4A-4323-AF08-E7D06EA05C71}.Release|Any CPU.ActiveCfg = Release|x86
-		{A09ACF35-1B4A-4323-AF08-E7D06EA05C71}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{A09ACF35-1B4A-4323-AF08-E7D06EA05C71}.Release|Mixed Platforms.Build.0 = Release|x86
-		{A09ACF35-1B4A-4323-AF08-E7D06EA05C71}.Release|x86.ActiveCfg = Release|x86
-		{A09ACF35-1B4A-4323-AF08-E7D06EA05C71}.Release|x86.Build.0 = Release|x86
-		{58D290F7-58FC-4002-A714-E0B98B7E43C9}.Debug|Any CPU.ActiveCfg = Debug
-		{58D290F7-58FC-4002-A714-E0B98B7E43C9}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{58D290F7-58FC-4002-A714-E0B98B7E43C9}.Debug|x86.ActiveCfg = Debug
-		{58D290F7-58FC-4002-A714-E0B98B7E43C9}.Release|Any CPU.ActiveCfg = Release
-		{58D290F7-58FC-4002-A714-E0B98B7E43C9}.Release|Mixed Platforms.ActiveCfg = Release
-		{58D290F7-58FC-4002-A714-E0B98B7E43C9}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

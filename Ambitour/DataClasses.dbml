@@ -28,6 +28,7 @@
       <Column Name="rowguid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="Product_WorkOrder" Member="WorkOrder" ThisKey="ProductID" OtherKey="ProductID" Type="WorkOrder" />
+      <Association Name="Product_ProductInventory" Member="ProductInventory" ThisKey="ProductID" OtherKey="ProductID" Type="ProductInventory" />
     </Type>
   </Table>
   <Table Name="Production.WorkOrder" Member="WorkOrder">
@@ -63,6 +64,34 @@
       <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="WorkOrderRoutingNo" Type="System.String" DbType="VarChar(14) NOT NULL" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Never" />
       <Association Name="WorkOrder_WorkOrderRouting" Member="WorkOrder" ThisKey="WorkOrderID" OtherKey="WorkOrderID" Type="WorkOrder" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ProductInventory" Member="ProductInventory">
+    <Type Name="ProductInventory">
+      <Column Name="ProductID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="LocationID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Capacity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SupplyThreshold" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DeliverThreshold" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Shelf" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Bin" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="Quantity" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="rowguid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
+      <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Location_ProductInventory" Member="Location" ThisKey="LocationID" OtherKey="LocationID" Type="Location" IsForeignKey="true" />
+      <Association Name="Product_ProductInventory" Member="Product" ThisKey="ProductID" OtherKey="ProductID" Type="Product" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Location" Member="Location">
+    <Type Name="Location">
+      <Column Name="LocationID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LocationTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LocationStatusID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Location_ProductInventory" Member="ProductInventory" ThisKey="LocationID" OtherKey="LocationID" Type="ProductInventory" />
+      <Association Name="Location_Location" Member="Location2" ThisKey="LocationID" OtherKey="LocationID" Type="Location" Cardinality="One" />
+      <Association Name="Location_Location" Member="Location1" ThisKey="LocationID" OtherKey="LocationID" Type="Location" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

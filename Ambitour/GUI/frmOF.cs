@@ -14,16 +14,15 @@ using System.Net.Sockets;
 using System.Net;
 using Ambitour.CoucheMetier;
 using Ambitour.CoucheMetier.ObjetsMetier;
+using Ambitour.CoucheMetier.LogiqueMetier;
 
 
 namespace Ambitour
 {
     public partial class frmOF : Form
     {
-        OF currentOF;
-
-        Inventory inputInventory;
-        Inventory outputInventory;
+        
+        
        // Array errorList;
         List<String> errorList;
 
@@ -34,6 +33,17 @@ namespace Ambitour
         string ARCHIVE_DIR = GlobalSettings.Default.archivesOFDirectory;
         string OUTPUT_DIR = GlobalSettings.Default.outgoingOFDirectory;
         bool stop;
+        int step = 0;
+        const int WAITING = 0;
+        const int STARTED = 1;
+        const int CLOSED = 2;
+        const int END = 3;
+        OF currentOF;
+        List<ProductInventory> inInventories;
+        List<ProductInventory> outInventories;
+        DataClassesDataContext dc = new DataClassesDataContext();
+
+
 
         delegate void invokeDelegate();
 
@@ -48,6 +58,61 @@ namespace Ambitour
             groupBoxResult.Visible = false;
             groupBoxRebuts.Visible = false;
             errorList = new List<string>();
+            var reqInputInventories = (from pi in dc.ProductInventory
+                                where (pi.ProductID == 1 && pi.LocationID == ProductInventory.LOCATION_ID)
+                                select pi);
+            inInventories = reqInputInventories.ToList();
+
+            var reqOutputInventories = (from pi in dc.ProductInventory
+                       where (pi.ProductID == 6 && pi.LocationID == ProductInventory.LOCATION_ID)
+                       select pi);
+            outInventories = reqOutputInventories.ToList();
+            
+           
+            //inInventories.Add(new ProductInventory(1, ProductInventory.LOCATION_ID));
+            //outInventories.Add(new ProductInventory(6, ProductInventory.LOCATION_ID));
+            //Only one input inventory for the moment
+            //inputInventories = new List<Inventory> { 
+            //    new Inventory(1,Inventory.LOCATION_ID)
+            //};
+            //Only one output inventory for the moment
+            //outputInventories = new List<Inventory>(); { 
+            //    new Inventory(6, Inventory.LOCATION_ID) 
+            //};
+
+            uC_Inventory1.Initialize(inInventories[0]);
+            uC_Inventory2.Initialize(outInventories[0]);
+            //queryDB();
+            step = 0;
+        }
+
+
+        //private void queryDB()
+        //{
+        //    DataClassesDataContext dc = new DataClassesDataContext();
+        //    foreach (Inventory i in inputInventories)
+        //    {
+        //        var inv = (from pi in dc.ProductInventory
+        //                   where (pi.ProductID == i.ProductId && pi.LocationID == i.LocationId)
+        //                   select pi).SingleOrDefault();
+        //        if (inv != null)
+        //            i.Update((ushort)(inv.Quantity), (ushort)(inv.Capacity));
+        //    }
+
+        //    foreach (Inventory i in outputInventories)
+        //    {
+        //        var inv = (from pi in dc.ProductInventory
+        //                   where (pi.ProductID == i.ProductId && pi.LocationID == i.LocationId)
+        //                   select pi).SingleOrDefault();
+        //        if (inv != null)
+        //            i.Update((ushort)(inv.Quantity), (ushort)(inv.Capacity));
+        //    }
+        //    updateInventories();
+        //}
+
+        private void updateInventories()
+        {
+
         }
 
 
@@ -107,8 +172,6 @@ namespace Ambitour
                 foreach (OF of in newOFS)
                 {
                     cd.TryAdd(of.Id.ToString(), of);
-
-
                 }
                 updateListView();
             }
@@ -152,6 +215,8 @@ namespace Ambitour
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //initialize inventories
+
             errorList.Clear();
             Task.Factory.StartNew(() =>
                 {
@@ -210,30 +275,35 @@ namespace Ambitour
         private void button1_Click(object sender, EventArgs e)
         {
             UInt16 rebuts;
-
-            if (currentOF != null)
+            if(currentOF == null)
+                return;
+            
+            switch (step)
             {
-                ///Not started
-                if (currentOF.DateStarted == DateTime.MinValue)
-                {
-                    currentOF.Start();
-                    //DO something
-                    listView1.Enabled = false;
-                    button1.Text = "Stop";
-                    updateDetails();
-                }
-                    //Started but not finished
-                else if (currentOF.DateEnded == DateTime.MinValue)
-                {
-                    currentOF.Stop();
+                case WAITING:
+                    ///Not started
+                    if (currentOF.DateStarted == DateTime.MinValue)
+                    {
+                        currentOF.Start();
+                        //TODO : update DB
+                        listView1.Enabled = false;
+                        button1.Text = "Stop";
+                        updateDetails();
+                        prepareCNFromWO();
+                        step++;
+                    }
+                    break;
+                case STARTED:
+                     currentOF.Stop();
                     button1.Text = "End";
                     groupBoxResult.Visible = true;
                     updateDetails();
-                }
-                    //Finished
-                else
-                {
-                    if (!checkBoxComplet.Checked && (txtRebut.Text == "" || txtCause.Text == ""))
+                    step++;
+                    break;
+                    
+              
+                case CLOSED:
+                     if (!checkBoxComplet.Checked && (txtRebut.Text == "" || txtCause.Text == ""))
                     {
                         MessageBox.Show("OF incomplet, vous devez renseigner la quantité de rebuts et la cause", "Info");
                         return;
@@ -249,24 +319,24 @@ namespace Ambitour
                         catch (FormatException)
                         {
                             MessageBox.Show("OF incomplet, erreur dans la quantité de rebuts", "Info");
-                            return;
+                            break;
                         }
                         catch (ArgumentNullException)
                         {
                             MessageBox.Show("OF incomplet, erreur dans la quantité de rebuts", "Info");
-                            return;
+                            break; ;
                         }
                         catch (OverflowException)
                         {
                             MessageBox.Show("OF incomplet, erreur dans la quantité de rebuts", "Info");
-                            return;
+                            break; ;
                         }
                        
 
                         if (rebuts > currentOF.Qty)
                         {
                             MessageBox.Show("OF incomplet, erreur dans la quantité de rebuts", "Info");
-                            return;
+                            break; ;
                         }
                         currentOF.RealizedQty = currentOF.Qty - rebuts;
                         currentOF.ScrapReason = txtCause.Text;
@@ -276,6 +346,7 @@ namespace Ambitour
                     else
                     {
                         currentOF.RealizedQty = currentOF.Qty;
+                        step = WAITING;
                     }
                    
                     OF.Save(currentOF, OUTPUT_DIR);
@@ -293,11 +364,11 @@ namespace Ambitour
                     {
                         throw new InvalidOperationException();
                     }
-                    
-      
-                }
-
+                   break;
+                case END:
+                   break;
             }
+            
             
         }
 
@@ -338,6 +409,39 @@ namespace Ambitour
         //    }
         //    return s;
         //}
+
+        /// <summary>
+        /// Method to get fabrication folder and call preparation step
+        /// fabrication folder is stored ???
+        /// </summary>
+        private void prepareCNFromWO()
+        {
+            try{
+                //DossierDeFabrication df = new DossierDeFabrication(Path.Combine(GlobalSettings.Default.repertoireDossiersAmbiflux,currentOF.ProductId.ToString()));
+                //ProgrammePiece pp = df.GetProgrammesPiece()[0];
+                //SessionInfos.Utilisateur.SetDossierCourant(df);
+                //SessionInfos.Utilisateur.SetProgrammeCourant(pp);  
+                //Activation frm Preparation
+                foreach (Form f in this.MdiParent.MdiChildren)
+                {     
+                    if (f.Name == "frmPreparation")
+                    {
+                        f.Show();
+                        f.BringToFront();
+                        ((frmPreparation)f).InitialiserModeOF(currentOF);
+                        break;
+                    }
+                }
+            }
+            catch(Exception ex){
+                throw ex;
+            }
+            //Get Folder
+            //GlobalSettings.Default.repertoireDossiersAmbiflux;
+            //SessionInfos.Utilisateur.DossierCourant = GlobalSettings.Default.repertoireDossiersAmbiflux;
+            //Pilotage.INSTANCE.PreparerCN();
+            //Call PreparationStep
+        }
 
         private void checkBoxComplet_CheckedChanged(object sender, EventArgs e)
         {
@@ -396,30 +500,35 @@ namespace Ambitour
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button2_Click(object sender, EventArgs e)
+        //private void button2_Click(object sender, EventArgs e)
+        //{
+        //    errorList.Clear();
+        //    updateLogView();
+        //    string dest = "invTBI540-1@" + GlobalSettings.Default.jadeServerAddress + ":1099/JADE";
+        //    string request = String.Format("(REQUEST\r\n :receiver  (set ( agent-identifier :name {0} ) )\r\n :content  \"((action (agent-identifier :name {0}) (UpdateQuantity\r\n :command Remove :qty {1})))\"\r\n  :language  fipa-sl  :ontology  ambiflux-logistic )", dest, this. .Value.ToString());
+        //    string result = "";
+        //    try
+        //    {
+        //        result = ProxySocket.SocketSendReceive(GlobalSettings.Default.jadeServerAddress, 6789, request);
+        //        //result = SocketSendReceive(GlobalSettings.Default.jadeServerAddress, 6789, request);
+        //        //TODO: à modifier
+        //        if (result.Contains("((done"))
+        //        {
+        //            txtInventoryLevel.Text = (Int16.Parse(txtInventoryLevel.Text) - numericUpDown1.Value).ToString();
+        //            numericUpDown1.Value = 0;
+        //        }
+        //    }
+        //    catch (SocketException ex)
+        //    {
+        //        errorList.Add(ex.Message);
+        //        updateLogView();
+        //        return;
+        //    }
+        //}
+
+        private void groupBox1_Enter(object sender, EventArgs e)
         {
-            errorList.Clear();
-            updateLogView();
-            string dest = "invTBI540-1@" + GlobalSettings.Default.jadeServerAddress + ":1099/JADE";
-            string request = String.Format("(REQUEST\r\n :receiver  (set ( agent-identifier :name {0} ) )\r\n :content  \"((action (agent-identifier :name {0}) (UpdateQuantity\r\n :command Remove :qty {1})))\"\r\n  :language  fipa-sl  :ontology  ambiflux-logistic )", dest, numericUpDown1.Value.ToString());
-            string result = "";
-            try
-            {
-                result = Ambitour.CoucheMetier.LogiqueMetier.ProxySocket.SocketSendReceive(GlobalSettings.Default.jadeServerAddress, 6789, request);
-                //result = SocketSendReceive(GlobalSettings.Default.jadeServerAddress, 6789, request);
-                //TODO: à modifier
-                if (result.Contains("((done"))
-                {
-                    txtInventoryLevel.Text = (Int16.Parse(txtInventoryLevel.Text) - numericUpDown1.Value).ToString();
-                    numericUpDown1.Value = 0;
-                }
-            }
-            catch (SocketException ex)
-            {
-                errorList.Add(ex.Message);
-                updateLogView();
-                return;
-            }
+
         }
     }
 }

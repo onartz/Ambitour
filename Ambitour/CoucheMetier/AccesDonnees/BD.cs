@@ -74,8 +74,6 @@ namespace Ambitour
         //}
 
 
-
-
         /// <summary>
         /// Classe d'accès aux données de la table ResourceEvent
         /// </summary>

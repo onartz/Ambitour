@@ -235,5 +235,17 @@ namespace Ambitour.CoucheMetier {
                 this["jadeServerAddress"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\DossiersAmbiflux")]
+        public string repertoireDossiersAmbiflux {
+            get {
+                return ((string)(this["repertoireDossiersAmbiflux"]));
+            }
+            set {
+                this["repertoireDossiersAmbiflux"] = value;
+            }
+        }
     }
 }

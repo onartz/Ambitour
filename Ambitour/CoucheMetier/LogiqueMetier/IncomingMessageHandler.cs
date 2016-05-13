@@ -16,7 +16,9 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
 {
 
     public delegate void NewMessageEventHandler(object sender, ObjectEventArgs e);
-
+    /// <summary>
+    /// A class to store incoming messages from file to FIFO and notify subscribers when a new message arrives
+    /// </summary>
     public class IncomingMessageHandler
     {
         //A concurrent FIFO Queue to store incoming requests
@@ -47,12 +49,12 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
 
        
         string incomingDirectory;
-        string tempDirectory;
+        string pendingDirectory;
 
         public IncomingMessageHandler(string incomingDirectory)
         {
             this.incomingDirectory = incomingDirectory;
-            tempDirectory = incomingDirectory + @"\temp";
+            pendingDirectory = incomingDirectory + @"\Pending";
             inputFiles = new string[] { };
 
             SerializerObj = new XmlSerializer(typeof(ACLMessage));
@@ -63,7 +65,14 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
             {
                 while (!stop)
                 {
-                    getFiles();
+                    try
+                    {
+                        getFiles();
+                    }
+                    catch (IOException ex)
+                    {
+
+                    }
                     Thread.Sleep(1000);
                 }
             });
@@ -71,31 +80,30 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
 
       
         /// <summary>
-        /// Enqueue new incoming ACLMessages from files
+        /// Enqueue new incoming ACLMessages from files to FIFO Queue
         /// </summary>
         private void getFiles()
         {
             IEnumerable<string> newFiles = Directory.GetFiles(incomingDirectory).Except(inputFiles);
+            TextReader tr = null;
             foreach (string s in newFiles)
             {
                 try
                 {
-                    TextReader tr = new StreamReader(s);
-                    
+                    tr = new StreamReader(s);
                     object msg = SerializerObj.Deserialize(tr);
-  
                     tr.Close();
-
                     queue.Enqueue(msg);
                     NewMessageReceived(this, new ObjectEventArgs(msg));
-
                     string fileName = Guid.NewGuid().ToString() + ".xml";
-                    if (File.Exists(tempDirectory + @"\" + fileName))
-                        File.Delete(tempDirectory + @"\" + fileName);
-                    File.Move(s, tempDirectory + @"\" + fileName);
+                    File.Delete(fileName);
+                    //if (File.Exists(pendingDirectory + @"\" + fileName))
+                    //    File.Delete(pendingDirectory + @"\" + fileName);
+                    //File.Move(s, pendingDirectory + @"\" + fileName);
                 }
-                catch (InvalidCastException ex)
+                catch (Exception ex)
                 {
+                    tr.Close();
                     throw ex;
                 }
             }

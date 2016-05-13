@@ -39,6 +39,12 @@ namespace Ambitour
     partial void InsertWorkOrderRouting(WorkOrderRouting instance);
     partial void UpdateWorkOrderRouting(WorkOrderRouting instance);
     partial void DeleteWorkOrderRouting(WorkOrderRouting instance);
+    partial void InsertProductInventory(ProductInventory instance);
+    partial void UpdateProductInventory(ProductInventory instance);
+    partial void DeleteProductInventory(ProductInventory instance);
+    partial void InsertLocation(Location instance);
+    partial void UpdateLocation(Location instance);
+    partial void DeleteLocation(Location instance);
     #endregion
 		
 		public DataClassesDataContext() : 
@@ -92,6 +98,22 @@ namespace Ambitour
 			get
 			{
 				return this.GetTable<WorkOrderRouting>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ProductInventory> ProductInventory
+		{
+			get
+			{
+				return this.GetTable<ProductInventory>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Location> Location
+		{
+			get
+			{
+				return this.GetTable<Location>();
 			}
 		}
 	}
@@ -154,6 +176,8 @@ namespace Ambitour
 		
 		private EntitySet<WorkOrder> _WorkOrder;
 		
+		private EntitySet<ProductInventory> _ProductInventory;
+		
     #region Définitions de méthodes d'extensibilité
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -213,6 +237,7 @@ namespace Ambitour
 		public Product()
 		{
 			this._WorkOrder = new EntitySet<WorkOrder>(new Action<WorkOrder>(this.attach_WorkOrder), new Action<WorkOrder>(this.detach_WorkOrder));
+			this._ProductInventory = new EntitySet<ProductInventory>(new Action<ProductInventory>(this.attach_ProductInventory), new Action<ProductInventory>(this.detach_ProductInventory));
 			OnCreated();
 		}
 		
@@ -729,6 +754,19 @@ namespace Ambitour
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Product_ProductInventory", Storage="_ProductInventory", ThisKey="ProductID", OtherKey="ProductID")]
+		public EntitySet<ProductInventory> ProductInventory
+		{
+			get
+			{
+				return this._ProductInventory;
+			}
+			set
+			{
+				this._ProductInventory.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -756,6 +794,18 @@ namespace Ambitour
 		}
 		
 		private void detach_WorkOrder(WorkOrder entity)
+		{
+			this.SendPropertyChanging();
+			entity.Product = null;
+		}
+		
+		private void attach_ProductInventory(ProductInventory entity)
+		{
+			this.SendPropertyChanging();
+			entity.Product = this;
+		}
+		
+		private void detach_ProductInventory(ProductInventory entity)
 		{
 			this.SendPropertyChanging();
 			entity.Product = null;
@@ -1521,6 +1571,625 @@ namespace Ambitour
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ProductInventory")]
+	public partial class ProductInventory : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ProductID;
+		
+		private int _LocationID;
+		
+		private int _Capacity;
+		
+		private System.Nullable<int> _SupplyThreshold;
+		
+		private System.Nullable<int> _DeliverThreshold;
+		
+		private string _Shelf;
+		
+		private System.Nullable<byte> _Bin;
+		
+		private short _Quantity;
+		
+		private System.Guid _rowguid;
+		
+		private System.DateTime _ModifiedDate;
+		
+		private EntityRef<Location> _Location;
+		
+		private EntityRef<Product> _Product;
+		
+    #region Définitions de méthodes d'extensibilité
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnProductIDChanging(int value);
+    partial void OnProductIDChanged();
+    partial void OnLocationIDChanging(int value);
+    partial void OnLocationIDChanged();
+    partial void OnCapacityChanging(int value);
+    partial void OnCapacityChanged();
+    partial void OnSupplyThresholdChanging(System.Nullable<int> value);
+    partial void OnSupplyThresholdChanged();
+    partial void OnDeliverThresholdChanging(System.Nullable<int> value);
+    partial void OnDeliverThresholdChanged();
+    partial void OnShelfChanging(string value);
+    partial void OnShelfChanged();
+    partial void OnBinChanging(System.Nullable<byte> value);
+    partial void OnBinChanged();
+    partial void OnQuantityChanging(short value);
+    partial void OnQuantityChanged();
+    partial void OnrowguidChanging(System.Guid value);
+    partial void OnrowguidChanged();
+    partial void OnModifiedDateChanging(System.DateTime value);
+    partial void OnModifiedDateChanged();
+    #endregion
+		
+		public ProductInventory()
+		{
+			this._Location = default(EntityRef<Location>);
+			this._Product = default(EntityRef<Product>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProductID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ProductID
+		{
+			get
+			{
+				return this._ProductID;
+			}
+			set
+			{
+				if ((this._ProductID != value))
+				{
+					if (this._Product.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnProductIDChanging(value);
+					this.SendPropertyChanging();
+					this._ProductID = value;
+					this.SendPropertyChanged("ProductID");
+					this.OnProductIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LocationID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int LocationID
+		{
+			get
+			{
+				return this._LocationID;
+			}
+			set
+			{
+				if ((this._LocationID != value))
+				{
+					if (this._Location.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnLocationIDChanging(value);
+					this.SendPropertyChanging();
+					this._LocationID = value;
+					this.SendPropertyChanged("LocationID");
+					this.OnLocationIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Capacity", DbType="Int NOT NULL")]
+		public int Capacity
+		{
+			get
+			{
+				return this._Capacity;
+			}
+			set
+			{
+				if ((this._Capacity != value))
+				{
+					this.OnCapacityChanging(value);
+					this.SendPropertyChanging();
+					this._Capacity = value;
+					this.SendPropertyChanged("Capacity");
+					this.OnCapacityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SupplyThreshold", DbType="Int")]
+		public System.Nullable<int> SupplyThreshold
+		{
+			get
+			{
+				return this._SupplyThreshold;
+			}
+			set
+			{
+				if ((this._SupplyThreshold != value))
+				{
+					this.OnSupplyThresholdChanging(value);
+					this.SendPropertyChanging();
+					this._SupplyThreshold = value;
+					this.SendPropertyChanged("SupplyThreshold");
+					this.OnSupplyThresholdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeliverThreshold", DbType="Int")]
+		public System.Nullable<int> DeliverThreshold
+		{
+			get
+			{
+				return this._DeliverThreshold;
+			}
+			set
+			{
+				if ((this._DeliverThreshold != value))
+				{
+					this.OnDeliverThresholdChanging(value);
+					this.SendPropertyChanging();
+					this._DeliverThreshold = value;
+					this.SendPropertyChanged("DeliverThreshold");
+					this.OnDeliverThresholdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shelf", DbType="NVarChar(10)")]
+		public string Shelf
+		{
+			get
+			{
+				return this._Shelf;
+			}
+			set
+			{
+				if ((this._Shelf != value))
+				{
+					this.OnShelfChanging(value);
+					this.SendPropertyChanging();
+					this._Shelf = value;
+					this.SendPropertyChanged("Shelf");
+					this.OnShelfChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bin", DbType="TinyInt")]
+		public System.Nullable<byte> Bin
+		{
+			get
+			{
+				return this._Bin;
+			}
+			set
+			{
+				if ((this._Bin != value))
+				{
+					this.OnBinChanging(value);
+					this.SendPropertyChanging();
+					this._Bin = value;
+					this.SendPropertyChanged("Bin");
+					this.OnBinChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Quantity", DbType="SmallInt NOT NULL")]
+		public short Quantity
+		{
+			get
+			{
+				return this._Quantity;
+			}
+			set
+			{
+				if ((this._Quantity != value))
+				{
+					this.OnQuantityChanging(value);
+					this.SendPropertyChanging();
+					this._Quantity = value;
+					this.SendPropertyChanged("Quantity");
+					this.OnQuantityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rowguid", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid rowguid
+		{
+			get
+			{
+				return this._rowguid;
+			}
+			set
+			{
+				if ((this._rowguid != value))
+				{
+					this.OnrowguidChanging(value);
+					this.SendPropertyChanging();
+					this._rowguid = value;
+					this.SendPropertyChanged("rowguid");
+					this.OnrowguidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifiedDate", DbType="DateTime NOT NULL")]
+		public System.DateTime ModifiedDate
+		{
+			get
+			{
+				return this._ModifiedDate;
+			}
+			set
+			{
+				if ((this._ModifiedDate != value))
+				{
+					this.OnModifiedDateChanging(value);
+					this.SendPropertyChanging();
+					this._ModifiedDate = value;
+					this.SendPropertyChanged("ModifiedDate");
+					this.OnModifiedDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Location_ProductInventory", Storage="_Location", ThisKey="LocationID", OtherKey="LocationID", IsForeignKey=true)]
+		public Location Location
+		{
+			get
+			{
+				return this._Location.Entity;
+			}
+			set
+			{
+				Location previousValue = this._Location.Entity;
+				if (((previousValue != value) 
+							|| (this._Location.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Location.Entity = null;
+						previousValue.ProductInventory.Remove(this);
+					}
+					this._Location.Entity = value;
+					if ((value != null))
+					{
+						value.ProductInventory.Add(this);
+						this._LocationID = value.LocationID;
+					}
+					else
+					{
+						this._LocationID = default(int);
+					}
+					this.SendPropertyChanged("Location");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Product_ProductInventory", Storage="_Product", ThisKey="ProductID", OtherKey="ProductID", IsForeignKey=true)]
+		public Product Product
+		{
+			get
+			{
+				return this._Product.Entity;
+			}
+			set
+			{
+				Product previousValue = this._Product.Entity;
+				if (((previousValue != value) 
+							|| (this._Product.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Product.Entity = null;
+						previousValue.ProductInventory.Remove(this);
+					}
+					this._Product.Entity = value;
+					if ((value != null))
+					{
+						value.ProductInventory.Add(this);
+						this._ProductID = value.ProductID;
+					}
+					else
+					{
+						this._ProductID = default(int);
+					}
+					this.SendPropertyChanged("Product");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Location")]
+	public partial class Location : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _LocationID;
+		
+		private string _Name;
+		
+		private System.DateTime _ModifiedDate;
+		
+		private System.Nullable<int> _LocationTypeID;
+		
+		private System.Nullable<int> _LocationStatusID;
+		
+		private EntitySet<ProductInventory> _ProductInventory;
+		
+		private EntityRef<Location> _Location2;
+		
+		private EntityRef<Location> _Location1;
+		
+    #region Définitions de méthodes d'extensibilité
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnLocationIDChanging(int value);
+    partial void OnLocationIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnModifiedDateChanging(System.DateTime value);
+    partial void OnModifiedDateChanged();
+    partial void OnLocationTypeIDChanging(System.Nullable<int> value);
+    partial void OnLocationTypeIDChanged();
+    partial void OnLocationStatusIDChanging(System.Nullable<int> value);
+    partial void OnLocationStatusIDChanged();
+    #endregion
+		
+		public Location()
+		{
+			this._ProductInventory = new EntitySet<ProductInventory>(new Action<ProductInventory>(this.attach_ProductInventory), new Action<ProductInventory>(this.detach_ProductInventory));
+			this._Location2 = default(EntityRef<Location>);
+			this._Location1 = default(EntityRef<Location>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LocationID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int LocationID
+		{
+			get
+			{
+				return this._LocationID;
+			}
+			set
+			{
+				if ((this._LocationID != value))
+				{
+					if (this._Location1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnLocationIDChanging(value);
+					this.SendPropertyChanging();
+					this._LocationID = value;
+					this.SendPropertyChanged("LocationID");
+					this.OnLocationIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifiedDate", DbType="DateTime NOT NULL")]
+		public System.DateTime ModifiedDate
+		{
+			get
+			{
+				return this._ModifiedDate;
+			}
+			set
+			{
+				if ((this._ModifiedDate != value))
+				{
+					this.OnModifiedDateChanging(value);
+					this.SendPropertyChanging();
+					this._ModifiedDate = value;
+					this.SendPropertyChanged("ModifiedDate");
+					this.OnModifiedDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LocationTypeID", DbType="Int")]
+		public System.Nullable<int> LocationTypeID
+		{
+			get
+			{
+				return this._LocationTypeID;
+			}
+			set
+			{
+				if ((this._LocationTypeID != value))
+				{
+					this.OnLocationTypeIDChanging(value);
+					this.SendPropertyChanging();
+					this._LocationTypeID = value;
+					this.SendPropertyChanged("LocationTypeID");
+					this.OnLocationTypeIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LocationStatusID", DbType="Int")]
+		public System.Nullable<int> LocationStatusID
+		{
+			get
+			{
+				return this._LocationStatusID;
+			}
+			set
+			{
+				if ((this._LocationStatusID != value))
+				{
+					this.OnLocationStatusIDChanging(value);
+					this.SendPropertyChanging();
+					this._LocationStatusID = value;
+					this.SendPropertyChanged("LocationStatusID");
+					this.OnLocationStatusIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Location_ProductInventory", Storage="_ProductInventory", ThisKey="LocationID", OtherKey="LocationID")]
+		public EntitySet<ProductInventory> ProductInventory
+		{
+			get
+			{
+				return this._ProductInventory;
+			}
+			set
+			{
+				this._ProductInventory.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Location_Location", Storage="_Location2", ThisKey="LocationID", OtherKey="LocationID", IsUnique=true, IsForeignKey=false)]
+		public Location Location2
+		{
+			get
+			{
+				return this._Location2.Entity;
+			}
+			set
+			{
+				Location previousValue = this._Location2.Entity;
+				if (((previousValue != value) 
+							|| (this._Location2.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Location2.Entity = null;
+						previousValue.Location1 = null;
+					}
+					this._Location2.Entity = value;
+					if ((value != null))
+					{
+						value.Location1 = this;
+					}
+					this.SendPropertyChanged("Location2");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Location_Location", Storage="_Location1", ThisKey="LocationID", OtherKey="LocationID", IsForeignKey=true)]
+		public Location Location1
+		{
+			get
+			{
+				return this._Location1.Entity;
+			}
+			set
+			{
+				Location previousValue = this._Location1.Entity;
+				if (((previousValue != value) 
+							|| (this._Location1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Location1.Entity = null;
+						previousValue.Location2 = null;
+					}
+					this._Location1.Entity = value;
+					if ((value != null))
+					{
+						value.Location2 = this;
+						this._LocationID = value.LocationID;
+					}
+					else
+					{
+						this._LocationID = default(int);
+					}
+					this.SendPropertyChanged("Location1");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ProductInventory(ProductInventory entity)
+		{
+			this.SendPropertyChanging();
+			entity.Location = this;
+		}
+		
+		private void detach_ProductInventory(ProductInventory entity)
+		{
+			this.SendPropertyChanging();
+			entity.Location = null;
 		}
 	}
 }

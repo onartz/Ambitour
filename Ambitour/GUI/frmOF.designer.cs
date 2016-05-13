@@ -35,12 +35,9 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBoxOFDetails = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.txtInventoryLevel = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.listView3 = new System.Windows.Forms.ListView();
+            this.errorMessage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBoxResult = new System.Windows.Forms.GroupBox();
             this.groupBoxRebuts = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -53,14 +50,13 @@
             this.listView2 = new System.Windows.Forms.ListView();
             this.ColumnId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.listView3 = new System.Windows.Forms.ListView();
-            this.errorMessage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.uC_Inventory1 = new Ambitour.GUI.UC_Inventory();
+            this.uC_Inventory2 = new Ambitour.GUI.UC_Inventory();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.groupBoxOFDetails.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBoxResult.SuspendLayout();
             this.groupBoxRebuts.SuspendLayout();
             this.SuspendLayout();
@@ -89,14 +85,12 @@
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
-            this.columnHeader4,
-            this.columnHeader5});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.columnHeader4});
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(783, 159);
+            this.listView1.Size = new System.Drawing.Size(753, 159);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -104,27 +98,29 @@
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Width = 133;
+            this.columnHeader1.Text = "Identifiant OF";
+            this.columnHeader1.Width = 207;
             // 
             // columnHeader2
             // 
+            this.columnHeader2.Text = "ProductID";
             this.columnHeader2.Width = 139;
             // 
             // columnHeader3
             // 
+            this.columnHeader3.Text = "Quantity";
             this.columnHeader3.Width = 125;
             // 
             // columnHeader4
             // 
+            this.columnHeader4.Text = "Date due";
             this.columnHeader4.Width = 186;
             // 
             // groupBoxOFDetails
             // 
+            this.groupBoxOFDetails.Controls.Add(this.uC_Inventory2);
+            this.groupBoxOFDetails.Controls.Add(this.uC_Inventory1);
             this.groupBoxOFDetails.Controls.Add(this.listView3);
-            this.groupBoxOFDetails.Controls.Add(this.button2);
-            this.groupBoxOFDetails.Controls.Add(this.txtInventoryLevel);
-            this.groupBoxOFDetails.Controls.Add(this.label5);
-            this.groupBoxOFDetails.Controls.Add(this.numericUpDown1);
             this.groupBoxOFDetails.Controls.Add(this.groupBoxResult);
             this.groupBoxOFDetails.Controls.Add(this.button1);
             this.groupBoxOFDetails.Controls.Add(this.listView2);
@@ -136,41 +132,24 @@
             this.groupBoxOFDetails.TabStop = false;
             this.groupBoxOFDetails.Text = "OFDetails";
             // 
-            // button2
+            // listView3
             // 
-            this.button2.Location = new System.Drawing.Point(378, 124);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 14;
-            this.button2.Text = "Pick";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.listView3.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.errorMessage});
+            this.listView3.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1});
+            this.listView3.Location = new System.Drawing.Point(6, 306);
+            this.listView3.Name = "listView3";
+            this.listView3.Scrollable = false;
+            this.listView3.Size = new System.Drawing.Size(765, 107);
+            this.listView3.TabIndex = 15;
+            this.listView3.UseCompatibleStateImageBehavior = false;
+            this.listView3.View = System.Windows.Forms.View.Details;
             // 
-            // txtInventoryLevel
+            // errorMessage
             // 
-            this.txtInventoryLevel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtInventoryLevel.Location = new System.Drawing.Point(316, 57);
-            this.txtInventoryLevel.Name = "txtInventoryLevel";
-            this.txtInventoryLevel.Size = new System.Drawing.Size(55, 26);
-            this.txtInventoryLevel.TabIndex = 13;
-            this.txtInventoryLevel.Text = "12";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(313, 41);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(61, 13);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "StockLevel";
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDown1.Location = new System.Drawing.Point(316, 122);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(55, 26);
-            this.numericUpDown1.TabIndex = 5;
+            this.errorMessage.Text = "Log";
+            this.errorMessage.Width = 767;
             // 
             // groupBoxResult
             // 
@@ -287,24 +266,21 @@
             this.columnHeader7.Text = "Value";
             this.columnHeader7.Width = 144;
             // 
-            // listView3
+            // uC_Inventory1
             // 
-            this.listView3.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.errorMessage});
-            this.listView3.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
-            this.listView3.Location = new System.Drawing.Point(6, 306);
-            this.listView3.Name = "listView3";
-            this.listView3.Scrollable = false;
-            this.listView3.Size = new System.Drawing.Size(765, 107);
-            this.listView3.TabIndex = 15;
-            this.listView3.UseCompatibleStateImageBehavior = false;
-            this.listView3.View = System.Windows.Forms.View.Details;
+            this.uC_Inventory1.Location = new System.Drawing.Point(301, 19);
+            this.uC_Inventory1.Name = "uC_Inventory1";
+            this.uC_Inventory1.ProductInventory = null;
+            this.uC_Inventory1.Size = new System.Drawing.Size(188, 149);
+            this.uC_Inventory1.TabIndex = 16;
             // 
-            // errorMessage
+            // uC_Inventory2
             // 
-            this.errorMessage.Text = "Log";
-            this.errorMessage.Width = 767;
+            this.uC_Inventory2.Location = new System.Drawing.Point(301, 158);
+            this.uC_Inventory2.Name = "uC_Inventory2";
+            this.uC_Inventory2.ProductInventory = null;
+            this.uC_Inventory2.Size = new System.Drawing.Size(188, 142);
+            this.uC_Inventory2.TabIndex = 17;
             // 
             // frmOF
             // 
@@ -325,8 +301,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.groupBoxOFDetails.ResumeLayout(false);
-            this.groupBoxOFDetails.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.groupBoxResult.ResumeLayout(false);
             this.groupBoxResult.PerformLayout();
             this.groupBoxRebuts.ResumeLayout(false);
@@ -344,7 +318,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ListView listView2;
         private System.Windows.Forms.ColumnHeader ColumnId;
         private System.Windows.Forms.ColumnHeader columnHeader7;
@@ -357,12 +330,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBoxRebuts;
         private System.Windows.Forms.CheckBox checkBoxComplet;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox txtInventoryLevel;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.ListView listView3;
         private System.Windows.Forms.ColumnHeader errorMessage;
+        private GUI.UC_Inventory uC_Inventory2;
+        private GUI.UC_Inventory uC_Inventory1;
     }
 }
 
