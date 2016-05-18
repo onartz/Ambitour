@@ -36,6 +36,8 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBoxOFDetails = new System.Windows.Forms.GroupBox();
+            this.uC_Inventory2 = new Ambitour.GUI.UC_Inventory();
+            this.uC_Inventory1 = new Ambitour.GUI.UC_Inventory();
             this.listView3 = new System.Windows.Forms.ListView();
             this.errorMessage = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBoxResult = new System.Windows.Forms.GroupBox();
@@ -50,8 +52,6 @@
             this.listView2 = new System.Windows.Forms.ListView();
             this.ColumnId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.uC_Inventory1 = new Ambitour.GUI.UC_Inventory();
-            this.uC_Inventory2 = new Ambitour.GUI.UC_Inventory();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -131,6 +131,24 @@
             this.groupBoxOFDetails.TabIndex = 0;
             this.groupBoxOFDetails.TabStop = false;
             this.groupBoxOFDetails.Text = "OFDetails";
+            // 
+            // uC_Inventory2
+            // 
+            this.uC_Inventory2.Location = new System.Drawing.Point(301, 158);
+            this.uC_Inventory2.Name = "uC_Inventory2";
+            this.uC_Inventory2.ProductInventory = null;
+            this.uC_Inventory2.Size = new System.Drawing.Size(188, 142);
+            this.uC_Inventory2.TabIndex = 17;
+            this.uC_Inventory2.Visible = false;
+            // 
+            // uC_Inventory1
+            // 
+            this.uC_Inventory1.Location = new System.Drawing.Point(301, 19);
+            this.uC_Inventory1.Name = "uC_Inventory1";
+            this.uC_Inventory1.ProductInventory = null;
+            this.uC_Inventory1.Size = new System.Drawing.Size(188, 149);
+            this.uC_Inventory1.TabIndex = 16;
+            this.uC_Inventory1.Visible = false;
             // 
             // listView3
             // 
@@ -265,22 +283,6 @@
             // 
             this.columnHeader7.Text = "Value";
             this.columnHeader7.Width = 144;
-            // 
-            // uC_Inventory1
-            // 
-            this.uC_Inventory1.Location = new System.Drawing.Point(301, 19);
-            this.uC_Inventory1.Name = "uC_Inventory1";
-            this.uC_Inventory1.ProductInventory = null;
-            this.uC_Inventory1.Size = new System.Drawing.Size(188, 149);
-            this.uC_Inventory1.TabIndex = 16;
-            // 
-            // uC_Inventory2
-            // 
-            this.uC_Inventory2.Location = new System.Drawing.Point(301, 158);
-            this.uC_Inventory2.Name = "uC_Inventory2";
-            this.uC_Inventory2.ProductInventory = null;
-            this.uC_Inventory2.Size = new System.Drawing.Size(188, 142);
-            this.uC_Inventory2.TabIndex = 17;
             // 
             // frmOF
             // 

@@ -62,7 +62,6 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Opération de manutention";
-
             // 
             // splitContainer1
             // 
@@ -116,6 +115,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
+
         }
 
         #endregion

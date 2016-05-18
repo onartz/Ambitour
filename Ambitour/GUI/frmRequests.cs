@@ -35,6 +35,7 @@ namespace Ambitour.GUI
         XmlSerializer SerializerObj = new XmlSerializer(typeof(ACLMessage));
         //Jade server Address to communicate with
         string jadeServerAddress = GlobalSettings.Default.jadeServerAddress;
+        
             
         /// <summary>
         /// Constructor
@@ -97,6 +98,22 @@ namespace Ambitour.GUI
                     sb.Append(Environment.NewLine + "Lot : " + h.ProductLotId);
                     sb.Append(Environment.NewLine + "Prendre de : " + h.Sender);
                     sb.Append(Environment.NewLine + "Ranger dans : " + h.Receiver);
+    
+                    ProductInventory productInventory = null;
+                    foreach(ProductInventory pi in Pilotage.INSTANCE.InInventories){
+                        if (pi.ProductID == Int16.Parse(h.ProductId))
+                        {
+                            productInventory = pi;
+                            break;
+                        }
+                    }
+                    if (productInventory!=null)
+                    {
+                        productInventory.Quantity += (short)(h.Quantity);
+                    }
+
+                   // ProductInventory pi = Pilotage.INSTANCE.InInventories.F
+                   
                 }
                 richTextBox1.Text = sb.ToString();
             }
@@ -189,6 +206,8 @@ namespace Ambitour.GUI
             displayNext();
 
         }
+
+    
 
        
     } 

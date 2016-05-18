@@ -42,9 +42,7 @@ namespace Ambitour
         List<ProductInventory> inInventories;
         List<ProductInventory> outInventories;
         DataClassesDataContext dc = new DataClassesDataContext();
-
-
-
+        
         delegate void invokeDelegate();
 
         public frmOF()
@@ -58,15 +56,19 @@ namespace Ambitour
             groupBoxResult.Visible = false;
             groupBoxRebuts.Visible = false;
             errorList = new List<string>();
-            var reqInputInventories = (from pi in dc.ProductInventory
-                                where (pi.ProductID == 1 && pi.LocationID == ProductInventory.LOCATION_ID)
-                                select pi);
-            inInventories = reqInputInventories.ToList();
+            inInventories = Pilotage.INSTANCE.InInventories;
+            outInventories = Pilotage.INSTANCE.OutInventories;
+            
+            
+            //var reqInputInventories = (from pi in dc.ProductInventory
+            //                    where (pi.ProductID == 1 && pi.LocationID == ProductInventory.LOCATION_ID)
+            //                    select pi);
+            //inInventories = reqInputInventories.ToList();
 
-            var reqOutputInventories = (from pi in dc.ProductInventory
-                       where (pi.ProductID == 6 && pi.LocationID == ProductInventory.LOCATION_ID)
-                       select pi);
-            outInventories = reqOutputInventories.ToList();
+            //var reqOutputInventories = (from pi in dc.ProductInventory
+            //           where (pi.ProductID == 6 && pi.LocationID == ProductInventory.LOCATION_ID)
+            //           select pi);
+            //outInventories = reqOutputInventories.ToList();
             
            
             //inInventories.Add(new ProductInventory(1, ProductInventory.LOCATION_ID));
@@ -80,11 +82,19 @@ namespace Ambitour
             //    new Inventory(6, Inventory.LOCATION_ID) 
             //};
 
+
+            //inInventories[0].Type = ProductInventory.inout.INPUT;
+            //uC_Inventory1.Initialize(inInventories[0]);
             uC_Inventory1.Initialize(inInventories[0]);
             uC_Inventory2.Initialize(outInventories[0]);
+            //outInventories[0].Type = ProductInventory.inout.OUTPUT;
+            //uC_Inventory2.Initialize(outInventories[0]);
             //queryDB();
             step = 0;
         }
+
+
+      
 
 
         //private void queryDB()
@@ -226,6 +236,8 @@ namespace Ambitour
                         Thread.Sleep(1000);
                     }
                 });
+
+           
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -289,7 +301,10 @@ namespace Ambitour
                         listView1.Enabled = false;
                         button1.Text = "Stop";
                         updateDetails();
-                        prepareCNFromWO();
+                        uC_Inventory1.Visible = true;
+                        uC_Inventory2.Visible = true;
+                        //TODO : réactiver
+                        //prepareCNFromWO();
                         step++;
                     }
                     break;
@@ -303,6 +318,8 @@ namespace Ambitour
                     
               
                 case CLOSED:
+                     uC_Inventory1.Visible = false;
+                        uC_Inventory2.Visible = false;
                      if (!checkBoxComplet.Checked && (txtRebut.Text == "" || txtCause.Text == ""))
                     {
                         MessageBox.Show("OF incomplet, vous devez renseigner la quantité de rebuts et la cause", "Info");

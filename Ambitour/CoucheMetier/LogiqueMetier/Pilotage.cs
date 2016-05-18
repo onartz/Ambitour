@@ -9,6 +9,9 @@ using System.Diagnostics;
 using System.Data.SqlClient;
 using Ambitour.CoucheMetier.LogiqueMetier;
 using Ambitour.CoucheMetier;
+using Ambitour.CoucheMetier.ObjetsMetier;
+using System.Linq;
+
 
 namespace Ambitour
 {
@@ -39,6 +42,7 @@ namespace Ambitour
                 Trace.TraceInformation(DateTime.Now + " : " + ex.Message);
                 throw ex;
             }
+           
             INSTANCE.Start();
         }
 
@@ -49,6 +53,7 @@ namespace Ambitour
         /// backgroundWorker utilisé pour exécuter les tâches asynchrones
         /// </summary>
         private BackgroundWorker backgroundWorker1;
+        DataClassesDataContext dc = new DataClassesDataContext();
         
  
         
@@ -218,6 +223,24 @@ namespace Ambitour
        
         #endregion
 
+        #region inventories
+        List<ProductInventory> inInventories;
+
+        public List<ProductInventory> InInventories
+        {
+            get { return inInventories; }
+            set { inInventories = value; }
+        }
+        List<ProductInventory> outInventories;
+
+        public List<ProductInventory> OutInventories
+        {
+            get { return outInventories; }
+            set { outInventories = value; }
+        }
+        #endregion
+        
+
         #region Méthodes publiques
         /// <summary>
         /// Démarrage de l'application de pilotage
@@ -303,6 +326,20 @@ namespace Ambitour
             //{
             //    return;
             //}
+
+            //Setting inventories
+            dc = new DataClassesDataContext();
+            var reqInputInventories = (from pi in dc.ProductInventory
+                                       where (pi.ProductID == 1 && pi.LocationID == ProductInventory.LOCATION_ID)
+                                       select pi);
+            inInventories = reqInputInventories.ToList();
+            inInventories[0].Type = ProductInventory.inout.INPUT;
+
+            var reqOutputInventories = (from pi in dc.ProductInventory
+                                        where (pi.ProductID == 6 && pi.LocationID == ProductInventory.LOCATION_ID)
+                                        select pi);
+            outInventories = reqOutputInventories.ToList();
+            outInventories[0].Type = ProductInventory.inout.OUTPUT;
 
             //Démarrage du lecteur de cartes
             lecteurBadge.Start();

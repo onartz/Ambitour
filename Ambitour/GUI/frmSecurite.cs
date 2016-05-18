@@ -15,5 +15,15 @@ namespace Ambitour
             InitializeComponent();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+      
+             
+            Pilotage.INSTANCE.InInventories[0].Quantity = 20;
+       
+        }
+
+      
+
     }
 }
