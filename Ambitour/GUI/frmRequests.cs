@@ -35,6 +35,9 @@ namespace Ambitour.GUI
         XmlSerializer SerializerObj = new XmlSerializer(typeof(ACLMessage));
         //Jade server Address to communicate with
         string jadeServerAddress = GlobalSettings.Default.jadeServerAddress;
+        //can be from or to, depending on Handle
+        ProductInventory currentProductInventory;
+        private delegate void UpdateForm();
         
             
         /// <summary>
@@ -46,10 +49,11 @@ namespace Ambitour.GUI
             timer = new System.Windows.Forms.Timer();
             timer.Interval = 1000;
             timer.Tick += new EventHandler(timer_Tick);
-            timer.Start();
+            //timer.Start();
             currentMessage = null;
             groupBox1.Visible = false;
             inputFiles = new string[] { };
+            currentProductInventory = null;
         }
         /// <summary>
         /// Another Constructor with message handler
@@ -57,7 +61,19 @@ namespace Ambitour.GUI
         /// <param name="imHandler"></param>
         public frmRequests(ref IncomingMessageHandler imHandler) : this()
         {
-            this.imHandler = imHandler;          
+            this.imHandler = imHandler;
+            imHandler.NewMessageReceived += new NewMessageEventHandler(imHandler_NewMessageReceived);
+        }
+
+        void imHandler_NewMessageReceived(object sender, ObjectEventArgs e)
+        {
+            if (currentMessage == null && !imHandler.Queue.IsEmpty)
+                if (InvokeRequired)
+                {
+                    Invoke(new UpdateForm(displayNext));
+                    return;
+                }
+            //displayNext();
         }
 
         /// <summary>
@@ -68,6 +84,11 @@ namespace Ambitour.GUI
         void timer_Tick(object sender, EventArgs e)
         {
             if (currentMessage == null && !imHandler.Queue.IsEmpty)
+            //    if (InvokeRequired)
+            //    {
+            //        Invoke(new UpdateForm(displayNext));
+            //        return;
+            //    }
                 displayNext();
         }
 
@@ -99,20 +120,20 @@ namespace Ambitour.GUI
                     sb.Append(Environment.NewLine + "Prendre de : " + h.Sender);
                     sb.Append(Environment.NewLine + "Ranger dans : " + h.Receiver);
     
-                    ProductInventory productInventory = null;
                     foreach(ProductInventory pi in Pilotage.INSTANCE.InInventories){
                         if (pi.ProductID == Int16.Parse(h.ProductId))
                         {
-                            productInventory = pi;
+                            currentProductInventory = pi;
                             break;
                         }
                     }
-                    if (productInventory!=null)
+                    if (currentProductInventory != null)
                     {
-                        productInventory.Quantity += (short)(h.Quantity);
+                        if(currentProductInventory.Type == ProductInventory.inout.OUTPUT)
+                            currentProductInventory.Quantity -= (short)(h.Quantity);  
+                        else
+                            currentProductInventory.Quantity += (short)(h.Quantity);  
                     }
-
-                   // ProductInventory pi = Pilotage.INSTANCE.InInventories.F
                    
                 }
                 richTextBox1.Text = sb.ToString();

@@ -35,9 +35,10 @@ namespace Ambitour
         bool stop;
         int step = 0;
         const int WAITING = 0;
-        const int STARTED = 1;
-        const int CLOSED = 2;
-        const int END = 3;
+        const int SELECTED = 1;
+        const int STARTED = 2;
+        const int CLOSED = 3;
+        const int END = 4;
         OF currentOF;
         List<ProductInventory> inInventories;
         List<ProductInventory> outInventories;
@@ -51,10 +52,8 @@ namespace Ambitour
             System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
             incomingFiles = Directory.GetFiles(INPUT_DIR);
             currentOF = null;
-            button1.Visible = false;
-            groupBoxOFDetails.Visible = false;
-            groupBoxResult.Visible = false;
-            groupBoxRebuts.Visible = false;
+            switchState(WAITING);
+           
             errorList = new List<string>();
             inInventories = Pilotage.INSTANCE.InInventories;
             outInventories = Pilotage.INSTANCE.OutInventories;
@@ -122,6 +121,159 @@ namespace Ambitour
 
         private void updateInventories()
         {
+
+        }
+
+        /// <summary>
+        /// Modify display of elements
+        /// </summary>
+        /// <param name="state"></param>
+        private void switchState(int state)
+        {
+            switch (state)
+            {
+                case WAITING:
+                    button1.Text = "Start";
+                    button1.Visible = false;
+                    groupBoxOFDetails.Visible = false;
+                    groupBoxResult.Visible = false;
+                    groupBoxRebuts.Visible = false;
+                    uC_Inventory1.Visible = false;
+                    uC_Inventory2.Visible = false;
+                    break;
+                case SELECTED:
+                    updateDetails();
+                    button1.Text = "Start";
+                    button1.Visible = true;
+                    groupBoxOFDetails.Visible = true;
+                    groupBoxResult.Visible = false;
+                    groupBoxRebuts.Visible = false;
+                    listView1.Enabled = false;
+                    uC_Inventory1.Visible = false;
+                    uC_Inventory2.Visible = false;
+                    break;
+                case STARTED:
+                    button1.Text = "Stop";
+                    button1.Visible = true;
+                    groupBoxOFDetails.Visible = true;
+                    groupBoxResult.Visible = false;
+                    groupBoxRebuts.Visible = false;
+                    listView1.Enabled = false;
+                    uC_Inventory1.Visible = true;
+                    uC_Inventory2.Visible = true;
+                    break;
+              
+                case CLOSED:
+                    button1.Text = "Close";
+                    button1.Visible = true;
+                    groupBoxResult.Visible = true;
+                    groupBoxRebuts.Visible = true;
+                    listView1.Enabled = false;
+                    uC_Inventory1.Visible = true;
+                    uC_Inventory2.Visible = true;
+                    break;
+                default:
+                    break;
+            }
+            step = state;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            UInt16 rebuts;
+            if (currentOF == null)
+                return;
+
+            switch (step)
+            {
+                //Actual state
+                case SELECTED:
+                    ///Selected but not Not started
+                    if (currentOF.DateStarted == DateTime.MinValue)
+                    {
+                        currentOF.Start();
+                        //TODO : update DB
+                        switchState(STARTED);
+                        //TODO : réactiver
+                        //prepareCNFromWO();
+                    }
+                    break;
+                case STARTED:
+                    currentOF.Stop();
+                    switchState(CLOSED);
+                    break;
+
+
+                case CLOSED:
+                   
+                    if (!checkBoxComplet.Checked && (txtRebut.Text == "" || txtCause.Text == ""))
+                    {
+                        MessageBox.Show("OF incomplet, vous devez renseigner la quantité de rebuts et la cause", "Info");
+                        return;
+                    }
+
+                    //Uncomplete
+                    if (!checkBoxComplet.Checked)
+                    {
+                        try
+                        {
+                            rebuts = UInt16.Parse(txtRebut.Text);
+                        }
+                        catch (FormatException)
+                        {
+                            MessageBox.Show("OF incomplet, erreur dans la quantité de rebuts", "Info");
+                            break;
+                        }
+                        catch (ArgumentNullException)
+                        {
+                            MessageBox.Show("OF incomplet, erreur dans la quantité de rebuts", "Info");
+                            break; ;
+                        }
+                        catch (OverflowException)
+                        {
+                            MessageBox.Show("OF incomplet, erreur dans la quantité de rebuts", "Info");
+                            break; ;
+                        }
+
+
+                        if (rebuts > currentOF.Qty)
+                        {
+                            MessageBox.Show("OF incomplet, erreur dans la quantité de rebuts", "Info");
+                            break; ;
+                        }
+                        currentOF.RealizedQty = currentOF.Qty - rebuts;
+                        currentOF.ScrapReason = txtCause.Text;
+                    }
+
+                    //complete
+                    else
+                    {
+                        currentOF.RealizedQty = currentOF.Qty;
+                        switchState(WAITING);
+                    }
+
+                    OF.Save(currentOF, OUTPUT_DIR);
+                    if (cd.TryRemove(currentOF.Id.ToString(), out currentOF))
+                    {
+                        currentOF = null;
+                        updateDetails();
+                        updateListView();
+                        listView1.Enabled = true;
+                        groupBoxOFDetails.Visible = false;
+                        checkBoxComplet.Checked = true;
+                        groupBoxRebuts.Visible = false;
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException();
+
+                    }
+                    //switchState(WAITING);
+                    break;
+                case END:
+                    break;
+            }
+
 
         }
 
@@ -240,6 +392,8 @@ namespace Ambitour
            
         }
 
+       
+
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count > 0)
@@ -248,9 +402,8 @@ namespace Ambitour
                 if (cd.ContainsKey(key))
                 {
                     currentOF = cd[key];
-                    groupBoxOFDetails.Visible = true;
-                    groupBoxRebuts.Visible = false;
-                    button1.Visible = true;
+                    switchState(SELECTED);
+                  
                 }
                 updateDetails();
             }
@@ -284,110 +437,7 @@ namespace Ambitour
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            UInt16 rebuts;
-            if(currentOF == null)
-                return;
-            
-            switch (step)
-            {
-                case WAITING:
-                    ///Not started
-                    if (currentOF.DateStarted == DateTime.MinValue)
-                    {
-                        currentOF.Start();
-                        //TODO : update DB
-                        listView1.Enabled = false;
-                        button1.Text = "Stop";
-                        updateDetails();
-                        uC_Inventory1.Visible = true;
-                        uC_Inventory2.Visible = true;
-                        //TODO : réactiver
-                        //prepareCNFromWO();
-                        step++;
-                    }
-                    break;
-                case STARTED:
-                     currentOF.Stop();
-                    button1.Text = "End";
-                    groupBoxResult.Visible = true;
-                    updateDetails();
-                    step++;
-                    break;
-                    
-              
-                case CLOSED:
-                     uC_Inventory1.Visible = false;
-                        uC_Inventory2.Visible = false;
-                     if (!checkBoxComplet.Checked && (txtRebut.Text == "" || txtCause.Text == ""))
-                    {
-                        MessageBox.Show("OF incomplet, vous devez renseigner la quantité de rebuts et la cause", "Info");
-                        return;
-                    }
-
-                    //Uncomplete
-                    if (!checkBoxComplet.Checked)
-                    {
-                        try
-                        {
-                            rebuts = UInt16.Parse(txtRebut.Text);
-                        }
-                        catch (FormatException)
-                        {
-                            MessageBox.Show("OF incomplet, erreur dans la quantité de rebuts", "Info");
-                            break;
-                        }
-                        catch (ArgumentNullException)
-                        {
-                            MessageBox.Show("OF incomplet, erreur dans la quantité de rebuts", "Info");
-                            break; ;
-                        }
-                        catch (OverflowException)
-                        {
-                            MessageBox.Show("OF incomplet, erreur dans la quantité de rebuts", "Info");
-                            break; ;
-                        }
-                       
-
-                        if (rebuts > currentOF.Qty)
-                        {
-                            MessageBox.Show("OF incomplet, erreur dans la quantité de rebuts", "Info");
-                            break; ;
-                        }
-                        currentOF.RealizedQty = currentOF.Qty - rebuts;
-                        currentOF.ScrapReason = txtCause.Text;
-                    }
-
-                    //complete
-                    else
-                    {
-                        currentOF.RealizedQty = currentOF.Qty;
-                        step = WAITING;
-                    }
-                   
-                    OF.Save(currentOF, OUTPUT_DIR);
-                    if (cd.TryRemove(currentOF.Id.ToString(), out currentOF))
-                    {
-                        currentOF = null;
-                        updateDetails();
-                        updateListView();
-                        listView1.Enabled = true;
-                        groupBoxOFDetails.Visible = false;
-                        checkBoxComplet.Checked = true;
-                        groupBoxRebuts.Visible = false;
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException();
-                    }
-                   break;
-                case END:
-                   break;
-            }
-            
-            
-        }
+       
 
         //private static Socket ConnectSocket(string server, int port)
         //{
@@ -544,6 +594,11 @@ namespace Ambitour
         //}
 
         private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void uC_Inventory1_Load(object sender, EventArgs e)
         {
 
         }

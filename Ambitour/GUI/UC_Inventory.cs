@@ -60,13 +60,16 @@ namespace Ambitour.GUI
             try
             {
                 result = ProxySocket.SocketSend(GlobalSettings.Default.jadeServerAddress, 6789, request);
+               // Console.WriteLine(result);
+
             }
-            catch (SocketException ex)
+            catch (Exception ex)
             {
                 //errorList.Add(ex.Message);
                 //updateLogView();
+                throw ex;
         
-                return;
+              //  return;
             }
             
         }
@@ -121,15 +124,40 @@ namespace Ambitour.GUI
                     updateForm();
         }
 
-
+        /// <summary>
+        /// When productinventory has changed
+        /// </summary>
         private void updateForm(){
-            if (productInventory.Type == ProductInventory.inout.INPUT)
-                btnPickPlace.Text = "Pick";
-            else
-                btnPickPlace.Text = "Place";
-            lblInventoryId.Text = "invTBI540-" + productInventory.ProductID.ToString();
+            //update level
             txtInventoryLevel.Text = productInventory.Quantity.ToString();
             udQty.Value = 0;
+
+            if (productInventory.Type == ProductInventory.inout.INPUT){
+                //Maximum quantity to be picked is the actual level
+                udQty.Maximum = productInventory.Quantity;
+                btnPickPlace.Text = "Pick";
+                groupBoxInputInventory.Text = "Stock entrée";
+                //Alert when threshold is reached
+                if (productInventory.Quantity < productInventory.SupplyThreshold)
+                    txtInventoryLevel.BackColor = Color.Red;
+                else
+                    txtInventoryLevel.BackColor = Color.Green;
+            }
+            else{
+                //Maximum quantity to be picked is Capacity - actual level
+                udQty.Maximum = productInventory.Capacity - productInventory.Quantity;
+                btnPickPlace.Text = "Place";
+                groupBoxInputInventory.Text = "Stock sortie";
+                lblInventoryId.Text = "invTBI540-" + productInventory.ProductID.ToString();
+               // txtInventoryLevel.Text = productInventory.Quantity.ToString();
+                //udQty.Value = 0;
+                //Alert when threshold is reached
+                if (productInventory.Quantity >= productInventory.DeliverThreshold)
+                    txtInventoryLevel.BackColor = Color.Red;
+                else
+                    txtInventoryLevel.BackColor = Color.Green;
+             }
+            
 
         }
     }
