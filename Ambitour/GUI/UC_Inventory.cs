@@ -59,7 +59,10 @@ namespace Ambitour.GUI
             value = 0;
             try
             {
+                Log.Write(String.Format("Sending {0} to {1} ",request,GlobalSettings.Default.jadeServerAddress));
                 result = ProxySocket.SocketSend(GlobalSettings.Default.jadeServerAddress, 6789, request);
+                Log.Write(String.Format("Result : {0} ", result));
+                
                // Console.WriteLine(result);
 
             }
@@ -157,8 +160,6 @@ namespace Ambitour.GUI
                 else
                     txtInventoryLevel.BackColor = Color.Green;
              }
-            
-
         }
     }
 }

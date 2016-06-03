@@ -11,41 +11,98 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
     {
         public static Socket ConnectSocket(string server, int port)
         {
+           
             Socket s = null;
-            IPHostEntry hostEntry = null;
-
+            IPHostEntry hostEntry = null; 
             // Get host related information.
-            hostEntry = Dns.GetHostEntry(server);
-
+            try
+            {
+                hostEntry = Dns.GetHostEntry(server);
+            }
+            catch (SocketException se)
+            {
+                Log.Write(String.Format("DNS.GetHostEntry throw SocketException : {0}, {1}", se.SocketErrorCode, se.Message));
+            }
+            catch (ArgumentException ae)
+            {
+                Log.Write(String.Format("DNS.GetHostEntry throw ArgumentException : {0}", ae.Message));
+                return s;
+            }
+            
             // Loop through the AddressList to obtain the supported AddressFamily. This is to avoid
             // an exception that occurs when the host IP Address is not compatible with the address family
             // (typical in the IPv6 case).
-            foreach (IPAddress address in hostEntry.AddressList)
+            foreach (IPAddress address in Dns.GetHostAddresses(server))
             {
+              
                 IPEndPoint ipe = new IPEndPoint(address, port);
+               
                 Socket tempSocket =
                     new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 try
                 {
+                    Log.Write(String.Format("Trying to connect to {0}", ipe.Address.ToString()));
                     tempSocket.Connect(ipe);
                 }
                 catch (SocketException e)
                 {
+                    Log.Write(String.Format("SocketException : {0} ", e.Message));
                     //throw e;
                 }
 
                 if (tempSocket.Connected)
                 {
+                    Log.Write(String.Format("Connected to {0}", ipe.Address.ToString()));
                     s = tempSocket;
                     break;
                 }
                 else
                 {
+                    Log.Write(String.Format("Cannot connect to {0}", ipe.Address.ToString()));
                     continue;
                 }
             }
             return s;
         }
+        //public static Socket ConnectSocket(string server, int port)
+        //{
+        //    Socket s = null;
+        //    IPHostEntry hostEntry = null;
+
+        //    // Get host related information.
+        //    hostEntry = Dns.GetHostEntry(server);
+
+        //    // Loop through the AddressList to obtain the supported AddressFamily. This is to avoid
+        //    // an exception that occurs when the host IP Address is not compatible with the address family
+        //    // (typical in the IPv6 case).
+        //    foreach (IPAddress address in hostEntry.AddressList)
+        //    {
+        //        IPEndPoint ipe = new IPEndPoint(address, port);
+        //        Socket tempSocket =
+        //            new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        //        try
+        //        {
+        //            tempSocket.Connect(ipe);
+        //        }
+        //        catch (SocketException e)
+        //        {
+        //            Log.Write(String.Format("SocketException : {0} ", e.Message));
+        //            //throw e;
+        //        }
+
+        //        if (tempSocket.Connected)
+        //        {
+        //            Log.Write("Socket connected");
+        //            s = tempSocket;
+        //            break;
+        //        }
+        //        else
+        //        {
+        //            continue;
+        //        }
+        //    }
+        //    return s;
+        //}
 
         // This method sends a request and wait for answer from agent
         public static string SocketSendReceive(string server, int port, string request)
@@ -61,7 +118,13 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
             {
                 Socket s = ConnectSocket(server, port);
                 if (s == null || !s.Connected)
+                {
+                    Log.Write("Module SocketSendReceive Socket not connected");
                     return ("Connection failed");
+                }
+
+                Log.Write("Module SocketSendReceive Socket connected");
+           
               
                 // Send request to the server.
                 s.Send(bytesSent, bytesSent.Length, 0);
@@ -80,6 +143,8 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
             }
             catch (SocketException e)
             {
+                Log.Write(String.Format("Module SocketSendReceive SocketException num {0} : {0}", e.ErrorCode, e.Message));
+           
                 return (e.Message);
             }
 
@@ -101,7 +166,12 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
             {
                 Socket s = ConnectSocket(server, port);
                 if (s == null || !s.Connected)
+                {
+                    Log.Write("Module SocketSend Socket not connected");
                     return ("Connection failed");
+                }
+
+                Log.Write("Module SocketSend Socket connected");
                 // Send request to the server.
                 s.Send(bytesSent, bytesSent.Length, 0);
 
@@ -110,8 +180,9 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
 
     
             }
-            catch (SocketException e)
+            catch (Exception e)
             {
+                Log.Write(String.Format("Module SocketSend SocketException num {0}",  e.Message));
                 return (e.Message);
             }
 

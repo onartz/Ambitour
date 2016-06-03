@@ -317,15 +317,18 @@ namespace Ambitour
             Num1050.INSTANCE.CommunicationFailed += new EventHandler<Num1050.CNEventArgs>(INSTANCE_CommunicationFailed);
             Num1050.INSTANCE.LogEvent += new EventHandler<Num1050.CNEventArgs>(INSTANCE_LogEvent);
 
-            //Démarrage du cycle de la NUM
-            //try
-            //{
-            //    Num1050.INSTANCE.start();
-            //}
-            //catch (Exception ex)
-            //{
-            //    return;
-            //}
+            //Démarrage du cycle de la NUM si num présente
+            if (GlobalSettings.Default.PresenceCN == true)
+            {
+                try
+                {
+                    Num1050.INSTANCE.start();
+                }
+                catch (Exception ex)
+                {
+                    return;
+                }
+            }
 
             //Setting inventories
             dc = new DataClassesDataContext();
@@ -381,7 +384,8 @@ namespace Ambitour
             lecteurBadge.CarteLue -= new EventHandler<CustomEventArgs>(LecteurBadge_CarteLue);
             lecteurBadge.StatusChanged -= new EventHandler<CustomEventArgs>(LecteurBadge_statusChanged);
             //Arret de lacom avec la CN
-            Num1050.INSTANCE.stop();
+            if (GlobalSettings.Default.PresenceCN == true)
+                 Num1050.INSTANCE.stop();
             //Désabonnement
             Num1050.INSTANCE.StatusChanged -= new EventHandler<Num1050.CNEventArgs>(INSTANCE_NotifierEtat);
             Num1050.INSTANCE.CommunicationFailed -= new EventHandler<Num1050.CNEventArgs>(this.INSTANCE_CommunicationFailed);
@@ -437,7 +441,8 @@ namespace Ambitour
     /// </summary>
         public void DemandePrechauffage()
         {
-            Num1050.INSTANCE.Prechauffer();
+            if (GlobalSettings.Default.PresenceCN == true)
+                Num1050.INSTANCE.Prechauffer();
             
              //Enregistrement en BD de la demande
              //BD.PROGRAMME.Enregistrer(Num1050.NUMEROPROGRAMMEPRECHAUFFAGE);                 

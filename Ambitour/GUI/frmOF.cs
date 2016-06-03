@@ -20,9 +20,7 @@ using Ambitour.CoucheMetier.LogiqueMetier;
 namespace Ambitour
 {
     public partial class frmOF : Form
-    {
-        
-        
+    {           
        // Array errorList;
         List<String> errorList;
 
@@ -46,6 +44,9 @@ namespace Ambitour
         
         delegate void invokeDelegate();
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public frmOF()
         {
             InitializeComponent();
@@ -53,47 +54,26 @@ namespace Ambitour
             incomingFiles = Directory.GetFiles(INPUT_DIR);
             currentOF = null;
             switchState(WAITING);
-           
+          
             errorList = new List<string>();
             inInventories = Pilotage.INSTANCE.InInventories;
             outInventories = Pilotage.INSTANCE.OutInventories;
-            
-            
-            //var reqInputInventories = (from pi in dc.ProductInventory
-            //                    where (pi.ProductID == 1 && pi.LocationID == ProductInventory.LOCATION_ID)
-            //                    select pi);
-            //inInventories = reqInputInventories.ToList();
-
-            //var reqOutputInventories = (from pi in dc.ProductInventory
-            //           where (pi.ProductID == 6 && pi.LocationID == ProductInventory.LOCATION_ID)
-            //           select pi);
-            //outInventories = reqOutputInventories.ToList();
-            
-           
-            //inInventories.Add(new ProductInventory(1, ProductInventory.LOCATION_ID));
-            //outInventories.Add(new ProductInventory(6, ProductInventory.LOCATION_ID));
-            //Only one input inventory for the moment
-            //inputInventories = new List<Inventory> { 
-            //    new Inventory(1,Inventory.LOCATION_ID)
-            //};
-            //Only one output inventory for the moment
-            //outputInventories = new List<Inventory>(); { 
-            //    new Inventory(6, Inventory.LOCATION_ID) 
-            //};
-
-
-            //inInventories[0].Type = ProductInventory.inout.INPUT;
-            //uC_Inventory1.Initialize(inInventories[0]);
+               
             uC_Inventory1.Initialize(inInventories[0]);
             uC_Inventory2.Initialize(outInventories[0]);
-            //outInventories[0].Type = ProductInventory.inout.OUTPUT;
-            //uC_Inventory2.Initialize(outInventories[0]);
-            //queryDB();
+           
             step = 0;
+
+            Task.Factory.StartNew(() =>
+            {
+                while (!stop)
+                {
+                    getOfs();
+                    Thread.Sleep(1000);
+                }
+            });
         }
 
-
-      
 
 
         //private void queryDB()
@@ -192,6 +172,7 @@ namespace Ambitour
                     if (currentOF.DateStarted == DateTime.MinValue)
                     {
                         currentOF.Start();
+                        updateDetails();
                         //TODO : update DB
                         switchState(STARTED);
                         //TODO : réactiver
@@ -200,6 +181,7 @@ namespace Ambitour
                     break;
                 case STARTED:
                     currentOF.Stop();
+                    updateDetails();
                     switchState(CLOSED);
                     break;
 
@@ -338,13 +320,17 @@ namespace Ambitour
                 updateListView();
             }
         }
-
+        /// <summary>
+        /// update Listview from other Thread
+        /// </summary>
         private void updateListView()
         {
             listView1.BeginInvoke(new invokeDelegate(updateForm));
         }
 
-
+        /// <summary>
+        /// update LogView from other Thread
+        /// </summary>
         private void updateLogView()
         {
             listView3.BeginInvoke(new invokeDelegate(updateErrorList));
@@ -362,9 +348,11 @@ namespace Ambitour
         }
 
 
+        /// <summary>
+        /// update OF listview with non incoming OFs
+        /// </summary>
         private void updateForm()
         {
-
             listView1.Items.Clear();
             foreach (var kvp in cd)
             {
@@ -377,19 +365,8 @@ namespace Ambitour
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //initialize inventories
-
             errorList.Clear();
-            Task.Factory.StartNew(() =>
-                {
-                    while (!stop)
-                    {
-                        getOfs();
-                        Thread.Sleep(1000);
-                    }
-                });
-
-           
+            updateForm();     
         }
 
        
@@ -400,7 +377,7 @@ namespace Ambitour
             {
                 string key = listView1.SelectedItems[0].Name;
                 if (cd.ContainsKey(key))
-                {
+                {    
                     currentOF = cd[key];
                     switchState(SELECTED);
                   
@@ -439,43 +416,7 @@ namespace Ambitour
 
        
 
-        //private static Socket ConnectSocket(string server, int port)
-        //{
-        //    Socket s = null;
-        //    IPHostEntry hostEntry = null;
-
-        //    // Get host related information.
-        //    hostEntry = Dns.GetHostEntry(server);
-
-        //    // Loop through the AddressList to obtain the supported AddressFamily. This is to avoid
-        //    // an exception that occurs when the host IP Address is not compatible with the address family
-        //    // (typical in the IPv6 case).
-        //    foreach (IPAddress address in hostEntry.AddressList)
-        //    {
-        //        IPEndPoint ipe = new IPEndPoint(address, port);
-        //        Socket tempSocket =
-        //            new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-        //        try
-        //        {
-        //            tempSocket.Connect(ipe);
-        //        }
-        //        catch (SocketException e)
-        //        {
-        //            throw e;
-        //        }
-
-        //        if (tempSocket.Connected)
-        //        {
-        //            s = tempSocket;
-        //            break;
-        //        }
-        //        else
-        //        {
-        //            continue;
-        //        }
-        //    }
-        //    return s;
-        //}
+ 
 
         /// <summary>
         /// Method to get fabrication folder and call preparation step
@@ -522,85 +463,7 @@ namespace Ambitour
         }
 
 
-        //// This method sends a request and wait for answer from agent
-        //private static string SocketSendReceive(string server, int port, string request)
-        //{
-        //    //string address = "TBI540Inv1@192.168.0.21:1099/JADE";
-           
-        //    Byte[] bytesSent = Encoding.ASCII.GetBytes(request);
-        //    Byte[] bytesReceived = new Byte[256];
-
-        //    string page = "";
-
-        //    // Create a socket connection with the specified server and port.
-        //    try
-        //    {
-        //        Socket s = ConnectSocket(server, port);
-        //        if (s == null)
-        //            return ("Connection failed");
-        //        // Send request to the server.
-        //        s.Send(bytesSent, bytesSent.Length, 0);
-
-        //        // Receive the server home page content.
-        //        int bytes = 0;
-                
-
-        //        // The following will block until te page is transmitted.
-        //        do
-        //        {
-        //            bytes = s.Receive(bytesReceived, bytesReceived.Length, 0);
-        //            page = page + Encoding.ASCII.GetString(bytesReceived, 0, bytes);
-        //        }
-        //        while (bytes == bytesReceived.Length);
-        //    }
-        //    catch (SocketException e)
-        //    {
-        //        throw e;
-        //    }
-
-
-        //    return page;
-        //}
-
-        /// <summary>
-        /// On click, send request to update inventory agent with new quantity
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void button2_Click(object sender, EventArgs e)
-        //{
-        //    errorList.Clear();
-        //    updateLogView();
-        //    string dest = "invTBI540-1@" + GlobalSettings.Default.jadeServerAddress + ":1099/JADE";
-        //    string request = String.Format("(REQUEST\r\n :receiver  (set ( agent-identifier :name {0} ) )\r\n :content  \"((action (agent-identifier :name {0}) (UpdateQuantity\r\n :command Remove :qty {1})))\"\r\n  :language  fipa-sl  :ontology  ambiflux-logistic )", dest, this. .Value.ToString());
-        //    string result = "";
-        //    try
-        //    {
-        //        result = ProxySocket.SocketSendReceive(GlobalSettings.Default.jadeServerAddress, 6789, request);
-        //        //result = SocketSendReceive(GlobalSettings.Default.jadeServerAddress, 6789, request);
-        //        //TODO: à modifier
-        //        if (result.Contains("((done"))
-        //        {
-        //            txtInventoryLevel.Text = (Int16.Parse(txtInventoryLevel.Text) - numericUpDown1.Value).ToString();
-        //            numericUpDown1.Value = 0;
-        //        }
-        //    }
-        //    catch (SocketException ex)
-        //    {
-        //        errorList.Add(ex.Message);
-        //        updateLogView();
-        //        return;
-        //    }
-        //}
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void uC_Inventory1_Load(object sender, EventArgs e)
-        {
-
-        }
+    
+      
     }
 }

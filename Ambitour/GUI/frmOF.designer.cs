@@ -286,7 +286,7 @@
             this.uC_Inventory1.Size = new System.Drawing.Size(160, 149);
             this.uC_Inventory1.TabIndex = 16;
             this.uC_Inventory1.Visible = false;
-            this.uC_Inventory1.Load += new System.EventHandler(this.uC_Inventory1_Load);
+          
             // 
             // frmOF
             // 

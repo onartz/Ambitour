@@ -191,14 +191,14 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    "Name" = "8:Microsoft .NET Framework 4 (x86 et x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0"
                     }
                     "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
                     {
-                    "Name" = "8:Windows Installer 3.1"
+                    "Name" = "8:Windows Installer 3.1"
                     "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
                     }
                 }
@@ -224,7 +224,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                "FrameworkVersion" = "8:.NETFramework,Version=v4.0"
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=131000"
                 }
@@ -553,25 +553,25 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:SetupAmbitour"
+        "ProductName" = "8:Ambitour"
         "ProductCode" = "8:{D92F6660-DF58-4FFE-8895-4A7ADDE3FB55}"
-        "PackageCode" = "8:{9E973F70-52D9-4D15-85DE-94517900118B}"
+        "PackageCode" = "8:{E8B990CB-7763-49E2-98F9-ACADE77BD61A}"
         "UpgradeCode" = "8:{69133F3F-AB1C-4A77-9A1D-BDB2A2AFD3F3}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
-        "InstallAllUsers" = "11:FALSE"
+        "InstallAllUsers" = "11:TRUE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Microsoft"
+        "Manufacturer" = "8:AIPL"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:SetupAmbitour"
+        "Title" = "8:Ambitour"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Microsoft"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:"
-        "ARPURLINFOABOUT" = "8:"
+        "ARPCOMMENTS" = "8:Ambitour"
+        "ARPURLINFOABOUT" = "8:www.aip-primeca.net"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"

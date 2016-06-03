@@ -27,6 +27,8 @@ namespace Ambitour.GUI
         protected System.Windows.Forms.Timer timer;
         //The current message to be processed
         ACLMessage currentMessage;
+        //The current content of the message
+        Content currentContent;
         //To be able to stop thread task
         protected bool stop;
         //To be able to know if new files has come
@@ -46,14 +48,16 @@ namespace Ambitour.GUI
         public frmRequests()
         {
             InitializeComponent();
-            timer = new System.Windows.Forms.Timer();
-            timer.Interval = 1000;
-            timer.Tick += new EventHandler(timer_Tick);
+            //timer = new System.Windows.Forms.Timer();
+            //timer.Interval = 1000;
+            //timer.Tick += new EventHandler(timer_Tick);
             //timer.Start();
             currentMessage = null;
+            currentContent = null;
+            currentProductInventory = null;
             groupBox1.Visible = false;
             inputFiles = new string[] { };
-            currentProductInventory = null;
+           
         }
         /// <summary>
         /// Another Constructor with message handler
@@ -65,6 +69,11 @@ namespace Ambitour.GUI
             imHandler.NewMessageReceived += new NewMessageEventHandler(imHandler_NewMessageReceived);
         }
 
+        /// <summary>
+        /// Method triggered when new messages arrives
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void imHandler_NewMessageReceived(object sender, ObjectEventArgs e)
         {
             if (currentMessage == null && !imHandler.Queue.IsEmpty)
@@ -81,16 +90,16 @@ namespace Ambitour.GUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void timer_Tick(object sender, EventArgs e)
-        {
-            if (currentMessage == null && !imHandler.Queue.IsEmpty)
-            //    if (InvokeRequired)
-            //    {
-            //        Invoke(new UpdateForm(displayNext));
-            //        return;
-            //    }
-                displayNext();
-        }
+        //void timer_Tick(object sender, EventArgs e)
+        //{
+        //    if (currentMessage == null && !imHandler.Queue.IsEmpty)
+        //    //    if (InvokeRequired)
+        //    //    {
+        //    //        Invoke(new UpdateForm(displayNext));
+        //    //        return;
+        //    //    }
+        //        displayNext();
+        //}
 
       
 
@@ -99,7 +108,7 @@ namespace Ambitour.GUI
         /// </summary>
         private void displayNext()
         {
-            currentMessage = null;
+            //currentMessage = null;
             object obj = null;
             //imHandler.Queue.TryDequeue(out obj);
             if (imHandler.Queue.TryDequeue(out obj))
@@ -109,10 +118,10 @@ namespace Ambitour.GUI
                // richTextBox1.Text = currentMessage.Sender;
                 StringBuilder sb = new StringBuilder();
                 
-                Content content = currentMessage.Content;
-                if (content.GetType() == typeof(Handle))
+                currentContent = currentMessage.Content;
+                if (currentContent.GetType() == typeof(Handle))
                 {
-                    Handle h = (Handle)content;
+                    Handle h = (Handle)currentContent;
                     sb.Append(Environment.NewLine + "Contenu à transférer");
                     sb.Append(Environment.NewLine + "Product : " + h.ProductId);
                     sb.Append(Environment.NewLine + "Quantity : " + h.Quantity);
@@ -127,13 +136,7 @@ namespace Ambitour.GUI
                             break;
                         }
                     }
-                    if (currentProductInventory != null)
-                    {
-                        if(currentProductInventory.Type == ProductInventory.inout.OUTPUT)
-                            currentProductInventory.Quantity -= (short)(h.Quantity);  
-                        else
-                            currentProductInventory.Quantity += (short)(h.Quantity);  
-                    }
+                   
                    
                 }
                 richTextBox1.Text = sb.ToString();
@@ -158,26 +161,26 @@ namespace Ambitour.GUI
             }
         }
 
-        /// <summary>
-        /// Fill the Form with a message
-        /// </summary>
-        /// <param name="msg"></param>
-        public void Fill(ACLMessage msg)
-        {
-            StringBuilder sb = new StringBuilder();
-            Content content = msg.Content;
-            if (content.GetType() == typeof(Handle))
-            {
-                Handle h = (Handle)content;
-                sb.Append(Environment.NewLine + "Contenu à transférer");
-                sb.Append(Environment.NewLine + "Product : " + h.ProductId);
-                sb.Append(Environment.NewLine + "Quantity : " + h.Quantity);
-                sb.Append(Environment.NewLine + "Lot : " + h.ProductLotId);
-                sb.Append(Environment.NewLine + "Prendre de : " + h.Sender);
-                sb.Append(Environment.NewLine + "Ranger dans : " + h.Receiver);
-            }
-            richTextBox1.Text = sb.ToString();
-        }
+        ///// <summary>
+        ///// Fill the Form with a message
+        ///// </summary>
+        ///// <param name="msg"></param>
+        //public void Fill(ACLMessage msg)
+        //{
+        //    StringBuilder sb = new StringBuilder();
+        //    Content content = msg.Content;
+        //    if (content.GetType() == typeof(Handle))
+        //    {
+        //        Handle h = (Handle)content;
+        //        sb.Append(Environment.NewLine + "Contenu à transférer");
+        //        sb.Append(Environment.NewLine + "Product : " + h.ProductId);
+        //        sb.Append(Environment.NewLine + "Quantity : " + h.Quantity);
+        //        sb.Append(Environment.NewLine + "Lot : " + h.ProductLotId);
+        //        sb.Append(Environment.NewLine + "Prendre de : " + h.Sender);
+        //        sb.Append(Environment.NewLine + "Ranger dans : " + h.Receiver);
+        //    }
+        //    richTextBox1.Text = sb.ToString();
+        //}
 
 
         /// <summary>
@@ -190,7 +193,7 @@ namespace Ambitour.GUI
 
 
         /// <summary>
-        /// 
+        /// When operator validates operation
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -198,38 +201,47 @@ namespace Ambitour.GUI
         {
             if (currentMessage != null)
             {
-                
-                String dest = currentMessage.Sender;
-                
-                StringBuilder sb = new StringBuilder();
-                sb.Append("(INFORM");
-                sb.AppendLine(" :receiver  (set ( agent-identifier :name ");
-                sb.Append(currentMessage.Receiver);
-                sb.AppendFormat("  :addresses (sequence http://{0}:7778/acc )) )", jadeServerAddress);
-                sb.AppendLine(" :content  \"((done (action (agent-identifier :name ");
-                sb.Append(currentMessage.Sender);
-                sb.Append(") (Handle :content (ProductLot :confirmed false :delivered true :lotId \\\"");
-                sb.Append(((Handle)currentMessage.Content).ProductLotId);
-                sb.Append("\\\" :productId ");
-                sb.Append(((Handle)currentMessage.Content).ProductId);
-                sb.Append(":quantity ");
-                sb.Append(((Handle)currentMessage.Content).Quantity);
-                sb.AppendFormat(") :recipient (Participant :adress (agent-identifier :name {0}", ((Handle)currentMessage.Content).Receiver);
-                sb.AppendFormat(") :location (Location :id {0} :name TBI-540", 23);
-                sb.AppendFormat(")) :sender (Participant :adress (agent-identifier :name {0}) :location (Location :id 23 :name TBI-540))))))\" ", ((Handle)currentMessage.Content).Sender);
-                sb.AppendFormat(" :language  fipa-sl  :ontology  ambiflux-logistic  :conversation-id  {0}", currentMessage.ConversationId);
-                sb.Append(" )");
+               
+                if (currentContent.GetType() == typeof(Handle))
+                {
+                    Handle h = (Handle)currentContent;
+                    if (currentProductInventory != null)
+                    {
 
-                String result = ProxySocket.SocketSend(jadeServerAddress, 6789, sb.ToString());
+                        if (currentProductInventory.Type == ProductInventory.inout.OUTPUT)
+                            currentProductInventory.Quantity -= (short)(h.Quantity);
+                        else
+                            currentProductInventory.Quantity += (short)(h.Quantity);
+                    }
 
+                    String dest = currentMessage.Sender;
 
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append("(INFORM");
+                    sb.AppendLine(" :receiver  (set ( agent-identifier :name ");
+                    sb.Append(currentMessage.Receiver);
+                    sb.AppendFormat("  :addresses (sequence http://{0}:7778/acc )) )", jadeServerAddress);
+                    sb.AppendLine(" :content  \"((done (action (agent-identifier :name ");
+                    sb.Append(currentMessage.Sender);
+                    sb.Append(") (Handle :content (ProductLot :confirmed false :delivered true :lotId \\\"");
+                    sb.Append(((Handle)currentMessage.Content).ProductLotId);
+                    sb.Append("\\\" :productId ");
+                    sb.Append(((Handle)currentMessage.Content).ProductId);
+                    sb.Append(":quantity ");
+                    sb.Append(((Handle)currentMessage.Content).Quantity);
+                    sb.AppendFormat(") :recipient (Participant :adress (agent-identifier :name {0}", ((Handle)currentMessage.Content).Receiver);
+                    sb.AppendFormat(") :location (Location :id {0} :name TBI-540", 23);
+                    sb.AppendFormat(")) :sender (Participant :adress (agent-identifier :name {0}) :location (Location :id 23 :name TBI-540))))))\" ", ((Handle)currentMessage.Content).Sender);
+                    sb.AppendFormat(" :language  fipa-sl  :ontology  ambiflux-logistic  :conversation-id  {0}", currentMessage.ConversationId);
+                    sb.Append(" )");
+
+                    String result = ProxySocket.SocketSend(jadeServerAddress, 6789, sb.ToString());
+
+                    currentMessage = null;
+                    currentContent = null;
+                }
             }
             displayNext();
-
-        }
-
-    
-
-       
+        }      
     } 
 }

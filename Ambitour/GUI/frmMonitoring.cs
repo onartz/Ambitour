@@ -90,6 +90,22 @@ namespace Ambitour
             textBox4.Text = r.MessageErreur.ToString();
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Log.Write("Send socket to server");
+            string dest = "invTBI540-1@" + textServerAddress.Text + ":1099/JADE";
+            string request = String.Format("(REQUEST\r\n :receiver  (set ( agent-identifier :name {0} ) )\r\n :content  \"((action (agent-identifier :name {0}) (UpdateQuantity\r\n :command Add :qty 5)))\"\r\n  :language  fipa-sl  :ontology  ambiflux-logistic )", dest);
+            try
+            {
+                String res = Ambitour.CoucheMetier.LogiqueMetier.ProxySocket.SocketSend(textServerAddress.Text, 6789, request);
+                Log.Write("res = " + res);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
 
     }
 }

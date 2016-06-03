@@ -73,7 +73,7 @@ namespace Ambitour.CoucheMetier {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool PresenceCN {
             get {
                 return ((bool)(this["PresenceCN"]));
@@ -245,6 +245,30 @@ namespace Ambitour.CoucheMetier {
             }
             set {
                 this["repertoireDossiersAmbiflux"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("6789")]
+        public int jadeSocketProxyPort {
+            get {
+                return ((int)(this["jadeSocketProxyPort"]));
+            }
+            set {
+                this["jadeSocketProxyPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1099")]
+        public int jadePort {
+            get {
+                return ((int)(this["jadePort"]));
+            }
+            set {
+                this["jadePort"] = value;
             }
         }
     }
