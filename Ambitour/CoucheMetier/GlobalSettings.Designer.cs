@@ -271,5 +271,17 @@ namespace Ambitour.CoucheMetier {
                 this["jadePort"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Archives")]
+        public string archivedDirectoryName {
+            get {
+                return ((string)(this["archivedDirectoryName"]));
+            }
+            set {
+                this["archivedDirectoryName"] = value;
+            }
+        }
     }
 }

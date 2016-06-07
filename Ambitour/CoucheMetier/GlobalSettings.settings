@@ -65,5 +65,8 @@
     <Setting Name="jadePort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1099</Value>
     </Setting>
+    <Setting Name="archivedDirectoryName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Archives</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

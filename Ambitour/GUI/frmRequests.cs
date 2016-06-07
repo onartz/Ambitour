@@ -48,15 +48,10 @@ namespace Ambitour.GUI
         public frmRequests()
         {
             InitializeComponent();
-            //timer = new System.Windows.Forms.Timer();
-            //timer.Interval = 1000;
-            //timer.Tick += new EventHandler(timer_Tick);
-            //timer.Start();
             currentMessage = null;
             currentContent = null;
             currentProductInventory = null;
             groupBox1.Visible = false;
-            inputFiles = new string[] { };
            
         }
         /// <summary>
