@@ -44,6 +44,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.textServerAddress = new System.Windows.Forms.TextBox();
+            this.btnGenerateOF = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -184,6 +185,16 @@
             this.textServerAddress.Size = new System.Drawing.Size(186, 20);
             this.textServerAddress.TabIndex = 15;
             // 
+            // btnGenerateOF
+            // 
+            this.btnGenerateOF.Location = new System.Drawing.Point(168, 268);
+            this.btnGenerateOF.Name = "btnGenerateOF";
+            this.btnGenerateOF.Size = new System.Drawing.Size(136, 23);
+            this.btnGenerateOF.TabIndex = 16;
+            this.btnGenerateOF.Text = "Generate OF";
+            this.btnGenerateOF.UseVisualStyleBackColor = true;
+            this.btnGenerateOF.Click += new System.EventHandler(this.btnGenerateOF_Click);
+            // 
             // frmMonitoring
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -191,6 +202,7 @@
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(747, 466);
             this.ControlBox = false;
+            this.Controls.Add(this.btnGenerateOF);
             this.Controls.Add(this.textServerAddress);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.textBox4);
@@ -236,6 +248,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox textServerAddress;
+        private System.Windows.Forms.Button btnGenerateOF;
 
     }
 }

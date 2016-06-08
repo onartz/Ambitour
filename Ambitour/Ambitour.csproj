@@ -442,6 +442,9 @@
     <Content Include="Resources\3DXML.JPG" />
     <Content Include="Resources\doc_dossier.jpg" />
     <Content Include="Resources\fichier.gif" />
+    <None Include="Resources\soundNotify.bmp" />
+    <None Include="Resources\Windows Notify.wav" />
+    <Content Include="Resources\WindowsNotify.wav" />
     <None Include="ClassDiagram1.cd" />
     <None Include="Resources\logo-620x620-Ivory-2.gif" />
     <None Include="Resources\logo-620x620-Ivory.gif" />

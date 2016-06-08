@@ -101,8 +101,7 @@ namespace Ambitour
             frmOf.Size = GUI.GraphicSettings.Default.LeftPanelSize;
             frmOf.Location = GUI.GraphicSettings.Default.LeftPanelPoint;
 
- 
-            //queue = new ConcurrentQueue<ACLMessage>();
+            //incomingMessagehandler to activate notifyIcon when new messages arrives
             imRequestHandler = new IncomingMessageHandler(GlobalSettings.Default.incomingRequestDirectory);
             imRequestHandler.NewMessageReceived += new NewMessageEventHandler(imRequestHandler_NewMessageReceived);
           
@@ -116,16 +115,21 @@ namespace Ambitour
             frmRequests.Location = GUI.GraphicSettings.Default.LeftPanelPoint;
 
             notifyIcon1.Icon = SystemIcons.Application;
-
-
         }
 
+        /// <summary>
+        /// What to do when new message arrives : activate notifyIcon
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void imRequestHandler_NewMessageReceived(object sender, ObjectEventArgs e)
         {
-            //blavla
-
             ACLMessage msg = (ACLMessage)(e.Content);
+            notifyIcon1.Visible = true;
             notifyIcon1.ShowBalloonTip(5000, msg.ConversationId, msg.Content.GetType().Name, ToolTipIcon.Info);
+
+            //System.Media.SoundPlayer audio = new System.Media.SoundPlayer(Properties.Resources.Windows_Notify); // here WindowsFormsApplication1 is the namespace and Connect is the audio file name
+            //audio.Play();
         }
 
       
@@ -308,6 +312,11 @@ namespace Ambitour
             }
         }
 
+        /// <summary>
+        /// When notifyIcon is clicked, display request form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
         {
             foreach (Form f in this.MdiChildren)
@@ -315,7 +324,6 @@ namespace Ambitour
                 if (f.GetType() == typeof(frmRequests))
                 {
                     if(this.ActiveMdiChild != f)
-                    // ((frmRequests)f).Initialize();
                     f.Show();
                     f.BringToFront();
                     break;

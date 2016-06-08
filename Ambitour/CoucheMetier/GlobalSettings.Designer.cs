@@ -202,13 +202,13 @@ namespace Ambitour.CoucheMetier {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\incomingOF\\temp")]
-        public string tempOFDirectory {
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\incomingOF\\pending")]
+        public string pendingOFDirectory {
             get {
-                return ((string)(this["tempOFDirectory"]));
+                return ((string)(this["pendingOFDirectory"]));
             }
             set {
-                this["tempOFDirectory"] = value;
+                this["pendingOFDirectory"] = value;
             }
         }
         

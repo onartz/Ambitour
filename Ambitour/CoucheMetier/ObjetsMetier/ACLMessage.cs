@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Ambitour.CoucheMetier.ObjetsMetier
 {
+   
     [Serializable]
     public class ACLMessage
     {
@@ -46,11 +47,18 @@ namespace Ambitour.CoucheMetier.ObjetsMetier
         {
         }
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public ACLMessage()
         {
             // TODO: Complete member initialization
         }
 
+        /// <summary>
+        /// Create a reply message
+        /// </summary>
+        /// <returns></returns>
         internal ACLMessage CreateReply()
         {
             ACLMessage msg = new ACLMessage();

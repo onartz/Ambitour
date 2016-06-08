@@ -15,6 +15,7 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Xml.Serialization;
 using System.Xml;
+using System.Diagnostics;
 
 namespace Ambitour.GUI
 {
@@ -71,46 +72,40 @@ namespace Ambitour.GUI
         /// <param name="e"></param>
         void imHandler_NewMessageReceived(object sender, ObjectEventArgs e)
         {
+            ACLMessage msg = (ACLMessage)e.Content;
+            Trace.TraceInformation(DateTime.Now + String.Format("New request received : {0}", 
+               ((ACLMessage)(e.Content)).ToString()));
+            if(currentMessage == null)
+                Trace.TraceInformation("CurrentMessage is null");
+            else
+                 Trace.TraceInformation("CurrentMessage is not null");
+            if (imHandler.Queue.IsEmpty)
+                Trace.TraceInformation("imHandler.Queue IsEmpty");
+            else
+                Trace.TraceInformation("imHandler.Queue is not Empty");
+           
             if (currentMessage == null && !imHandler.Queue.IsEmpty)
+            {
                 if (InvokeRequired)
                 {
+                    Trace.TraceInformation("Display request");
                     Invoke(new UpdateForm(displayNext));
-                    return;
                 }
-            //displayNext();
+            }
         }
 
-        /// <summary>
-        /// Every x sec, we are looking for new messages to be displayed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //void timer_Tick(object sender, EventArgs e)
-        //{
-        //    if (currentMessage == null && !imHandler.Queue.IsEmpty)
-        //    //    if (InvokeRequired)
-        //    //    {
-        //    //        Invoke(new UpdateForm(displayNext));
-        //    //        return;
-        //    //    }
-        //        displayNext();
-        //}
 
-      
 
         /// <summary>
         /// Display next message to be processed by user
         /// </summary>
         private void displayNext()
         {
-            //currentMessage = null;
             object obj = null;
-            //imHandler.Queue.TryDequeue(out obj);
             if (imHandler.Queue.TryDequeue(out obj))
             {
                 currentMessage = (ACLMessage)obj;
                 this.groupBox1.Visible = true;
-               // richTextBox1.Text = currentMessage.Sender;
                 StringBuilder sb = new StringBuilder();
                 
                 currentContent = currentMessage.Content;
@@ -156,26 +151,6 @@ namespace Ambitour.GUI
             }
         }
 
-        ///// <summary>
-        ///// Fill the Form with a message
-        ///// </summary>
-        ///// <param name="msg"></param>
-        //public void Fill(ACLMessage msg)
-        //{
-        //    StringBuilder sb = new StringBuilder();
-        //    Content content = msg.Content;
-        //    if (content.GetType() == typeof(Handle))
-        //    {
-        //        Handle h = (Handle)content;
-        //        sb.Append(Environment.NewLine + "Contenu à transférer");
-        //        sb.Append(Environment.NewLine + "Product : " + h.ProductId);
-        //        sb.Append(Environment.NewLine + "Quantity : " + h.Quantity);
-        //        sb.Append(Environment.NewLine + "Lot : " + h.ProductLotId);
-        //        sb.Append(Environment.NewLine + "Prendre de : " + h.Sender);
-        //        sb.Append(Environment.NewLine + "Ranger dans : " + h.Receiver);
-        //    }
-        //    richTextBox1.Text = sb.ToString();
-        //}
 
 
         /// <summary>
@@ -196,13 +171,11 @@ namespace Ambitour.GUI
         {
             if (currentMessage != null)
             {
-               
                 if (currentContent.GetType() == typeof(Handle))
                 {
                     Handle h = (Handle)currentContent;
                     if (currentProductInventory != null)
                     {
-
                         if (currentProductInventory.Type == ProductInventory.inout.OUTPUT)
                             currentProductInventory.Quantity -= (short)(h.Quantity);
                         else
@@ -237,6 +210,11 @@ namespace Ambitour.GUI
                 }
             }
             displayNext();
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
         }      
     } 
 }

@@ -94,6 +94,9 @@ namespace Ambitour.CoucheMetier.ObjetsMetier
             return dateEnded != null;
         }
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public OF()
         {
             id = Guid.NewGuid();
@@ -101,25 +104,44 @@ namespace Ambitour.CoucheMetier.ObjetsMetier
             qty = 0;
             scrappedQty = 0;
             scrapReason = "";
+           
         }
 
+        /// <summary>
+        /// Static method to generate an OF to produce 5 products of type 1
+        /// </summary>
+        /// <returns>a new OF</returns>
         public static OF Generate()
         {
             OF of = new OF();
             of.productId = 1;
+            of.dateDue = DateTime.Now;
+            //TODO: use random to generate quantity
             of.qty = 5;
             return of;
         }
 
+        /// <summary>
+        /// Save a new OF in a particular directory
+        /// </summary>
+        /// <param name="of">Of to save</param>
+        /// <param name="path">directory</param>
         public static void Save(OF of, string path)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(OF));
 
-            TextWriter tw = new StreamWriter(Path.Combine(path, of.Id.ToString()));
+            TextWriter tw = new StreamWriter(Path.Combine(path, of.Id.ToString() + ".xml"));
             serializer.Serialize(tw, of);
             tw.Close();
         }
 
+       
+
+        /// <summary>
+        /// Static méthod to get an of object from a file
+        /// </summary>
+        /// <param name="path">file containing the of</param>
+        /// <returns>Of</returns>
         public static OF Load(string path)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(OF));
@@ -129,6 +151,11 @@ namespace Ambitour.CoucheMetier.ObjetsMetier
             return of;
         }
 
+        /// <summary>
+        /// Static method to retrieve OFs from a directory
+        /// </summary>
+        /// <param name="path">directory where ofs are</param>
+        /// <returns>A list of Ofs</returns>
         public static List<OF> GetFromDir(string path)
         {
             List<OF> ofs = new List<OF>();

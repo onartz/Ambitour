@@ -27,9 +27,9 @@ namespace Ambitour
         ConcurrentDictionary<string, OF> cd = new ConcurrentDictionary<string, OF>();
         string[] incomingFiles;
         string INPUT_DIR = GlobalSettings.Default.incomingOFDirectory;
-        string TEMP_DIR = GlobalSettings.Default.tempOFDirectory;
         string ARCHIVE_DIR = GlobalSettings.Default.archivesOFDirectory;
         string OUTPUT_DIR = GlobalSettings.Default.outgoingOFDirectory;
+        string PENDING_DIR = GlobalSettings.Default.pendingOFDirectory;
         bool stop;
         int step = 0;
         const int WAITING = 0;
@@ -50,12 +50,14 @@ namespace Ambitour
         public frmOF()
         {
             InitializeComponent();
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+            //System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
             incomingFiles = Directory.GetFiles(INPUT_DIR);
             currentOF = null;
             switchState(WAITING);
           
             errorList = new List<string>();
+
+            //Get globals inventories
             inInventories = Pilotage.INSTANCE.InInventories;
             outInventories = Pilotage.INSTANCE.OutInventories;
                
@@ -99,10 +101,7 @@ namespace Ambitour
         //    updateInventories();
         //}
 
-        private void updateInventories()
-        {
-
-        }
+      
 
         /// <summary>
         /// Modify display of elements
@@ -172,15 +171,17 @@ namespace Ambitour
                     if (currentOF.DateStarted == DateTime.MinValue)
                     {
                         currentOF.Start();
+                        OF.Save(currentOF, PENDING_DIR);
                         updateDetails();
                         //TODO : update DB
                         switchState(STARTED);
                         //TODO : réactiver
-                        //prepareCNFromWO();
+                        prepareCNFromWO();
                     }
                     break;
                 case STARTED:
                     currentOF.Stop();
+                    OF.Save(currentOF, PENDING_DIR);
                     updateDetails();
                     switchState(CLOSED);
                     break;
@@ -234,7 +235,12 @@ namespace Ambitour
                         switchState(WAITING);
                     }
 
-                    OF.Save(currentOF, OUTPUT_DIR);
+                    OF.Save(currentOF, ARCHIVE_DIR);
+                    if(File.Exists(Path.Combine(PENDING_DIR, currentOF.Id + ".xml")))
+                    {
+                        File.Delete(Path.Combine(PENDING_DIR, currentOF.Id + ".xml"));
+
+                    }
                     if (cd.TryRemove(currentOF.Id.ToString(), out currentOF))
                     {
                         currentOF = null;
@@ -307,7 +313,6 @@ namespace Ambitour
             //NO new file
             if (ofs.Count == 0)
                 return;
-
             //New OFs does not exists in cd
             IEnumerable<OF> newOFS = ofs.Except(cd.Values, new OFComparer());
             if (newOFS.Count() > 0)
@@ -320,6 +325,7 @@ namespace Ambitour
                 updateListView();
             }
         }
+
         /// <summary>
         /// update Listview from other Thread
         /// </summary>
@@ -414,13 +420,10 @@ namespace Ambitour
         }
 
 
-       
-
- 
-
         /// <summary>
         /// Method to get fabrication folder and call preparation step
-        /// fabrication folder is stored ???
+        /// fabrication folder has the same name as the productId
+        /// ex : c:\ambitour\Dossiers\1
         /// </summary>
         private void prepareCNFromWO()
         {

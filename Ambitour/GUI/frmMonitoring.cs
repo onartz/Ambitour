@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Ambitour.CoucheMetier.ObjetsMetier;
 
 namespace Ambitour
 {
@@ -105,6 +106,18 @@ namespace Ambitour
                 MessageBox.Show(ex.Message);
             }
         }
+
+        /// <summary>
+        /// To generate a new OF and store it in the incoming directory
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnGenerateOF_Click(object sender, EventArgs e)
+        {
+            OF.Save(OF.Generate(), Ambitour.CoucheMetier.GlobalSettings.Default.incomingOFDirectory);
+        }
+
+  
 
 
     }

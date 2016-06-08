@@ -360,7 +360,8 @@ namespace Ambitour
                             lblProgramme.Text = SessionInfos.Utilisateur.ProgrammeCourant.InfosFichier.Name;
                             //on peut lancer la préparation
                             //grpChoix.Enabled = false;
-                           // Pilotage.INSTANCE.PreparerCN();
+                            //TODO: check if OK
+                             Pilotage.INSTANCE.PreparerCN();
                             break;
                     }
                     break;

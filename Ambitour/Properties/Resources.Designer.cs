@@ -109,5 +109,24 @@ namespace Ambitour.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap soundNotify {
+            get {
+                object obj = ResourceManager.GetObject("soundNotify", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.IO.UnmanagedMemoryStream semblable à System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream Windows_Notify {
+            get {
+                return ResourceManager.GetStream("Windows_Notify", resourceCulture);
+            }
+        }
     }
 }

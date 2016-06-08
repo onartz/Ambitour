@@ -32,6 +32,10 @@ namespace Ambitour
                     Directory.CreateDirectory(GlobalSettings.Default.incomingRequestDirectory);
                 if (!(Directory.Exists(GlobalSettings.Default.outgoingRequestDirectory)))
                     Directory.CreateDirectory(GlobalSettings.Default.outgoingRequestDirectory);
+                if (!(Directory.Exists(GlobalSettings.Default.pendingOFDirectory)))
+                    Directory.CreateDirectory(GlobalSettings.Default.pendingOFDirectory);
+                if (!(Directory.Exists(GlobalSettings.Default.archivesOFDirectory)))
+                    Directory.CreateDirectory(GlobalSettings.Default.archivesOFDirectory);
                 //suppression des fichiers résiduels dans la queue de requests au démarrage
                 IEnumerable<string> newFiles = Directory.GetFiles(GlobalSettings.Default.incomingRequestDirectory);
                 foreach (string s in newFiles)
@@ -223,7 +227,7 @@ namespace Ambitour
        
         #endregion
 
-        #region inventories
+        #region Inventories
         List<ProductInventory> inInventories;
 
         public List<ProductInventory> InInventories
@@ -305,13 +309,11 @@ namespace Ambitour
             }
 
             Trace.TraceInformation(DateTime.Now + " OK.");
-
-    
+   
             //Abonnement aux évènements de la classe LecteurBadge
             lecteurBadge.CarteLue += new EventHandler<CustomEventArgs>(LecteurBadge_CarteLue);
             lecteurBadge.StatusChanged += new EventHandler<CustomEventArgs>(LecteurBadge_statusChanged);
 
-          
             //Abonnement aux évènements de la classe NUM1050
             Num1050.INSTANCE.StatusChanged += new EventHandler<Num1050.CNEventArgs>(INSTANCE_NotifierEtat);
             Num1050.INSTANCE.CommunicationFailed += new EventHandler<Num1050.CNEventArgs>(INSTANCE_CommunicationFailed);
@@ -331,6 +333,7 @@ namespace Ambitour
             }
 
             //Setting inventories
+            //TODO: Définir ailleurs les identifiants de produits en stocks
             dc = new DataClassesDataContext();
             var reqInputInventories = (from pi in dc.ProductInventory
                                        where (pi.ProductID == 1 && pi.LocationID == ProductInventory.LOCATION_ID)

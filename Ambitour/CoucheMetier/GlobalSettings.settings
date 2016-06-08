@@ -47,8 +47,8 @@
     <Setting Name="archivesOFDirectory" Type="System.String" Scope="User">
       <Value Profile="(Default)">c:\ambitour\incomingOF\archives</Value>
     </Setting>
-    <Setting Name="tempOFDirectory" Type="System.String" Scope="User">
-      <Value Profile="(Default)">c:\ambitour\incomingOF\temp</Value>
+    <Setting Name="pendingOFDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">c:\ambitour\incomingOF\pending</Value>
     </Setting>
     <Setting Name="outgoingOFDirectory" Type="System.String" Scope="User">
       <Value Profile="(Default)">c:\ambitour\outgoingOF</Value>
