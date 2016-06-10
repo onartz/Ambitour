@@ -13,15 +13,27 @@ namespace Ambitour
         public static int LOCATION_ID = 23;
         public enum inout { INPUT, OUTPUT };
         private string name;
-
-      
+        private string aid;
         inout type;
 
+        /// <summary>
+        /// Jade agent AID
+        /// </summary>
+        public string Aid
+        {
+            get { return aid; }
+            set { aid = value; }
+        }
+
+        /// <summary>
+        /// Input/Output type
+        /// </summary>
         public inout Type
         {
             get { return type; }
             set { type = value; }
         }
+
 
         public void Update(int quantity, int capacity){
             
@@ -50,6 +62,10 @@ namespace Ambitour
             _Quantity = 0;
             _Capacity = int.MaxValue;
             type = inout.INPUT;
+            name = String.Format("invTBI540-{0}", productId);
+            aid = String.Format("{0}@{1}:{2}/JADE", name, Ambitour.CoucheMetier.GlobalSettings.Default.jadeServerAddress,
+                Ambitour.CoucheMetier.GlobalSettings.Default.jadePort);
+
 
         }
 

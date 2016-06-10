@@ -62,9 +62,6 @@ namespace Ambitour.GUI
                 Log.Write(String.Format("Sending {0} to {1} ",request,GlobalSettings.Default.jadeServerAddress));
                 result = ProxySocket.SocketSend(GlobalSettings.Default.jadeServerAddress, 6789, request);
                 Log.Write(String.Format("Result : {0} ", result));
-                
-               // Console.WriteLine(result);
-
             }
             catch (Exception ex)
             {
@@ -77,7 +74,10 @@ namespace Ambitour.GUI
             
         }
 
-
+        /// <summary>
+        /// constructor with ProductInventory
+        /// </summary>
+        /// <param name="productInventory"></param>
         public UC_Inventory(ProductInventory productInventory)
             : this()
         {
@@ -104,6 +104,11 @@ namespace Ambitour.GUI
            
         //}
 
+        /// <summary>
+        /// A quantity has been picked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnPickPlace_Click(object sender, EventArgs e)
         {
             value = (int)udQty.Value;

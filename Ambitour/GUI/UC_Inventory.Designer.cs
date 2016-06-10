@@ -100,7 +100,7 @@
             this.txtInventoryLevel.ReadOnly = true;
             this.txtInventoryLevel.Size = new System.Drawing.Size(55, 26);
             this.txtInventoryLevel.TabIndex = 13;
-            this.txtInventoryLevel.Text = "12";
+            this.txtInventoryLevel.Text = "-";
             // 
             // label5
             // 

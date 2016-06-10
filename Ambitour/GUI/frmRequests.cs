@@ -151,23 +151,10 @@ namespace Ambitour.GUI
             }
         }
 
-
-
         /// <summary>
-        /// To bea able to stop current task if needed
+        /// Send an inform-done
         /// </summary>
-        public void Stop()
-        {
-            stop = true;
-        }
-
-
-        /// <summary>
-        /// When operator validates operation
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnOK_Click(object sender, EventArgs e)
+        private void informDoneHandle()
         {
             if (currentMessage != null)
             {
@@ -205,11 +192,153 @@ namespace Ambitour.GUI
 
                     String result = ProxySocket.SocketSend(jadeServerAddress, 6789, sb.ToString());
 
+                    //TODO : do like that above!
+                    try
+                    {
+                        Thread t = new Thread(new ThreadStart(this.requestUpdateQuantity));
+                        t.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Erreur de socket");
+                    }
+
+
                     currentMessage = null;
                     currentContent = null;
                 }
             }
+        }
+
+        /// <summary>
+        /// Send a message to proxy Agent tu update quantity of agent
+        /// </summary>
+        private void requestUpdateQuantity()
+        {
+            if (currentMessage != null)
+            {
+                //content is a handle operation
+                if (currentContent.GetType() == typeof(Handle))
+                {
+                    Handle h = (Handle)currentContent;
+                    //Pilotage.INSTANCE.InInventories.Exists(
+                    //TODO : if h.receiver in inputinventories, Add
+                    //TODO : if h.sender in outputinventories, Remove
+                    string request = String.Format("(REQUEST\r\n :receiver  (set ( agent-identifier :name {0} ) )\r\n :content  \"((action (agent-identifier :name {0}) (UpdateQuantity\r\n :command Add :qty {1})))\"\r\n  :language  fipa-sl  :ontology  ambiflux-logistic )", h.Receiver, h.Quantity);
+                    string result = "";
+                    try
+                    {
+                        Log.Write(String.Format("Sending {0} to {1} ", request, GlobalSettings.Default.jadeServerAddress));
+                        result = ProxySocket.SocketSend(GlobalSettings.Default.jadeServerAddress, 6789, request);
+                        Log.Write(String.Format("Result : {0} ", result));
+                    }
+                    catch (Exception ex)
+                    {
+                        //errorList.Add(ex.Message);
+                        //updateLogView();
+                        throw ex;
+
+                        //  return;
+                    }
+
+                }
+                else
+                {
+                    //TODO : do something
+                }
+            }
+        }
+
+
+
+        /// <summary>
+        /// To bea able to stop current task if needed
+        /// </summary>
+        public void Stop()
+        {
+            stop = true;
+        }
+
+
+        /// <summary>
+        /// When operator validates operation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //Send updateQuantity
+                Thread thSend1 = new Thread(new ThreadStart(this.requestUpdateQuantity));
+                thSend1.Start();
+                Thread.Sleep(200);
+
+                //Send inform-done
+                Thread thSend2 = new Thread(new ThreadStart(this.informDoneHandle));
+                thSend2.Start();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur de socket");
+            }
+
             displayNext();
+
+            //if (currentMessage != null)
+            //{
+            //    if (currentContent.GetType() == typeof(Handle))
+            //    {
+            //        Handle h = (Handle)currentContent;
+            //        if (currentProductInventory != null)
+            //        {
+            //            if (currentProductInventory.Type == ProductInventory.inout.OUTPUT)
+            //                currentProductInventory.Quantity -= (short)(h.Quantity);
+            //            else
+            //                currentProductInventory.Quantity += (short)(h.Quantity);
+            //        }
+
+            //        String dest = currentMessage.Sender;
+
+            //        StringBuilder sb = new StringBuilder();
+            //        sb.Append("(INFORM");
+            //        sb.AppendLine(" :receiver  (set ( agent-identifier :name ");
+            //        sb.Append(currentMessage.Receiver);
+            //        sb.AppendFormat("  :addresses (sequence http://{0}:7778/acc )) )", jadeServerAddress);
+            //        sb.AppendLine(" :content  \"((done (action (agent-identifier :name ");
+            //        sb.Append(currentMessage.Sender);
+            //        sb.Append(") (Handle :content (ProductLot :confirmed false :delivered true :lotId \\\"");
+            //        sb.Append(((Handle)currentMessage.Content).ProductLotId);
+            //        sb.Append("\\\" :productId ");
+            //        sb.Append(((Handle)currentMessage.Content).ProductId);
+            //        sb.Append(":quantity ");
+            //        sb.Append(((Handle)currentMessage.Content).Quantity);
+            //        sb.AppendFormat(") :recipient (Participant :adress (agent-identifier :name {0}", ((Handle)currentMessage.Content).Receiver);
+            //        sb.AppendFormat(") :location (Location :id {0} :name TBI-540", 23);
+            //        sb.AppendFormat(")) :sender (Participant :adress (agent-identifier :name {0}) :location (Location :id 23 :name TBI-540))))))\" ", ((Handle)currentMessage.Content).Sender);
+            //        sb.AppendFormat(" :language  fipa-sl  :ontology  ambiflux-logistic  :conversation-id  {0}", currentMessage.ConversationId);
+            //        sb.Append(" )");
+
+            //        String result = ProxySocket.SocketSend(jadeServerAddress, 6789, sb.ToString());
+
+            //        //TODO : do like that above!
+            //        try
+            //        {
+            //            Thread t = new Thread(new ThreadStart(this.requestUpdateQuantity));
+            //            t.Start();
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            MessageBox.Show("Erreur de socket");
+            //        }
+
+
+            //        currentMessage = null;
+            //        currentContent = null;
+            //    }
+            //}
+            
         }
 
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
