@@ -8,11 +8,20 @@ using System.Windows.Forms;
 using System.Collections;
 using System.Threading;
 using System.IO;
+using Ambitour.GUI;
+using Ambitour.CoucheMetier;
+using Ambitour.CoucheMetier.ObjetsMetier;
+using Ambitour.CoucheMetier.LogiqueMetier;
+using System.Collections.Concurrent;
 
 namespace Ambitour
 {
     public partial class frmPrincipal : Form
-    {       
+    {
+
+        IncomingMessageHandler imRequestHandler;
+        //A concurrent FIFO Queue to store incoming requests
+        //ConcurrentQueue<ACLMessage> queue;
          /// <summary>
          /// Constructeur
          /// </summary>
@@ -28,6 +37,7 @@ namespace Ambitour
         /// <param name="e"></param>
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
+
             ////Création du form Utilisateur (Haut)
             frmUtilisateur frmUtilisateur = new frmUtilisateur();
             frmUtilisateur.MdiParent = this;
@@ -83,8 +93,46 @@ namespace Ambitour
             frmMonitoring.Location = GUI.GraphicSettings.Default.LeftPanelPoint;
 
             monitoringToolStripMenuItem.Visible = (SessionInfos.Utilisateur.Role == "Personnel");
-            
+
+            frmOF frmOf = new frmOF();
+            frmOf.MdiParent = this;
+            frmOf.BackColor = GUI.GraphicSettings.Default.BgColor;
+            frmOf.FormBorderStyle = GUI.GraphicSettings.Default.FormBorderStyle;
+            frmOf.Size = GUI.GraphicSettings.Default.LeftPanelSize;
+            frmOf.Location = GUI.GraphicSettings.Default.LeftPanelPoint;
+
+            //incomingMessagehandler to activate notifyIcon when new messages arrives
+            imRequestHandler = new IncomingMessageHandler(GlobalSettings.Default.incomingRequestDirectory);
+            imRequestHandler.NewMessageReceived += new NewMessageEventHandler(imRequestHandler_NewMessageReceived);
+          
+
+
+            frmRequests frmRequests = new frmRequests(ref imRequestHandler);
+            frmRequests.MdiParent = this;
+            frmRequests.BackColor = GUI.GraphicSettings.Default.BgColor;
+            frmRequests.FormBorderStyle = GUI.GraphicSettings.Default.FormBorderStyle;
+            frmRequests.Size = GUI.GraphicSettings.Default.LeftPanelSize;
+            frmRequests.Location = GUI.GraphicSettings.Default.LeftPanelPoint;
+
+            notifyIcon1.Icon = SystemIcons.Application;
         }
+
+        /// <summary>
+        /// What to do when new message arrives : activate notifyIcon
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void imRequestHandler_NewMessageReceived(object sender, ObjectEventArgs e)
+        {
+            ACLMessage msg = (ACLMessage)(e.Content);
+            notifyIcon1.Visible = true;
+            notifyIcon1.ShowBalloonTip(5000, msg.ConversationId, msg.Content.GetType().Name, ToolTipIcon.Info);
+
+            //System.Media.SoundPlayer audio = new System.Media.SoundPlayer(Properties.Resources.Windows_Notify); // here WindowsFormsApplication1 is the namespace and Connect is the audio file name
+            //audio.Play();
+        }
+
+      
 
         /// <summary>
         /// Clic sur préparation
@@ -214,6 +262,73 @@ namespace Ambitour
         {
             frmAboutBox frmAbout = new frmAboutBox();
             frmAbout.Show();
+        }
+
+        private void menuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void OFsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Form f in this.MdiChildren)
+            {
+                if (f.GetType() == typeof(frmOF))
+                {
+                    f.Show();
+                    f.BringToFront();
+                    break;
+                }
+            }
+        }
+
+        private void requêtesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Form f in this.MdiChildren)
+            {
+                if (f.Name == "frmRequests")
+                {
+                    f.Show();
+                    f.BringToFront();
+                    break;
+                }
+            }
+        }
+
+        private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+        {
+            foreach (Form f in this.MdiChildren)
+            {
+                if (f.GetType() == typeof(frmRequests))
+                {
+                    if (this.ActiveMdiChild != f)
+                    {
+                        // ((frmRequests)f).Initialize();
+                        f.Show();
+                        f.BringToFront();
+                        break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// When notifyIcon is clicked, display request form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void notifyIcon1_BalloonTipClicked(object sender, EventArgs e)
+        {
+            foreach (Form f in this.MdiChildren)
+            {
+                if (f.GetType() == typeof(frmRequests))
+                {
+                    if(this.ActiveMdiChild != f)
+                    f.Show();
+                    f.BringToFront();
+                    break;
+                }
+            }
         }
 
      

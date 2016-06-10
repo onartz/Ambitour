@@ -7,6 +7,11 @@ using System.Threading;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Data.SqlClient;
+using Ambitour.CoucheMetier.LogiqueMetier;
+using Ambitour.CoucheMetier;
+using Ambitour.CoucheMetier.ObjetsMetier;
+using System.Linq;
+
 
 namespace Ambitour
 {
@@ -15,11 +20,33 @@ namespace Ambitour
     /// </summary>
     public class Pilotage
     {
-
         [STAThread]
         static void Main()
         {
             Trace.TraceInformation(DateTime.Now + " : Ambiflux started.");
+            try
+            {
+                if (!(Directory.Exists(GlobalSettings.Default.tempRequestDirectory)))
+                    Directory.CreateDirectory(GlobalSettings.Default.tempRequestDirectory);
+                if (!(Directory.Exists(GlobalSettings.Default.incomingRequestDirectory)))
+                    Directory.CreateDirectory(GlobalSettings.Default.incomingRequestDirectory);
+                if (!(Directory.Exists(GlobalSettings.Default.outgoingRequestDirectory)))
+                    Directory.CreateDirectory(GlobalSettings.Default.outgoingRequestDirectory);
+                if (!(Directory.Exists(GlobalSettings.Default.pendingOFDirectory)))
+                    Directory.CreateDirectory(GlobalSettings.Default.pendingOFDirectory);
+                if (!(Directory.Exists(GlobalSettings.Default.archivesOFDirectory)))
+                    Directory.CreateDirectory(GlobalSettings.Default.archivesOFDirectory);
+                //suppression des fichiers résiduels dans la queue de requests au démarrage
+                IEnumerable<string> newFiles = Directory.GetFiles(GlobalSettings.Default.incomingRequestDirectory);
+                foreach (string s in newFiles)
+                    File.Delete(s);
+            }
+            catch (IOException ex)
+            {
+                Trace.TraceInformation(DateTime.Now + " : " + ex.Message);
+                throw ex;
+            }
+           
             INSTANCE.Start();
         }
 
@@ -30,6 +57,10 @@ namespace Ambitour
         /// backgroundWorker utilisé pour exécuter les tâches asynchrones
         /// </summary>
         private BackgroundWorker backgroundWorker1;
+        DataClassesDataContext dc = new DataClassesDataContext();
+        
+ 
+        
         private static Pilotage instance;
         private LecteurBadge lecteurBadge = new LecteurBadge();
 
@@ -196,6 +227,24 @@ namespace Ambitour
        
         #endregion
 
+        #region Inventories
+        List<ProductInventory> inInventories;
+
+        public List<ProductInventory> InInventories
+        {
+            get { return inInventories; }
+            set { inInventories = value; }
+        }
+        List<ProductInventory> outInventories;
+
+        public List<ProductInventory> OutInventories
+        {
+            get { return outInventories; }
+            set { outInventories = value; }
+        }
+        #endregion
+        
+
         #region Méthodes publiques
         /// <summary>
         /// Démarrage de l'application de pilotage
@@ -204,12 +253,14 @@ namespace Ambitour
         {
             //Log.Write(System.DateTime.Now + " : Démarrage Ambitour");
             //Trace.TraceInformation(System.DateTime.Now + " : Démarrage Ambitour");
-            
+           
             //Test de la connexion à la BD
+            
 
             try
             {
                 System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(Ambitour.Properties.Settings.Default.AIPLConnectionString);
+                
                 con.Open();
             }
             catch (System.Data.SqlClient.SqlException e)
@@ -258,27 +309,43 @@ namespace Ambitour
             }
 
             Trace.TraceInformation(DateTime.Now + " OK.");
-
-    
+   
             //Abonnement aux évènements de la classe LecteurBadge
             lecteurBadge.CarteLue += new EventHandler<CustomEventArgs>(LecteurBadge_CarteLue);
             lecteurBadge.StatusChanged += new EventHandler<CustomEventArgs>(LecteurBadge_statusChanged);
 
-          
             //Abonnement aux évènements de la classe NUM1050
             Num1050.INSTANCE.StatusChanged += new EventHandler<Num1050.CNEventArgs>(INSTANCE_NotifierEtat);
             Num1050.INSTANCE.CommunicationFailed += new EventHandler<Num1050.CNEventArgs>(INSTANCE_CommunicationFailed);
             Num1050.INSTANCE.LogEvent += new EventHandler<Num1050.CNEventArgs>(INSTANCE_LogEvent);
 
-            //Démarrage du cycle de la NUM
-            try
+            //Démarrage du cycle de la NUM si num présente
+            if (GlobalSettings.Default.PresenceCN == true)
             {
-                Num1050.INSTANCE.start();
+                try
+                {
+                    Num1050.INSTANCE.start();
+                }
+                catch (Exception ex)
+                {
+                    return;
+                }
             }
-            catch (Exception ex)
-            {
-                return;
-            }
+
+            //Setting inventories
+            //TODO: Définir ailleurs les identifiants de produits en stocks
+            dc = new DataClassesDataContext();
+            var reqInputInventories = (from pi in dc.ProductInventory
+                                       where (pi.ProductID == 1 && pi.LocationID == ProductInventory.LOCATION_ID)
+                                       select pi);
+            inInventories = reqInputInventories.ToList();
+            inInventories[0].Type = ProductInventory.inout.INPUT;
+
+            var reqOutputInventories = (from pi in dc.ProductInventory
+                                        where (pi.ProductID == 6 && pi.LocationID == ProductInventory.LOCATION_ID)
+                                        select pi);
+            outInventories = reqOutputInventories.ToList();
+            outInventories[0].Type = ProductInventory.inout.OUTPUT;
 
             //Démarrage du lecteur de cartes
             lecteurBadge.Start();
@@ -320,12 +387,13 @@ namespace Ambitour
             lecteurBadge.CarteLue -= new EventHandler<CustomEventArgs>(LecteurBadge_CarteLue);
             lecteurBadge.StatusChanged -= new EventHandler<CustomEventArgs>(LecteurBadge_statusChanged);
             //Arret de lacom avec la CN
-            Num1050.INSTANCE.stop();
+            if (GlobalSettings.Default.PresenceCN == true)
+                 Num1050.INSTANCE.stop();
             //Désabonnement
             Num1050.INSTANCE.StatusChanged -= new EventHandler<Num1050.CNEventArgs>(INSTANCE_NotifierEtat);
             Num1050.INSTANCE.CommunicationFailed -= new EventHandler<Num1050.CNEventArgs>(this.INSTANCE_CommunicationFailed);
             Num1050.INSTANCE.LogEvent -= new EventHandler<Num1050.CNEventArgs>(this.INSTANCE_LogEvent);
-            //Enregistrement stop en BD
+            ////Enregistrement stop en BD
             BD.RESOURCEEVENT.Enregistrer("Arrêt Ambitour");
             Application.Exit();
         }
@@ -337,8 +405,9 @@ namespace Ambitour
         public void FermerSession()
         {
             //Annulation du backgroundWorker
-            backgroundWorker1.CancelAsync();  
-        
+            backgroundWorker1.CancelAsync();
+           
+          
             switch (mode)
             {
                 case "DEMO":
@@ -375,7 +444,8 @@ namespace Ambitour
     /// </summary>
         public void DemandePrechauffage()
         {
-            Num1050.INSTANCE.Prechauffer();
+            if (GlobalSettings.Default.PresenceCN == true)
+                Num1050.INSTANCE.Prechauffer();
             
              //Enregistrement en BD de la demande
              //BD.PROGRAMME.Enregistrer(Num1050.NUMEROPROGRAMMEPRECHAUFFAGE);                 
@@ -420,6 +490,8 @@ namespace Ambitour
                 pWorker.ReportProgress(0, state);
                 return;
             }
+
+           // return;
 
 
             //Etape 2 : Téléchargement du pgm pièce dans la CN
@@ -610,7 +682,10 @@ namespace Ambitour
                     break;
                 default:
                     r = MessageBox.Show("La carte est muette", "Exception");
-                    return;
+                    lutilisateur = new Utilisateur("test","test","test","Etudiant");;
+                    INSTANCE.mode = "CFAO";
+                    break;
+                    //return;
             }
             Trace.TraceInformation(DateTime.Now + " : Récupération des dossiers");   
             List<DossierDeFabrication> lListeDossiers = Pilotage.INSTANCE.FileAttenteCFAO.GetDossiersByUser(lutilisateur);

@@ -42,6 +42,9 @@
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.textServerAddress = new System.Windows.Forms.TextBox();
+            this.btnGenerateOF = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -165,6 +168,33 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(168, 226);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(136, 23);
+            this.button4.TabIndex = 14;
+            this.button4.Text = "SendSocketToServer";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // textServerAddress
+            // 
+            this.textServerAddress.Location = new System.Drawing.Point(328, 228);
+            this.textServerAddress.Name = "textServerAddress";
+            this.textServerAddress.Size = new System.Drawing.Size(186, 20);
+            this.textServerAddress.TabIndex = 15;
+            // 
+            // btnGenerateOF
+            // 
+            this.btnGenerateOF.Location = new System.Drawing.Point(168, 268);
+            this.btnGenerateOF.Name = "btnGenerateOF";
+            this.btnGenerateOF.Size = new System.Drawing.Size(136, 23);
+            this.btnGenerateOF.TabIndex = 16;
+            this.btnGenerateOF.Text = "Generate OF";
+            this.btnGenerateOF.UseVisualStyleBackColor = true;
+            this.btnGenerateOF.Click += new System.EventHandler(this.btnGenerateOF_Click);
+            // 
             // frmMonitoring
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -172,6 +202,9 @@
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(747, 466);
             this.ControlBox = false;
+            this.Controls.Add(this.btnGenerateOF);
+            this.Controls.Add(this.textServerAddress);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.textBox5);
             this.Controls.Add(this.button3);
@@ -191,7 +224,6 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-           
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmMonitoring_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -214,6 +246,9 @@
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox textServerAddress;
+        private System.Windows.Forms.Button btnGenerateOF;
 
     }
 }

@@ -36,7 +36,7 @@ namespace Ambitour
         private const int CARD_MIFARE_1K = 1;
         private const int CARD_MIFARE_4K = 2;
         private const int CARD_MIFARE_UL = 3;
-        private const int FREQUENCE = 1000;
+        private const int FREQUENCE = 250;
         #endregion
 
         #region Variables privées
@@ -671,7 +671,7 @@ namespace Ambitour
                         //Console.WriteLine("Read success");
 
                         /* Next run in 5 seconds */
-                        tmrBasetime.Interval = 5000;
+                        tmrBasetime.Interval = 2000;
                     }
                     else
                     {

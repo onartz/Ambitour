@@ -15,32 +15,32 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_065B5CB2280B4B084CFBFE9F785F8799"
+        "MsmKey" = "8:_0D4FE35CF7475FD6947E74ADF0C299B5"
+        "OwnerKey" = "8:_88AB003319D894914AD101D431A23986"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0F8C284C3174A40AECF6826BE0BB4F37"
         "OwnerKey" = "8:_8CAFE792DDD046F99C25E888DBF6ADFE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_17474CC0CDC6517102C099F76A8CDD29"
-        "OwnerKey" = "8:_065B5CB2280B4B084CFBFE9F785F8799"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_321E98BCA04CD51206A245EA2460FFF4"
-        "OwnerKey" = "8:_99A6B2504245B253966F745A8226076E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_4E341B617414F0698BBABD7CE2F7E2C7"
-        "OwnerKey" = "8:_94DD928DC14778D0CC49EF6CA57EA430"
+        "OwnerKey" = "8:_0F8C284C3174A40AECF6826BE0BB4F37"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_65ED0B5CF14A7AB55C5E058AE7971381"
-        "OwnerKey" = "8:_94DD928DC14778D0CC49EF6CA57EA430"
+        "OwnerKey" = "8:_0F8C284C3174A40AECF6826BE0BB4F37"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_666A7F5B8C8E1DA5E7CE0F75B18461F1"
+        "OwnerKey" = "8:_8CAFE792DDD046F99C25E888DBF6ADFE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -51,38 +51,38 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_7805556B2EFF2194C0281587E1F2E3A4"
+        "OwnerKey" = "8:_8CAFE792DDD046F99C25E888DBF6ADFE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_88AB003319D894914AD101D431A23986"
+        "OwnerKey" = "8:_B9F74D0ED0A57C7BE9534FA63AD3D8C9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_88AB003319D894914AD101D431A23986"
+        "OwnerKey" = "8:_8CAFE792DDD046F99C25E888DBF6ADFE"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_8CAFE792DDD046F99C25E888DBF6ADFE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_94DD928DC14778D0CC49EF6CA57EA430"
+        "MsmKey" = "8:_B9F74D0ED0A57C7BE9534FA63AD3D8C9"
         "OwnerKey" = "8:_8CAFE792DDD046F99C25E888DBF6ADFE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_99A6B2504245B253966F745A8226076E"
-        "OwnerKey" = "8:_F7E9603C5B113CFBF0D5B8DE169F2C11"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_99A6B2504245B253966F745A8226076E"
-        "OwnerKey" = "8:_8CAFE792DDD046F99C25E888DBF6ADFE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A2E8D0529E7FF3B9AC47B065BD0425D6"
-        "OwnerKey" = "8:_8CAFE792DDD046F99C25E888DBF6ADFE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F7E9603C5B113CFBF0D5B8DE169F2C11"
-        "OwnerKey" = "8:_8CAFE792DDD046F99C25E888DBF6ADFE"
+        "MsmKey" = "8:_E3901F530064D6D4D5C2EA2E1D2DD72A"
+        "OwnerKey" = "8:_7805556B2EFF2194C0281587E1F2E3A4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -94,13 +94,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_065B5CB2280B4B084CFBFE9F785F8799"
+        "OwnerKey" = "8:_7805556B2EFF2194C0281587E1F2E3A4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_94DD928DC14778D0CC49EF6CA57EA430"
+        "OwnerKey" = "8:_0F8C284C3174A40AECF6826BE0BB4F37"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -112,19 +112,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F7E9603C5B113CFBF0D5B8DE169F2C11"
+        "OwnerKey" = "8:_B9F74D0ED0A57C7BE9534FA63AD3D8C9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_99A6B2504245B253966F745A8226076E"
+        "OwnerKey" = "8:_88AB003319D894914AD101D431A23986"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A2E8D0529E7FF3B9AC47B065BD0425D6"
+        "OwnerKey" = "8:_666A7F5B8C8E1DA5E7CE0F75B18461F1"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -152,6 +152,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
         "Release"
@@ -176,6 +189,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 (x86 et x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
     }
@@ -198,7 +224,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                "FrameworkVersion" = "8:.NETFramework,Version=v4.0"
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=131000"
                 }
@@ -206,58 +232,7 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_065B5CB2280B4B084CFBFE9F785F8799"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Interop.ADSSECURITYLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_065B5CB2280B4B084CFBFE9F785F8799"
-                    {
-                    "Name" = "8:Interop.ADSSECURITYLib.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Interop.ADSSECURITYLib.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_600F1DCD618345D38BD4DB1CBFD671E0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_17474CC0CDC6517102C099F76A8CDD29"
-            {
-            "SourcePath" = "8:ADsSecurity.dll"
-            "TargetName" = "8:ADsSecurity.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_600F1DCD618345D38BD4DB1CBFD671E0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:4"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_321E98BCA04CD51206A245EA2460FFF4"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0D4FE35CF7475FD6947E74ADF0C299B5"
             {
             "SourcePath" = "8:VIA3DXMLPlugin.tlb"
             "TargetName" = "8:VIA3DXMLPlugin.tlb"
@@ -273,6 +248,37 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:2"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0F8C284C3174A40AECF6826BE0BB4F37"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Interop.ActiveDs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_0F8C284C3174A40AECF6826BE0BB4F37"
+                    {
+                    "Name" = "8:Interop.ActiveDs.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Interop.ActiveDs.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_600F1DCD618345D38BD4DB1CBFD671E0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
@@ -328,96 +334,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6773A2E0C4DE490B8A4723B3E8CD6C7F"
-            {
-            "SourcePath" = "8:..\\Ambitour\\springprox.dll"
-            "TargetName" = "8:springprox.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_600F1DCD618345D38BD4DB1CBFD671E0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_94DD928DC14778D0CC49EF6CA57EA430"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Interop.ActiveDs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_94DD928DC14778D0CC49EF6CA57EA430"
-                    {
-                    "Name" = "8:Interop.ActiveDs.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Interop.ActiveDs.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_600F1DCD618345D38BD4DB1CBFD671E0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_99A6B2504245B253966F745A8226076E"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Interop.VIA3DXMLPluginLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_99A6B2504245B253966F745A8226076E"
-                    {
-                    "Name" = "8:Interop.VIA3DXMLPluginLib.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Interop.VIA3DXMLPluginLib.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_600F1DCD618345D38BD4DB1CBFD671E0"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A2E8D0529E7FF3B9AC47B065BD0425D6"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_666A7F5B8C8E1DA5E7CE0F75B18461F1"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:SpringProxAPI, Version=1.0.3523.25243, Culture=neutral"
                 "ScatterAssemblies"
                 {
-                    "_A2E8D0529E7FF3B9AC47B065BD0425D6"
+                    "_666A7F5B8C8E1DA5E7CE0F75B18461F1"
                     {
                     "Name" = "8:SpringProxAPI.dll"
                     "Attributes" = "3:512"
@@ -441,14 +365,96 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F7E9603C5B113CFBF0D5B8DE169F2C11"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6773A2E0C4DE490B8A4723B3E8CD6C7F"
+            {
+            "SourcePath" = "8:..\\Ambitour\\springprox.dll"
+            "TargetName" = "8:springprox.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_600F1DCD618345D38BD4DB1CBFD671E0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7805556B2EFF2194C0281587E1F2E3A4"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Interop.ADSSECURITYLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_7805556B2EFF2194C0281587E1F2E3A4"
+                    {
+                    "Name" = "8:Interop.ADSSECURITYLib.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Interop.ADSSECURITYLib.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_600F1DCD618345D38BD4DB1CBFD671E0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_88AB003319D894914AD101D431A23986"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Interop.VIA3DXMLPluginLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_88AB003319D894914AD101D431A23986"
+                    {
+                    "Name" = "8:Interop.VIA3DXMLPluginLib.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Interop.VIA3DXMLPluginLib.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_600F1DCD618345D38BD4DB1CBFD671E0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B9F74D0ED0A57C7BE9534FA63AD3D8C9"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:AxInterop.VIA3DXMLPluginLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F7E9603C5B113CFBF0D5B8DE169F2C11"
+                    "_B9F74D0ED0A57C7BE9534FA63AD3D8C9"
                     {
                     "Name" = "8:AxInterop.VIA3DXMLPluginLib.dll"
                     "Attributes" = "3:512"
@@ -468,6 +474,26 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E3901F530064D6D4D5C2EA2E1D2DD72A"
+            {
+            "SourcePath" = "8:ADsSecurity.dll"
+            "TargetName" = "8:ADsSecurity.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_600F1DCD618345D38BD4DB1CBFD671E0"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:4"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
@@ -527,25 +553,25 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:SetupAmbitour"
-        "ProductCode" = "8:{D92F6660-DF58-4FFE-8895-4A7ADDE3FB55}"
-        "PackageCode" = "8:{3C0E07FC-878D-4D9F-A7F0-D561AB2C0A03}"
+        "ProductName" = "8:Ambitour"
+        "ProductCode" = "8:{2E6148EC-0056-470A-82CA-BD9F8BB5211A}"
+        "PackageCode" = "8:{8F0C2F91-67FF-4774-AAE7-8460593862FF}"
         "UpgradeCode" = "8:{69133F3F-AB1C-4A77-9A1D-BDB2A2AFD3F3}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
-        "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Microsoft"
+        "InstallAllUsers" = "11:TRUE"
+        "ProductVersion" = "8:2.0.0"
+        "Manufacturer" = "8:AIPL"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:SetupAmbitour"
+        "Title" = "8:Ambitour"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Microsoft"
+        "ARPCONTACT" = "8:ON"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:"
-        "ARPURLINFOABOUT" = "8:"
+        "ARPCOMMENTS" = "8:Ambitour"
+        "ARPURLINFOABOUT" = "8:www.aip-primeca.net"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"

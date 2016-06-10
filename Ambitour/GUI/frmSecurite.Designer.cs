@@ -47,7 +47,6 @@
             this.richTextBox1.Size = new System.Drawing.Size(204, 73);
             this.richTextBox1.TabIndex = 5;
             this.richTextBox1.Text = "Eric COLLOT\nBureau 213\nTél : 03 83 68 28 85\neric.collot@aipl.uhp-nancy.fr";
-            
             // 
             // groupBox2
             // 

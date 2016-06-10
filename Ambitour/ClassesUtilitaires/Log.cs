@@ -10,7 +10,6 @@ namespace Ambitour
         public static void Write(string Message)
         {
            StreamWriter sw= File.AppendText("c:\\ambitour\\ambitour.log");
-
            TextWriter tw = (TextWriter)sw;
             tw.WriteLine(DateTime.Now.ToShortTimeString());
             tw.WriteLine(Message);

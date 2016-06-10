@@ -73,7 +73,7 @@ namespace Ambitour.CoucheMetier {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool PresenceCN {
             get {
                 return ((bool)(this["PresenceCN"]));
@@ -137,6 +137,150 @@ namespace Ambitour.CoucheMetier {
             }
             set {
                 this["strPasswd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\incomingRequest")]
+        public string incomingRequestDirectory {
+            get {
+                return ((string)(this["incomingRequestDirectory"]));
+            }
+            set {
+                this["incomingRequestDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\outgoingRequest")]
+        public string outgoingRequestDirectory {
+            get {
+                return ((string)(this["outgoingRequestDirectory"]));
+            }
+            set {
+                this["outgoingRequestDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\tempRequest")]
+        public string tempRequestDirectory {
+            get {
+                return ((string)(this["tempRequestDirectory"]));
+            }
+            set {
+                this["tempRequestDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\incomingOF")]
+        public string incomingOFDirectory {
+            get {
+                return ((string)(this["incomingOFDirectory"]));
+            }
+            set {
+                this["incomingOFDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\incomingOF\\archives")]
+        public string archivesOFDirectory {
+            get {
+                return ((string)(this["archivesOFDirectory"]));
+            }
+            set {
+                this["archivesOFDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\incomingOF\\pending")]
+        public string pendingOFDirectory {
+            get {
+                return ((string)(this["pendingOFDirectory"]));
+            }
+            set {
+                this["pendingOFDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\outgoingOF")]
+        public string outgoingOFDirectory {
+            get {
+                return ((string)(this["outgoingOFDirectory"]));
+            }
+            set {
+                this["outgoingOFDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10.10.68.92")]
+        public string jadeServerAddress {
+            get {
+                return ((string)(this["jadeServerAddress"]));
+            }
+            set {
+                this["jadeServerAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("c:\\ambitour\\DossiersAmbiflux")]
+        public string repertoireDossiersAmbiflux {
+            get {
+                return ((string)(this["repertoireDossiersAmbiflux"]));
+            }
+            set {
+                this["repertoireDossiersAmbiflux"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("6789")]
+        public int jadeSocketProxyPort {
+            get {
+                return ((int)(this["jadeSocketProxyPort"]));
+            }
+            set {
+                this["jadeSocketProxyPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1099")]
+        public int jadePort {
+            get {
+                return ((int)(this["jadePort"]));
+            }
+            set {
+                this["jadePort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Archives")]
+        public string archivedDirectoryName {
+            get {
+                return ((string)(this["archivedDirectoryName"]));
+            }
+            set {
+                this["archivedDirectoryName"] = value;
             }
         }
     }

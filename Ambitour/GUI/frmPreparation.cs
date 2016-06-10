@@ -7,6 +7,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Collections;
 using System.Threading;
+using System.IO;
+using Ambitour.CoucheMetier;
+using Ambitour.CoucheMetier.ObjetsMetier;
 
 namespace Ambitour
 {
@@ -51,6 +54,14 @@ namespace Ambitour
         }
         #endregion
 
+        #region Méthodes publiques
+        public void PreparerCN()
+        {
+            MessageBox.Show("PreparationCN");
+            //TODO : réactiver sur TBI
+           // Pilotage.INSTANCE.PreparerCN();
+        }
+        #endregion
         #region Méthodes privées
 
         /// <summary>
@@ -239,7 +250,7 @@ namespace Ambitour
                         lblProgramme.Text = lProgrammeCourant.InfosFichier.Name;
                         SessionInfos.Utilisateur.SetDossierCourant(lDossierCourant);
                         SessionInfos.Utilisateur.SetProgrammeCourant(lProgrammeCourant);
-                        Pilotage.INSTANCE.PreparerCN();
+                        //Pilotage.INSTANCE.PreparerCN();
                     }
                 }
                 else
@@ -251,7 +262,7 @@ namespace Ambitour
                     lblProgramme.Text = lProgrammeCourant.InfosFichier.Name;
                     SessionInfos.Utilisateur.SetDossierCourant(lDossierCourant);
                     SessionInfos.Utilisateur.SetProgrammeCourant(lProgrammeCourant);
-                    Pilotage.INSTANCE.PreparerCN();
+                    //Pilotage.INSTANCE.PreparerCN();
                 }
             }
         }
@@ -267,6 +278,40 @@ namespace Ambitour
             lblDossierCourant.Text = SessionInfos.Utilisateur.DossierCourant.InfosDossierOrigine.Name;
             lblProgramme.Text = SessionInfos.Utilisateur.ProgrammeCourant.InfosFichier.Name;
             Pilotage.INSTANCE.PreparerCN();
+        }
+
+        /// <summary>
+        /// Initialisation du Form pour le mode OFs
+        /// 
+        /// </summary>
+        /// <param name="wo"></param>
+        public void InitialiserModeOF(OF wo)
+        {
+            lblProgression.Text = "";
+            lblDossierCourant.Text = MESSAGE_AUCUNDOSSIERCOURANT;
+            //richTextBox1.Text += CoucheMetier.GlobalSettings.Default.strQueuePath;
+            //btnRefresh.Text += CoucheMetier.GlobalSettings.Default.strQueuePath;
+            grpChoix.Visible = false;
+
+            toolStripProgressBar.Visible = true;
+            toolStripProgressBar.Value = 0;
+            toolStripStatusLabel.Text = "Prêt";
+
+            //On vide le treeview
+            treeView.Nodes.Clear();
+            
+            //On recharge le dossier correspondat à l'OF
+            DossierDeFabrication df = new DossierDeFabrication(Path.Combine(GlobalSettings.Default.repertoireDossiersAmbiflux,wo.ProductId.ToString()));
+            ProgrammePiece pp = df.GetProgrammesPiece()[0];
+            SessionInfos.Utilisateur.SetDossierCourant(df);
+            SessionInfos.Utilisateur.SetProgrammeCourant(pp);
+            lDossierCourant = df;
+            lblDossierCourant.Text = lDossierCourant.InfosDossierOrigine.Name;
+            lblProgramme.ForeColor = System.Drawing.Color.Green;
+            lblProgramme.Text = pp.InfosFichier.Name;
+            //on peut lancer la préparation
+            Pilotage.INSTANCE.PreparerCN();
+                   
         }
 
         /// <summary>
@@ -315,7 +360,8 @@ namespace Ambitour
                             lblProgramme.Text = SessionInfos.Utilisateur.ProgrammeCourant.InfosFichier.Name;
                             //on peut lancer la préparation
                             //grpChoix.Enabled = false;
-                            Pilotage.INSTANCE.PreparerCN();
+                            //TODO: check if OK
+                             Pilotage.INSTANCE.PreparerCN();
                             break;
                     }
                     break;
