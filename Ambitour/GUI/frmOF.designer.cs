@@ -138,10 +138,10 @@
             this.errorMessage});
             this.listView3.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1});
-            this.listView3.Location = new System.Drawing.Point(6, 306);
+            this.listView3.Location = new System.Drawing.Point(6, 363);
             this.listView3.Name = "listView3";
             this.listView3.Scrollable = false;
-            this.listView3.Size = new System.Drawing.Size(765, 107);
+            this.listView3.Size = new System.Drawing.Size(765, 50);
             this.listView3.TabIndex = 15;
             this.listView3.UseCompatibleStateImageBehavior = false;
             this.listView3.View = System.Windows.Forms.View.Details;
@@ -286,7 +286,6 @@
             this.uC_Inventory1.Size = new System.Drawing.Size(160, 149);
             this.uC_Inventory1.TabIndex = 16;
             this.uC_Inventory1.Visible = false;
-          
             // 
             // frmOF
             // 

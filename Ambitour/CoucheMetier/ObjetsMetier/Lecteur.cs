@@ -153,9 +153,12 @@ namespace Ambitour
 
             SPROX.ReaderClose();
             SPROX.ControlLed(1, 0, 0);
+           
             short rc = 0;
             /* Try to open the reader */
+          
             rc = SPROX.ReaderOpen("");
+           
             return rc == SPROX.MI_OK;
            
             
@@ -213,7 +216,8 @@ namespace Ambitour
             byte[] buffer = new byte[48];
             int i;
             short rc;
-            
+            SPROX.ControlLed(0, 0, 1);
+                 
             EventHandler<CustomEventArgs> HandlerCarteLue = CarteLue;
 
             //Lecture du SNR de la carte
@@ -358,8 +362,11 @@ namespace Ambitour
             //On déclenche l'évènement carteLue
             if (HandlerCarteLue != null)
             {
+                SPROX.ControlLed(0, 1, 0);
                 HandlerCarteLue(null, new CustomEventArgs(carte.ToString()));
             }
+
+ 
             return true;
         }
 
@@ -397,7 +404,7 @@ namespace Ambitour
             if (rc == SPROX.MI_OK)
             {
                 isActif = true;
-                SPROX.ControlLed(0, 0, 0);
+                SPROX.ControlLed(0, 1, 0);
             }
             return isActif;
         }

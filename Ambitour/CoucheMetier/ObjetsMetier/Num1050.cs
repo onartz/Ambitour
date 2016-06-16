@@ -134,7 +134,7 @@ namespace Ambitour
             Mode.Add(0x8, "POM");
             Mode.Add(0xD, "CHARG");
             Mode.Add(0xF, "DECHARG");
-            ModeTestSansCN = !CoucheMetier.GlobalSettings.Default.PresenceCN;       
+            //ModeTestSansCN = !CoucheMetier.GlobalSettings.Default.PresenceCN;       
             status.DernierStopBroche = BD.RESOURCEEVENT.GetLastStopBroche();
        }
 
@@ -339,7 +339,7 @@ namespace Ambitour
         /// </summary>
         private Dictionary<int, string> Mode = new Dictionary<int, string>();
         //pour pouvoir tester sur un pc non relié à la cn
-        private bool ModeTestSansCN;
+        //private bool ModeTestSansCN;
  
       
         #endregion

@@ -52,6 +52,29 @@ namespace Ambitour
                 throw (ex);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fullPath"></param>
+        /// <returns></returns>
+        public static DossierDeFabrication GetDossierDeFabrication(string fullPath){
+            DossierDeFabrication df = null;
+            if(!(Directory.Exists(fullPath))){
+                return null;
+            }
+            try
+            {
+                df = new DossierDeFabrication(fullPath);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return df;
+            
+        }
+
         /// <summary>
         /// Constructeur surchargé 2
         /// </summary>

@@ -155,7 +155,8 @@ namespace Ambitour
             BackgroundWorker worker = sender as BackgroundWorker;
             DossierDeFabrication d = SessionInfos.Utilisateur.DossierCourant;
             ProgrammePiece p = SessionInfos.Utilisateur.ProgrammeCourant;
-            Preparer(ref d, ref p, worker, e);
+            if(GlobalSettings.Default.PresenceCN == true)
+                Preparer(ref d, ref p, worker, e);
         }
 
   

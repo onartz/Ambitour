@@ -108,18 +108,32 @@ namespace Ambitour.CoucheMetier.ObjetsMetier
         }
 
         /// <summary>
-        /// Static method to generate an OF to produce 5 products of type 1
+        /// Static method to generate an OF to produce  products of type 6
         /// </summary>
         /// <returns>a new OF</returns>
         public static OF Generate()
         {
             OF of = new OF();
-            of.productId = 1;
+            of.productId = 6;
             of.dateDue = DateTime.Now;
-            //TODO: use random to generate quantity
-            of.qty = 5;
+            Random r = new Random();
+            of.qty = r.Next(5,20);
+              
             return of;
         }
+
+      /// <summary>
+      /// Static method to generate an OF to produce  products of desired type
+      /// </summary>
+      /// <param name="productId">ProductId</param>
+      /// <returns></returns>
+        public static OF Generate(int productId)
+        {
+            OF of = OF.Generate();
+            of.productId = productId;      
+            return of;
+        }
+
 
         /// <summary>
         /// Save a new OF in a particular directory
@@ -179,7 +193,7 @@ namespace Ambitour.CoucheMetier.ObjetsMetier
                 }
                 catch (IOException ex)
                 {
-                    throw ex;
+                    //break;
                 }
 
             }

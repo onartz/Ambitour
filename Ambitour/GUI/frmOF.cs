@@ -52,7 +52,7 @@ namespace Ambitour
             InitializeComponent();
             //System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
             incomingFiles = Directory.GetFiles(INPUT_DIR);
-            currentOF = null;
+            //currentOF = null;
             switchState(WAITING);
           
             errorList = new List<string>();
@@ -112,13 +112,23 @@ namespace Ambitour
             switch (state)
             {
                 case WAITING:
+                    currentOF = null;
+                    listView1.Enabled = true;
                     button1.Text = "Start";
                     button1.Visible = false;
                     groupBoxOFDetails.Visible = false;
                     groupBoxResult.Visible = false;
                     groupBoxRebuts.Visible = false;
+                    checkBoxComplet.Checked = true;
                     uC_Inventory1.Visible = false;
                     uC_Inventory2.Visible = false;
+                    updateDetails();
+                    //updateListView();
+                        //listView1.Enabled = true;
+                    
+
+
+
                     break;
                 case SELECTED:
                     updateDetails();
@@ -127,7 +137,7 @@ namespace Ambitour
                     groupBoxOFDetails.Visible = true;
                     groupBoxResult.Visible = false;
                     groupBoxRebuts.Visible = false;
-                    listView1.Enabled = false;
+                    //listView1.Enabled = false;
                     uC_Inventory1.Visible = false;
                     uC_Inventory2.Visible = false;
                     break;
@@ -157,6 +167,11 @@ namespace Ambitour
             step = state;
         }
 
+        /// <summary>
+        /// Main  button to Start, CLose, End WO
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             UInt16 rebuts;
@@ -167,6 +182,7 @@ namespace Ambitour
             {
                 //Actual state
                 case SELECTED:
+                   
                     ///Selected but not Not started
                     if (currentOF.DateStarted == DateTime.MinValue)
                     {
@@ -232,7 +248,7 @@ namespace Ambitour
                     else
                     {
                         currentOF.RealizedQty = currentOF.Qty;
-                        switchState(WAITING);
+                        //switchState(WAITING);
                     }
 
                     OF.Save(currentOF, ARCHIVE_DIR);
@@ -256,7 +272,7 @@ namespace Ambitour
                         throw new InvalidOperationException();
 
                     }
-                    //switchState(WAITING);
+                    switchState(WAITING);
                     break;
                 case END:
                     break;
@@ -308,8 +324,8 @@ namespace Ambitour
         /// </summary>
         void getOfs()
         {
-
             List<OF> ofs = OF.GetFromDir(INPUT_DIR);
+            
             //NO new file
             if (ofs.Count == 0)
                 return;
@@ -383,11 +399,25 @@ namespace Ambitour
             {
                 string key = listView1.SelectedItems[0].Name;
                 if (cd.ContainsKey(key))
-                {    
+                {
                     currentOF = cd[key];
-                    switchState(SELECTED);
+                    if (DossierDeFabrication.GetDossierDeFabrication(Path.Combine(GlobalSettings.Default.repertoireDossiersAmbiflux, currentOF.ProductId.ToString())) == null)
+                    {
+                        MessageBox.Show("Le dossier de fabrication du produit n'existe pas.\r\n Créez un dossier de fabrication " +
+                          Path.Combine(GlobalSettings.Default.repertoireDossiersAmbiflux, currentOF.ProductId.ToString()));
+                        switchState(WAITING);
+                    }
+                    else
+                        switchState(SELECTED);
+                 }
+              
+                //string key = listView1.SelectedItems[0].Name;
+                //if (cd.ContainsKey(key))
+                //{    
+                //    currentOF = cd[key];
+                //    switchState(SELECTED);
                   
-                }
+                //}
                 updateDetails();
             }
             else
@@ -427,14 +457,25 @@ namespace Ambitour
         /// </summary>
         private void prepareCNFromWO()
         {
-            try{
+            if (DossierDeFabrication.GetDossierDeFabrication(Path.Combine(GlobalSettings.Default.repertoireDossiersAmbiflux, currentOF.ProductId.ToString())) == null)
+            {
+                MessageBox.Show("Le dossier de fabrication du produit n'existe pas.\r\n Créez un dossier de fabrication " +
+                  Path.Combine(GlobalSettings.Default.repertoireDossiersAmbiflux, currentOF.ProductId.ToString()));
+                switchState(WAITING);
+
+                return;
+            }
+
+            try
+            {
                 //DossierDeFabrication df = new DossierDeFabrication(Path.Combine(GlobalSettings.Default.repertoireDossiersAmbiflux,currentOF.ProductId.ToString()));
+                
                 //ProgrammePiece pp = df.GetProgrammesPiece()[0];
                 //SessionInfos.Utilisateur.SetDossierCourant(df);
                 //SessionInfos.Utilisateur.SetProgrammeCourant(pp);  
                 //Activation frm Preparation
                 foreach (Form f in this.MdiParent.MdiChildren)
-                {     
+                {
                     if (f.Name == "frmPreparation")
                     {
                         f.Show();
@@ -444,7 +485,13 @@ namespace Ambitour
                     }
                 }
             }
-            catch(Exception ex){
+            //catch (DirectoryNotFoundException)
+            //{
+            //    MessageBox.Show("IDossier de fabrication du produit n'existe pas.\r\n Créez un dossier de fabrication " + 
+            //        Path.Combine(GlobalSettings.Default.repertoireDossiersAmbiflux, currentOF.ProductId.ToString()));
+            //}
+            catch (Exception ex)
+            {
                 throw ex;
             }
             //Get Folder

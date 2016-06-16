@@ -300,15 +300,36 @@ namespace Ambitour
             //On vide le treeview
             treeView.Nodes.Clear();
             
-            //On recharge le dossier correspondat à l'OF
-            DossierDeFabrication df = new DossierDeFabrication(Path.Combine(GlobalSettings.Default.repertoireDossiersAmbiflux,wo.ProductId.ToString()));
-            ProgrammePiece pp = df.GetProgrammesPiece()[0];
-            SessionInfos.Utilisateur.SetDossierCourant(df);
-            SessionInfos.Utilisateur.SetProgrammeCourant(pp);
-            lDossierCourant = df;
-            lblDossierCourant.Text = lDossierCourant.InfosDossierOrigine.Name;
-            lblProgramme.ForeColor = System.Drawing.Color.Green;
-            lblProgramme.Text = pp.InfosFichier.Name;
+            //On recharge le dossier correspondant à l'OF
+            try
+            {
+                DossierDeFabrication df = new DossierDeFabrication(Path.Combine(GlobalSettings.Default.repertoireDossiersAmbiflux, wo.ProductId.ToString()));
+                ProgrammePiece pp = df.GetProgrammesPiece()[0];
+                SessionInfos.Utilisateur.SetDossierCourant(df);
+                SessionInfos.Utilisateur.SetProgrammeCourant(pp);
+                lDossierCourant = df;
+                lblDossierCourant.Text = lDossierCourant.InfosDossierOrigine.Name;
+                lblProgramme.ForeColor = System.Drawing.Color.Green;
+                lblProgramme.Text = pp.InfosFichier.Name;
+            }
+            catch (DirectoryNotFoundException)
+            {
+                MessageBox.Show("Il semble que le dossier de fabrication du produit n'existe pas.\r\n Créez un dossier de fabrication " +
+                    Path.Combine(GlobalSettings.Default.repertoireDossiersAmbiflux, wo.ProductId.ToString()));
+                return;
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("Il semble que le programme de fabrication du produit n'existe pas.\r\n Créez un programme dans le dossier de fabrication " +
+                   Path.Combine(GlobalSettings.Default.repertoireDossiersAmbiflux, wo.ProductId.ToString()));
+                return;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+           
             //on peut lancer la préparation
             Pilotage.INSTANCE.PreparerCN();
                    

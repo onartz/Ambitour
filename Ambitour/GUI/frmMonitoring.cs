@@ -114,10 +114,9 @@ namespace Ambitour
         /// <param name="e"></param>
         private void btnGenerateOF_Click(object sender, EventArgs e)
         {
-            OF.Save(OF.Generate(), Ambitour.CoucheMetier.GlobalSettings.Default.incomingOFDirectory);
+            int productId = 6;
+            OF.Save(OF.Generate(productId), Ambitour.CoucheMetier.GlobalSettings.Default.incomingOFDirectory);
         }
-
-  
 
 
     }
