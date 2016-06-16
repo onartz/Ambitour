@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Ambitour
 {
@@ -90,7 +91,7 @@ namespace Ambitour
             }
             catch (Exception ex)
             {
-                Log.Write(ex.Message);
+                Trace.TraceError(DateTime.Now + " : " + ex.Message);
                 return;
             }
         }

@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Collections;
 using System.Threading;
 using System.IO;
+using System.Diagnostics;
 using Ambitour.CoucheMetier;
 using Ambitour.CoucheMetier.ObjetsMetier;
 
@@ -152,15 +153,9 @@ namespace Ambitour
                     //Dossier téléchargé
                 case 2:
                     //Activation du menu Documentation
-                    try
-                    {
-                        toolStripMenuItemDocumentation.Visible = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Write("Erreur accès MDI Parent");
-                    }
-
+                   
+                    toolStripMenuItemDocumentation.Visible = true;
+                  
                     //Création du formulaire de documentation
                     frmDocumentation frmDocumentation = new frmDocumentation();
                     frmDocumentation.MdiParent = this.MdiParent;
@@ -405,7 +400,7 @@ namespace Ambitour
             }
             catch (Exception ex)
             {
-                Log.Write(ex.Message);
+                Trace.TraceError(DateTime.Now + " : " + ex.Message);
                 return;
             }
         }

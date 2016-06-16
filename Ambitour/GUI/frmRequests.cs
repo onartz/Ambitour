@@ -228,9 +228,9 @@ namespace Ambitour.GUI
                     string result = "";
                     try
                     {
-                        Log.Write(String.Format("Sending {0} to {1} ", request, GlobalSettings.Default.jadeServerAddress));
+                        //Log.Write(String.Format("Sending {0} to {1} ", request, GlobalSettings.Default.jadeServerAddress));
                         result = ProxySocket.SocketSend(GlobalSettings.Default.jadeServerAddress, 6789, request);
-                        Log.Write(String.Format("Result : {0} ", result));
+                       // Log.Write(String.Format("Result : {0} ", result));
                     }
                     catch (Exception ex)
                     {

@@ -11,6 +11,7 @@ using Ambitour.CoucheMetier.LogiqueMetier;
 using Ambitour.CoucheMetier;
 using Ambitour.CoucheMetier.ObjetsMetier;
 using System.Linq;
+using System.Xml;
 
 
 namespace Ambitour
@@ -43,7 +44,7 @@ namespace Ambitour
             }
             catch (IOException ex)
             {
-                Trace.TraceInformation(DateTime.Now + " : " + ex.Message);
+                Trace.TraceError(DateTime.Now + " : " + ex.Message);
                 throw ex;
             }
            
@@ -295,21 +296,21 @@ namespace Ambitour
             }
             catch (SqlException ex)
             {
-                Trace.TraceInformation(DateTime.Now + " : Erreur écriture dans la base.");
+                Trace.TraceError(DateTime.Now + " : Erreur écriture dans la base.");
                 //Pas grave
             }
 
-            Trace.TraceInformation(DateTime.Now + " : Tentative de lecture du dossier distant...");
+            //Trace.TraceInformation(DateTime.Now + " : Tentative de lecture du dossier distant...");
             //Test de lecture du dossier Ambitour distant
             if (!Directory.Exists(CoucheMetier.GlobalSettings.Default.strQueuePath))
             {
-                Trace.TraceError(System.DateTime.Now + "Failed (" + CoucheMetier.GlobalSettings.Default.strQueuePath + ").");
+                Trace.TraceError(DateTime.Now + " : Tentative de lecture du dossier distant Failed (" + CoucheMetier.GlobalSettings.Default.strQueuePath + ").");
                 DialogResult result1 = MessageBox.Show(System.DateTime.Now + "Dossier Ambitour distant non accessible",
                     "FileSystem Error",
                     MessageBoxButtons.OK);
             }
 
-            Trace.TraceInformation(DateTime.Now + " OK.");
+           // Trace.TraceInformation(DateTime.Now + " OK.");
    
             //Abonnement aux évènements de la classe LecteurBadge
             lecteurBadge.CarteLue += new EventHandler<CustomEventArgs>(LecteurBadge_CarteLue);
@@ -424,7 +425,7 @@ namespace Ambitour
                     }
                     catch (IOException ex)
                     {
-                        Log.Write("Erreur suppression répertoire");
+                        Trace.TraceError(DateTime.Now + " : Erreur suppression répertoire");
                     }
                     break;
             }
@@ -622,11 +623,25 @@ namespace Ambitour
         {
             Trace.TraceInformation(DateTime.Now + " : Carte lue : " + e.Message);
             DialogResult r;
-            Carte lCarte = new Carte(e.Message.ToString()); 
-                    
+            Carte lCarte = null;
             //Création d'un utilisateur
             Utilisateur lutilisateur = null;  
+            try
+            {
+                lCarte = new Carte(e.Message.ToString());
+            }
+            catch (XmlException ex)
+            {
+                Trace.TraceError(DateTime.Now + " : Impossible de créer un objet \"Carte\" car le xml nest pas correct : " + e.Message.ToString());
+                return;
+            }
 
+            if (lCarte == null)
+            {
+                Trace.TraceError(DateTime.Now + " : Impossible de créer un objet \"Carte\"");
+                return;
+            }
+  
             switch (lCarte.Type)
             {                   
                 case "DEMOAIPL":

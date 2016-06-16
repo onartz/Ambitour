@@ -97,13 +97,13 @@ namespace Ambitour
                 dossier = objXMLDoc.SelectSingleNode("Card/Dossier").InnerText;
                 type = objXMLDoc.SelectSingleNode("Card/Type").InnerText;
                 uidUL = objXMLDoc.SelectSingleNode("Card/UidUL").InnerText;
-                role = objXMLDoc.SelectSingleNode("Card/Role").InnerText;
-                          
+                role = objXMLDoc.SelectSingleNode("Card/Role").InnerText;          
             }
             catch (XmlException ex)
             {
-                Log.Write("Erreur classe Carte. Constructeur 1");
-                return;
+                throw;
+                //Log.Write("Erreur classe Carte. Constructeur 1");
+                //return;
             }       
         }
         #endregion

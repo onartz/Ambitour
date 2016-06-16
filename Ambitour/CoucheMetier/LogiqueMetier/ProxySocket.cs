@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using System.Diagnostics;
 
 namespace Ambitour.CoucheMetier.LogiqueMetier
 {
@@ -21,11 +22,11 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
             }
             catch (SocketException se)
             {
-                Log.Write(String.Format("DNS.GetHostEntry throw SocketException : {0}, {1}", se.SocketErrorCode, se.Message));
+                Trace.TraceError(String.Format("DNS.GetHostEntry throw SocketException : {0}, {1}", se.SocketErrorCode, se.Message));
             }
             catch (ArgumentException ae)
             {
-                Log.Write(String.Format("DNS.GetHostEntry throw ArgumentException : {0}", ae.Message));
+                Trace.TraceError(String.Format("DNS.GetHostEntry throw ArgumentException : {0}", ae.Message));
                 return s;
             }
             
@@ -41,24 +42,24 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
                     new Socket(ipe.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 try
                 {
-                    Log.Write(String.Format("Trying to connect to {0}", ipe.Address.ToString()));
+                    Trace.TraceInformation(String.Format("Trying to connect to {0}", ipe.Address.ToString()));
                     tempSocket.Connect(ipe);
                 }
                 catch (SocketException e)
                 {
-                    Log.Write(String.Format("SocketException : {0} ", e.Message));
+                    Trace.TraceError(String.Format("SocketException : {0} ", e.Message));
                     //throw e;
                 }
 
                 if (tempSocket.Connected)
                 {
-                    Log.Write(String.Format("Connected to {0}", ipe.Address.ToString()));
+                    Trace.TraceInformation(String.Format("Connected to {0}", ipe.Address.ToString()));
                     s = tempSocket;
                     break;
                 }
                 else
                 {
-                    Log.Write(String.Format("Cannot connect to {0}", ipe.Address.ToString()));
+                    Trace.TraceError(String.Format("Cannot connect to {0}", ipe.Address.ToString()));
                     continue;
                 }
             }
@@ -119,11 +120,11 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
                 Socket s = ConnectSocket(server, port);
                 if (s == null || !s.Connected)
                 {
-                    Log.Write("Module SocketSendReceive Socket not connected");
+                    Trace.TraceError(DateTime.Now + " : Module SocketSendReceive Socket not connected");
                     return ("Connection failed");
                 }
 
-                Log.Write("Module SocketSendReceive Socket connected");
+                //Log.Write("Module SocketSendReceive Socket connected");
            
               
                 // Send request to the server.
@@ -143,7 +144,7 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
             }
             catch (SocketException e)
             {
-                Log.Write(String.Format("Module SocketSendReceive SocketException num {0} : {0}", e.ErrorCode, e.Message));
+                Trace.TraceError(String.Format("{0} : Module SocketSendReceive SocketException num {1} : {2}", DateTime.Now.ToString(), e.ErrorCode, e.Message));
            
                 return (e.Message);
             }
@@ -167,11 +168,11 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
                 Socket s = ConnectSocket(server, port);
                 if (s == null || !s.Connected)
                 {
-                    Log.Write("Module SocketSend Socket not connected");
+                    Trace.TraceError(DateTime.Now + " : Module SocketSendReceive Socket not connected");
+                   
                     return ("Connection failed");
                 }
 
-                Log.Write("Module SocketSend Socket connected");
                 // Send request to the server.
                 s.Send(bytesSent, bytesSent.Length, 0);
 
@@ -182,7 +183,7 @@ namespace Ambitour.CoucheMetier.LogiqueMetier
             }
             catch (Exception e)
             {
-                Log.Write(String.Format("Module SocketSend SocketException num {0}",  e.Message));
+                Trace.TraceError(String.Format("{0} : Module SocketSendReceive SocketException: {1}", DateTime.Now.ToString(), e.Message));
                 return (e.Message);
             }
 
